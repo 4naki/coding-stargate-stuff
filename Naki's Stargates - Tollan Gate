@@ -1,10 +1,10 @@
 @name Naki's Stargates - Tollan Gate
 @inputs TextEntry:string Power
-@persist Val Switch Horizon Address:string Close WritingData:string TextEntry:string Dial Open TargetEnt:entity Dialed Block
-@outputs Val Switch Horizon Address:string Close WritingData:string TextEntry:string Dial Open TargetEnt:entity Dialed Block PowerUsage
+@persist Val Switch Horizon Address:string Close WritingData:string TextEntry:string Dial Open TargetEnt:entity Block
+@outputs Address:string WritingData:string Horizon Open PowerUsage
 
-@persist Chev0 Chev1 Chev2 Chev3 Chev6 Chev7 Chev8 AllChev Chev4 Chev5
-@outputs Chev0 Chev1 Chev2 Chev3 Chev6 Chev7 Chev8 AllChev Chev4 Chev5
+@persist Chev0 Chev1 Chev2 Chev3 Chev6 Chev7 Chev8 AllChev Chev4 Chev5 Dialed
+@outputs Chev0 Chev1 Chev2 Chev3 Chev6 Chev7 Chev8 AllChev Chev4 Chev5 Dialed
 
 @model models/sprops/geometry/fdisc_132.mdl
 #models/sprops/rectangles/size_8/rect_192x192x3.mdl
@@ -279,12 +279,12 @@ if(first()){
     reset()
 }elseif(!Block){
     
-    if(TargetEnt){
-        PowerStuff=(1000*((entity():pos():distance(TargetEnt:pos()))*0.1))
+    if(TargetEnt&Open&Horizon){
+        PowerStuff=(1000*((entity():pos():distance(TargetEnt:pos()))*0.1))*(1+(((Address:explode(""):count()==8)+(Address:explode(""):count()==9))*0.33))
     }else{
         PowerStuff=0
     }
-    PowerUsage = 100+PowerStuff+randint(-5,5)+(randint(-1000,1000)*Val)
+    PowerUsage = 100+PowerStuff+randint(-5,5)+(randint(-10,100)*Val)
     
     if(Horizon*!Dialed){
         findInSphere(entity():pos(),50)
