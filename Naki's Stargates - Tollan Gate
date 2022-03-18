@@ -7,6 +7,8 @@
 @outputs Chev0 Chev1 Chev2 Chev3 Chev6 Chev7 Chev8 AllChev Chev4 Chev5 Dialed
 
 @model models/sprops/geometry/fdisc_132.mdl
+
+#useable models for @model 
 #models/sprops/rectangles/size_8/rect_192x192x3.mdl
 #models/sprops/geometry/fdisc_132.mdl
 
@@ -15,6 +17,9 @@ runOnLast(1)
 
 if(first()){
     
+    #the e2 uses datasignal stuff to wirelessly link the gates, meaning 
+    #all you need is the address and power to go between all gates that are in the same group
+    #group name is here (below) don't recommend changing it, but you can if you really want to
     dsJoinGroup("stargate-naki")
     dsSetScope(2)
     
