@@ -17,6 +17,34 @@ runOnLast(1)
 
 if(first()){
     
+    #[
+    
+    How to use:
+    
+    1. Set address to something between 7-9 digits in length, one letter cannot appear multiple times
+    
+    2. Spawn the chip
+    
+    3. Set another address
+    
+    4. Spawn the new chip with new address
+    
+    5. Power both gates, you can cheese this completely with the use of constant value if you really want to, but it's ment to be used with another chip that generates power as a number
+    
+    6. Spawn 1 text entry for each gate
+    
+    #Console commands, all commands are lowercase, except address, which means you can have "a" and "A" in an address
+    
+    1. "Dial start" to start dialing, enter each digit one by one after this
+    
+    2. "Dial" to dial to the address
+    
+    3. "Dial stop" to stop dialing
+    
+    4. "Close" to close the gate
+    
+    ]#
+    
     #the e2 uses datasignal stuff to wirelessly link the gates, meaning 
     #all you need is the address and power to go between all gates that are in the same group
     #group name is here (below) don't recommend changing it, but you can if you really want to
@@ -26,6 +54,12 @@ if(first()){
     entity():setAlpha(0)
     
     Address = "abcdefg"
+    
+    #Name of the gate
+    Name = "Gate"
+    
+    
+    setName(Name+": "+Address:upper())
     
     if(Address:explode(""):count()>9){
         Error=1
