@@ -1,4 +1,4 @@
-@name Naki's Stargates - Tollan Gate V2.0
+@name Naki's Stargates V2.0 - Tollan Gate
 @inputs TextEntry:string DialButton
 @persist Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial
 @outputs Address:string WritingData:string Horizon Open TargetEnt:entity
