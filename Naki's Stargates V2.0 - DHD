@@ -1,0 +1,657 @@
+@name Naki's Stargates V2.0 - DHD
+@inputs [TextEntry Button]:entity On WritingData:string
+
+@model models/sprops/rectangles/size_3/rect_24x42x3.mdl
+
+interval(100)
+
+if(first()){
+    
+    Mat_Base = "WTP/metal_2"
+    Color_Base = vec(175,178,180)*1.1
+    
+    Mat_Button = "models/debug/debugwhite"
+    Color_Button = vec(255)
+    
+    Mat_Buttons_Base = "WTP/metal_2"
+    Color_Buttons_Base = vec(75)
+    
+    Mat_Buttons = "WTP/metal_2"
+    Color_Buttons = vec(175,178,180)*1.1
+    
+    HeightOffset = 36
+    
+    foreach(I,E:entity=array(TextEntry,Button,entity())){
+        E:setAlpha(0)
+    }
+    
+    local I = 1
+    local E = entity()
+    holoCreate(I)
+    holoPos(I,TextEntry:pos())
+    holoAng(I,TextEntry:angles())
+    holoScale(I,vec(0))
+    holoParent(I,E)
+    
+    TextEntry:setPos(holoEntity(I):toWorld(vec(0,0,0)))
+    TextEntry:setAng(holoEntity(I):toWorld(ang(0,0,0)))
+    TextEntry:parentTo(holoEntity(I))
+    
+    holoPos(I,E:toWorld(vec(0,2,0.8)+vec(0,0,HeightOffset)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    
+    local I = 2
+    local E = entity()
+    holoCreate(I)
+    holoPos(I,Button:pos())
+    holoAng(I,Button:angles())
+    holoScale(I,vec(0))
+    holoParent(I,E)
+    
+    Button:setPos(holoEntity(I):toWorld(vec(0,0,0)))
+    Button:setAng(holoEntity(I):toWorld(ang(0,0,0)))
+    Button:parentTo(holoEntity(I))
+    
+    holoPos(I,E:toWorld(vec(0,2,2)+vec(0,0,HeightOffset)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    
+    local I = 3
+    local E = entity()
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(0,0,0)+vec(0,0,HeightOffset)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(2,1.3,1))
+    holoModel(I,"models/sprops/rectangles/size_2_5/rect_18x18x3.mdl")
+    holoMaterial(I,Mat_Base)
+    holoColor(I,Color_Base)
+    holoParent(I,E)
+    
+    local I = 4
+    local E = entity()
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(-21.2,-4.25,0)+vec(0,0,HeightOffset)))
+    holoAng(I,E:toWorld(ang(0,45,0)))
+    holoScale(I,vec(1.5,1,1))
+    holoModel(I,"models/sprops/rectangles/size_2_5/rect_18x18x3.mdl")
+    holoMaterial(I,Mat_Base)
+    holoColor(I,Color_Base)
+    holoParent(I,E)
+    
+    local I = 5
+    local E = entity()
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(21.2,-4.25,0)+vec(0,0,HeightOffset)))
+    holoAng(I,E:toWorld(ang(0,-45,0)))
+    holoScale(I,vec(1.5,1,1))
+    holoModel(I,"models/sprops/rectangles/size_2_5/rect_18x18x3.mdl")
+    holoMaterial(I,Mat_Base)
+    holoColor(I,Color_Base)
+    holoParent(I,E)
+    
+    local I = 6
+    local E = holoEntity(5)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(14,0,-18)))
+    holoAng(I,E:toWorld(ang(90,0,0)))
+    holoScale(I,vec(2.17,1,1))
+    holoModel(I,"models/sprops/rectangles/size_2_5/rect_18x18x3.mdl")
+    holoMaterial(I,Mat_Base)
+    holoColor(I,Color_Base)
+    holoParent(I,E)
+    
+    local I = 7
+    local E = holoEntity(4)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(-14,0,-18)))
+    holoAng(I,E:toWorld(ang(90,0,0)))
+    holoScale(I,vec(2.17,1,1))
+    holoModel(I,"models/sprops/rectangles/size_2_5/rect_18x18x3.mdl")
+    holoMaterial(I,Mat_Base)
+    holoColor(I,Color_Base)
+    holoParent(I,E)
+    
+    local I = 8
+    local E = holoEntity(5)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(7,0,-36)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.8,1,1))
+    holoModel(I,"models/sprops/rectangles/size_2_5/rect_18x18x3.mdl")
+    holoMaterial(I,Mat_Base)
+    holoColor(I,Color_Base)
+    holoParent(I,E)
+    
+    local I = 9
+    local E = holoEntity(4)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(-7,0,-36)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.8,1,1))
+    holoModel(I,"models/sprops/rectangles/size_2_5/rect_18x18x3.mdl")
+    holoMaterial(I,Mat_Base)
+    holoColor(I,Color_Base)
+    holoParent(I,E)
+    
+    local I = 10
+    local E = entity()
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(0,2,1.5)+vec(0,0,HeightOffset)))
+    holoAng(I,E:toWorld(ang(0,0,90)))
+    holoScale(I,vec(0.3,1,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Button)
+    holoColor(I,Color_Button)
+    holoParent(I,E)
+    
+    local I = 11
+    local E = entity()
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(0,2,0.25)+vec(0,0,HeightOffset)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(9,6,1))
+    holoModel(I,"models/sprops/rectangles/size_1/rect_3x3x3.mdl")
+    holoMaterial(I,Mat_Buttons_Base)
+    holoColor(I,Color_Buttons_Base)
+    holoParent(I,E)
+    
+    local I = 12
+    local E = entity()
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(15.45,2,0.25)+vec(0,0,HeightOffset)))
+    holoAng(I,E:toWorld(ang(0,90,90)))
+    holoScale(I,vec(1,1,0.5))
+    holoModel(I,"models/sprops/geometry/hhex_18.mdl")
+    holoMaterial(I,Mat_Buttons_Base)
+    holoColor(I,Color_Buttons_Base)
+    holoParent(I,E)
+    
+    local I = 13
+    local E = entity()
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(-15.45,2,0.25)+vec(0,0,HeightOffset)))
+    holoAng(I,E:toWorld(ang(0,-90,90)))
+    holoScale(I,vec(1,1,0.5))
+    holoModel(I,"models/sprops/geometry/hhex_18.mdl")
+    holoMaterial(I,Mat_Buttons_Base)
+    holoColor(I,Color_Buttons_Base)
+    holoParent(I,E)
+
+    local I = 14
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(0,0,3.5)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    for(I = 15, 16){
+        local E = holoEntity(14)
+        holoCreate(I)
+        holoPos(I,E:toWorld(vec(6*(I-14),0,0)))
+        holoAng(I,E:toWorld(ang(0,0,0)))
+        holoScale(I,vec(0.3,0.8,0.3))
+        holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+        holoMaterial(I,Mat_Buttons)
+        holoColor(I,Color_Buttons)
+        holoParent(I,E)
+    }
+    
+    for(I = 17, 18){
+        local E = holoEntity(14)
+        holoCreate(I)
+        holoPos(I,E:toWorld(vec(-6*(I-16),0,0)))
+        holoAng(I,E:toWorld(ang(0,0,0)))
+        holoScale(I,vec(0.3,0.8,0.3))
+        holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+        holoMaterial(I,Mat_Buttons)
+        holoColor(I,Color_Buttons)
+        holoParent(I,E)
+    }
+    
+    local I = 19
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(3,0,5.25)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    local I = 20
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(-3,0,5.25)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    local I = 21
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(0,0,-3.5)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    for(I = 22, 23){
+        local E = holoEntity(21)
+        holoCreate(I)
+        holoPos(I,E:toWorld(vec(6*(I-21),0,0)))
+        holoAng(I,E:toWorld(ang(0,0,0)))
+        holoScale(I,vec(0.3,0.8,0.3))
+        holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+        holoMaterial(I,Mat_Buttons)
+        holoColor(I,Color_Buttons)
+        holoParent(I,E)
+    }
+    
+    for(I = 24, 25){
+        local E = holoEntity(21)
+        holoCreate(I)
+        holoPos(I,E:toWorld(vec(-6*(I-23),0,0)))
+        holoAng(I,E:toWorld(ang(0,0,0)))
+        holoScale(I,vec(0.3,0.8,0.3))
+        holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+        holoMaterial(I,Mat_Buttons)
+        holoColor(I,Color_Buttons)
+        holoParent(I,E)
+    }
+    
+    local I = 26
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(3,0,-5.25)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    local I = 27
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(-3,0,-5.25)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    local I = 28
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(3,0,-1.8)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    local I = 29
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(-3,0,-1.8)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    local I = 30
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(3,0,1.8)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    local I = 31
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(-3,0,1.8)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    local I = 32
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(6,0,0)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    local I = 33
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(-6,0,0)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    local I = 34
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(12,0,0)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    local I = 35
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(-12,0,0)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    local I = 36
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(15,0,1.8)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    local I = 37
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(-15,0,1.8)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    local I = 38
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(15,0,-1.8)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    local I = 39
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(-15,0,-1.8)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    local I = 40
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(9,0,-1.8)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    local I = 41
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(-9,0,-1.8)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    local I = 42
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(9,0,1.8)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    local I = 43
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(-9,0,1.8)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    local I = 44
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(0,0,7)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    local I = 45
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(0,0,-7)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    local I = 46
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(9,0,-5.25)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    local I = 47
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(-9,0,-5.25)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    local I = 48
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(9,0,5.25)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    local I = 49
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(-9,0,5.25)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0.3,0.8,0.3))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Buttons)
+    holoColor(I,Color_Buttons)
+    holoParent(I,E)
+    
+    
+    local I = 50
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(9,0,8)))
+    holoAng(I,E:toWorld(ang(90,0,0)))
+    holoScale(I,vec(0.1,0.5,0.7))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Base)
+    holoColor(I,Color_Base)
+    holoParent(I,E)
+    
+    local I = 51
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(-9,0,8)))
+    holoAng(I,E:toWorld(ang(90,0,0)))
+    holoScale(I,vec(0.1,0.5,0.7))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Base)
+    holoColor(I,Color_Base)
+    holoParent(I,E)
+    
+    local I = 52
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(9,0,-8)))
+    holoAng(I,E:toWorld(ang(90,0,0)))
+    holoScale(I,vec(0.1,0.5,0.7))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Base)
+    holoColor(I,Color_Base)
+    holoParent(I,E)
+    
+    local I = 53
+    local E = holoEntity(10)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(-9,0,-8)))
+    holoAng(I,E:toWorld(ang(90,0,0)))
+    holoScale(I,vec(0.1,0.5,0.7))
+    holoModel(I,"models/sprops/geometry/fhex_12.mdl")
+    holoMaterial(I,Mat_Base)
+    holoColor(I,Color_Base)
+    holoParent(I,E)
+    
+    
+}elseif(dupefinished()){
+    reset()
+}
+holoColor(10,((vec(20,15,5)*2)*!On)+(vec(200,25,5)*On))
+if(changed(WritingData)){
+    holoColor(14+0,(vec(255,255,0)*(0.9*((WritingData:find("a")))))+(vec(175)*(0.3*(!(WritingData:find("a"))))))
+    
+    holoColor(14+16,(vec(255,255,0)*(0.9*((WritingData:find("b")))))+(vec(175)*(0.3*(!(WritingData:find("b"))))))
+    
+    holoColor(14+18,(vec(255,255,0)*(0.9*((WritingData:find("c")))))+(vec(175)*(0.3*(!(WritingData:find("c"))))))
+    
+    holoColor(14+14,(vec(255,255,0)*(0.9*((WritingData:find("d")))))+(vec(175)*(0.3*(!(WritingData:find("d"))))))
+    
+    holoColor(14+7,(vec(255,255,0)*(0.9*((WritingData:find("e")))))+(vec(175)*(0.3*(!(WritingData:find("e"))))))
+    
+    holoColor(14+15,(vec(255,255,0)*(0.9*((WritingData:find("f")))))+(vec(175)*(0.3*(!(WritingData:find("f"))))))
+    
+    holoColor(14+19,(vec(255,255,0)*(0.9*((WritingData:find("g")))))+(vec(175)*(0.3*(!(WritingData:find("g"))))))
+    
+    holoColor(14+17,(vec(255,255,0)*(0.9*((WritingData:find("h")))))+(vec(175)*(0.3*(!(WritingData:find("h"))))))
+    
+    holoColor(14+30,(vec(255,255,0)*(0.9*((WritingData:find("i")))))+(vec(175)*(0.3*(!(WritingData:find("i"))))))
+    
+    holoColor(14+5,(vec(255,255,0)*(0.9*((WritingData:find("j")))))+(vec(175)*(0.3*(!(WritingData:find("j"))))))
+    
+    holoColor(14+1,(vec(255,255,0)*(0.9*((WritingData:find("k")))))+(vec(175)*(0.3*(!(WritingData:find("k"))))))
+    
+    holoColor(14+28,(vec(255,255,0)*(0.9*((WritingData:find("l")))))+(vec(175)*(0.3*(!(WritingData:find("l"))))))
+    
+    holoColor(14+20,(vec(255,255,0)*(0.9*((WritingData:find("m")))))+(vec(175)*(0.3*(!(WritingData:find("m"))))))
+    
+    holoColor(14+26,(vec(255,255,0)*(0.9*((WritingData:find("n")))))+(vec(175)*(0.3*(!(WritingData:find("n"))))))
+    
+    holoColor(14+8,(vec(255,255,0)*(0.9*((WritingData:find("o")))))+(vec(175)*(0.3*(!(WritingData:find("o"))))))
+    
+    holoColor(14+12,(vec(255,255,0)*(0.9*((WritingData:find("p")))))+(vec(175)*(0.3*(!(WritingData:find("p"))))))
+    
+    holoColor(14+31,(vec(255,255,0)*(0.9*((WritingData:find("q")))))+(vec(175)*(0.3*(!(WritingData:find("q"))))))
+    
+    holoColor(14+13,(vec(255,255,0)*(0.9*((WritingData:find("r")))))+(vec(175)*(0.3*(!(WritingData:find("r"))))))
+    
+    holoColor(14+10,(vec(255,255,0)*(0.9*((WritingData:find("s")))))+(vec(175)*(0.3*(!(WritingData:find("s"))))))
+    
+    holoColor(14+27,(vec(255,255,0)*(0.9*((WritingData:find("t")))))+(vec(175)*(0.3*(!(WritingData:find("t"))))))
+    
+    holoColor(14+21,(vec(255,255,0)*(0.9*((WritingData:find("u")))))+(vec(175)*(0.3*(!(WritingData:find("u"))))))
+    
+    holoColor(14+29,(vec(255,255,0)*(0.9*((WritingData:find("v")))))+(vec(175)*(0.3*(!(WritingData:find("v"))))))
+    
+    holoColor(14+3,(vec(255,255,0)*(0.9*((WritingData:find("w")))))+(vec(175)*(0.3*(!(WritingData:find("w"))))))
+    
+    holoColor(14+6,(vec(255,255,0)*(0.9*((WritingData:find("x")))))+(vec(175)*(0.3*(!(WritingData:find("x"))))))
+    
+    holoColor(14+34,(vec(255,255,0)*(0.9*((WritingData:find("y")))))+(vec(175)*(0.3*(!(WritingData:find("y"))))))
+    
+    holoColor(14+2,(vec(255,255,0)*(0.9*((WritingData:find("z")))))+(vec(175)*(0.3*(!(WritingData:find("z"))))))
+    
+    holoColor(14+22,(vec(255,255,0)*(0.9*((WritingData:find("0")))))+(vec(175)*(0.3*(!(WritingData:find("0"))))))
+    
+    holoColor(14+24,(vec(255,255,0)*(0.9*((WritingData:find("1")))))+(vec(175)*(0.3*(!(WritingData:find("1"))))))
+    
+    holoColor(14+9,(vec(255,255,0)*(0.9*((WritingData:find("2")))))+(vec(175)*(0.3*(!(WritingData:find("2"))))))
+    
+    holoColor(14+32,(vec(255,255,0)*(0.9*((WritingData:find("3")))))+(vec(175)*(0.3*(!(WritingData:find("3"))))))
+    
+    holoColor(14+33,(vec(255,255,0)*(0.9*((WritingData:find("4")))))+(vec(175)*(0.3*(!(WritingData:find("4"))))))
+    
+    holoColor(14+11,(vec(255,255,0)*(0.9*((WritingData:find("5")))))+(vec(175)*(0.3*(!(WritingData:find("5"))))))
+    
+    holoColor(14+25,(vec(255,255,0)*(0.9*((WritingData:find("6")))))+(vec(175)*(0.3*(!(WritingData:find("6"))))))
+    
+    holoColor(14+23,(vec(255,255,0)*(0.9*((WritingData:find("7")))))+(vec(175)*(0.3*(!(WritingData:find("7"))))))
+    
+    holoColor(14+4,(vec(255,255,0)*(0.9*((WritingData:find("8")))))+(vec(175)*(0.3*(!(WritingData:find("8"))))))
+    
+    holoColor(14+35,(vec(255,255,0)*(0.9*((WritingData:find("9")))))+(vec(175)*(0.3*(!(WritingData:find("9"))))))
+}
