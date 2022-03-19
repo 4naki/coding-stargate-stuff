@@ -6,7 +6,7 @@
 @persist Chev0 Chev1 Chev2 Chev3 Chev6 Chev7 Chev8 AllChev Chev4 Chev5
 @outputs Chev0 Chev1 Chev2 Chev3 Chev6 Chev7 Chev8 AllChev Chev4 Chev5
 
-@persist [ChevronSound HorizonOpenSound HorizonCloseSound DialErrorSound HorizonIdleSound]:string
+@persist [ChevronSound HorizonOpenSound HorizonCloseSound DialErrorSound]:string
 
 @model models/sprops/geometry/fdisc_132.mdl
 
@@ -33,7 +33,6 @@ if(first()){
     
     ChevronSound = "buttons/button3.wav"
     HorizonOpenSound = "ambient/water/water_splash3.wav"
-    HorizonIdleSound = "ambient/levels/citadel/field_loop3.wav"
     HorizonCloseSound = "ambient/water/water_splash2.wav"
     DialErrorSound = "buttons/button5.wav"
     HorizonEnterSound = "player/footsteps/wade5.wav"
@@ -388,7 +387,6 @@ if(first()){
     if(changed(Horizon)){
         if(Horizon){
             entity():soundPlay("horizon",0,HorizonOpenSound)
-            entity():soundPlay("horizonIdle",0,HorizonIdleSound)
             timer("autoclose",(1000*60)*38)
             timer("entsend",1000)
         }else{
