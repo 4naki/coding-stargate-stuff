@@ -1,0 +1,434 @@
+@name Naki's Stargates - Tollan Gate V2.0
+@inputs TextEntry:string DialButton
+@persist Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial
+@outputs Address:string WritingData:string Horizon Open PowerUsage
+
+@persist Chev0 Chev1 Chev2 Chev3 Chev6 Chev7 Chev8 AllChev Chev4 Chev5
+@outputs Chev0 Chev1 Chev2 Chev3 Chev6 Chev7 Chev8 AllChev Chev4 Chev5
+
+@model models/sprops/geometry/fdisc_132.mdl
+
+#useable models for @model 
+#models/sprops/rectangles/size_8/rect_192x192x3.mdl
+#models/sprops/geometry/fdisc_132.mdl
+
+interval(100)
+runOnLast(1)
+
+if(first()){
+    #the e2 uses datasignal stuff to wirelessly link the gates, meaning 
+    #all you need is the address and power to go between all gates that are in the same group
+    #group name is here (below) don't recommend changing it, but you can if you really want to
+    dsJoinGroup("stargate-naki")
+    dsSetScope(2)
+    
+    entity():setAlpha(0)
+    
+    Address = "abcdefg"
+    
+    #Name of the gate
+    Name = "Gate"
+    
+    
+    setName(Name+": "+Address:upper())
+    
+    if(Address:explode(""):count()>9){
+        Error=1
+    }elseif(Address:explode(""):count()<7){
+        Error=2
+    }else{
+        for(I = 1,Address:explode(""):count()){
+            if(Address:explode("")[I,string]==Address:explode("")[I+1,string]){
+                Error=3
+            }elseif(Address:explode("")[I,string]==Address:explode("")[I+2,string]){
+                Error=3
+            }elseif(Address:explode("")[I,string]==Address:explode("")[I+3,string]){
+                Error=3
+            }elseif(Address:explode("")[I,string]==Address:explode("")[I+4,string]){
+                Error=3
+            }elseif(Address:explode("")[I,string]==Address:explode("")[I+5,string]){
+                Error=3
+            }elseif(Address:explode("")[I,string]==Address:explode("")[I+6,string]){
+                Error=3
+            }elseif(Address:explode("")[I,string]==Address:explode("")[I+7,string]){
+                Error=3
+            }elseif(Address:explode("")[I,string]==Address:explode("")[I+8,string]){
+                Error=3
+            }
+        }
+    }
+    if(Error==1){
+        hint("Invalid address code: Code is too long!",1000)
+    }
+    if(Error==2){
+        hint("Invalid address code: Code is too short!",1000)
+    }
+    if(Error==3){
+        hint("Invalid address code: An Address cannot contain the same symbol more than once!",1000)
+    }
+    if(Error>0){
+        Block = 1
+    }else{
+        Block = 0
+    }
+    Mat_Base = "WTP/metal_2"
+    Color_Base = vec(175,178,180)*1.1
+    
+    Mat_Chevron = "models/debug/debugwhite"
+    Color_Chevron = vec(0,255,255)
+    
+    Width = 0.8
+    
+    Width_Chevron1 = 0.7
+    Width_Chevron2 = 1.05
+    Width_Base = 0.65
+    
+    OffsetAng = 0
+    
+    local I = 1
+    local E = entity()
+    local P = entity()
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(0,0,0)))
+    holoAng(I,E:toWorld(ang(0,0,OffsetAng)))
+    holoScale(I,vec(7,1.4*Width_Base*Width,7))
+    holoModel(I,"models/sprops/geometry/fring_30.mdl")
+    holoMaterial(I,Mat_Base)
+    holoColor(I,Color_Base)
+    holoParent(I,P)
+    
+    local I = 2
+    local E = entity()
+    local P = entity()
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(0,0,0)))
+    holoAng(I,E:toWorld(ang(0,0,OffsetAng)))
+    holoScale(I,vec(2.52,3*Width_Base*Width,2.52))
+    holoModel(I,"models/sprops/geometry/fring_84.mdl")
+    holoMaterial(I,Mat_Base)
+    holoColor(I,Color_Base)
+    holoParent(I,P)
+    
+    local I = 3
+    local E = entity()
+    local P = entity()
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(0,0,0)))
+    holoAng(I,E:toWorld(ang(0,0,OffsetAng)))
+    holoScale(I,vec(1.64,3*Width_Base*Width,1.64))
+    holoModel(I,"models/sprops/geometry/fring_108.mdl")
+    holoMaterial(I,Mat_Base)
+    holoColor(I,Color_Base)
+    holoParent(I,P)
+    
+    local I = 4
+    local E = entity()
+    local P = entity()
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(0,0,0)))
+    holoAng(I,E:toWorld(ang(0,0,0)))
+    holoScale(I,vec(0))
+    holoParent(I,P)
+    
+    function chevronHolo(Index,[Par2 Par1]:entity,Ang,Index_Chevron){
+        
+        holoAng(4,entity():toWorld(ang(Ang*(OffsetAng<1),Ang*(OffsetAng>0),OffsetAng)))
+        
+        local I = Index
+        local E = Par2
+        local P = Par1
+        holoCreate(I)
+        holoPos(I,E:toWorld(vec(0,0,102)))
+        holoAng(I,E:toWorld(ang(0,0,0)))
+        holoScale(I,vec(1*Width_Chevron2,2.5*Width_Chevron1*Width,1.375))
+        holoModel(I,"models/sprops/cuboids/height06/size_1/cube_6x6x6.mdl")
+        holoMaterial(I,Mat_Base)
+        holoColor(I,Color_Base)
+        holoParent(I,P)
+        
+        local I = Index+1
+        local E = Par2
+        local P = Par1
+        holoCreate(I)
+        holoPos(I,E:toWorld(vec(0,0,86)))
+        holoAng(I,E:toWorld(ang(0,0,0)))
+        holoScale(I,vec(1*Width_Chevron2,2.5*Width_Chevron1*Width,0.89))
+        holoModel(I,"models/sprops/cuboids/height06/size_1/cube_6x6x6.mdl")
+        holoMaterial(I,Mat_Base)
+        holoColor(I,Color_Base)
+        holoParent(I,P)
+        
+        local I = Index+2
+        local E = Par2
+        local P = Par1
+        holoCreate(I)
+        holoPos(I,E:toWorld(vec(3.25*Width_Chevron2,0,94.745)))
+        holoAng(I,E:toWorld(ang(0,0,0)))
+        holoScale(I,vec(0.3*Width_Chevron2,2.5*Width_Chevron1*Width,3.805))
+        holoModel(I,"models/sprops/cuboids/height06/size_1/cube_6x6x6.mdl")
+        holoMaterial(I,Mat_Base)
+        holoColor(I,Color_Base)
+        holoParent(I,P)
+        
+        local I = Index+3
+        local E = Par2
+        local P = Par1
+        holoCreate(I)
+        holoPos(I,E:toWorld(vec(-3.25*Width_Chevron2,0,94.745)))
+        holoAng(I,E:toWorld(ang(0,0,0)))
+        holoScale(I,vec(0.3*Width_Chevron2,2.5*Width_Chevron1*Width,3.805))
+        holoModel(I,"models/sprops/cuboids/height06/size_1/cube_6x6x6.mdl")
+        holoMaterial(I,Mat_Base)
+        holoColor(I,Color_Base)
+        holoParent(I,P)
+        
+        local I = Index+4
+        local E = Par2
+        local P = Par1
+        holoCreate(I)
+        holoPos(I,E:toWorld(vec(0,0,94.745)))
+        holoAng(I,E:toWorld(ang(0,0,0)))
+        holoScale(I,vec(0.9*Width_Chevron2,1.55*Width_Base*Width,3.5))
+        holoModel(I,"models/sprops/cuboids/height06/size_1/cube_6x6x6.mdl")
+        holoMaterial(I,Mat_Base)
+        holoColor(I,Color_Base)
+        holoParent(I,P)
+        
+        local I = Index_Chevron
+        local E = Par2
+        local P = Par1
+        holoCreate(I)
+        holoPos(I,E:toWorld(vec(0,-2,94.745)))
+        holoAng(I,E:toWorld(ang(0,0,0)))
+        holoScale(I,vec(0.9*Width_Chevron2,0.5*Width_Base*Width,3.5))
+        holoModel(I,"models/sprops/cuboids/height06/size_1/cube_6x6x6.mdl")
+        holoMaterial(I,Mat_Chevron)
+        holoColor(I,Color_Chevron)
+        holoParent(I,P)
+    }
+    
+    #chevronHolo(Index,[Par2 Par1]:entity,Ang){
+    chevronHolo(5,holoEntity(4),entity(),(360/9)*0,51)
+    chevronHolo(10,holoEntity(4),entity(),(360/9)*1,52)
+    chevronHolo(15,holoEntity(4),entity(),(360/9)*2,53)
+    chevronHolo(20,holoEntity(4),entity(),(360/9)*3,54)
+    chevronHolo(25,holoEntity(4),entity(),(360/9)*4,55)
+    chevronHolo(30,holoEntity(4),entity(),(360/9)*5,56)
+    chevronHolo(35,holoEntity(4),entity(),(360/9)*6,57)
+    chevronHolo(40,holoEntity(4),entity(),(360/9)*7,58)
+    chevronHolo(45,holoEntity(4),entity(),(360/9)*8,59)
+    
+    if(!Block){
+        local I = 60
+        local E = entity()
+        local P = entity()
+        #holoCreate(I)
+        holoPos(I,E:toWorld(vec(0,0,0)))
+        holoAng(I,E:toWorld(ang(0,0,OffsetAng+90)))
+        holoScale(I,vec(3.5,3.5,0))
+        holoModel(I,"models/sprops/misc/domes/size_4/dome_48x144.mdl")
+        holoMaterial(I,"models/props_combine/tpballglow")
+        holoColor(I,vec(255))
+        holoParent(I,P)
+        holoDisableShading(I,1)
+        
+        local I = 61
+        local E = entity()
+        local P = entity()
+        holoCreate(I)
+        holoPos(I,E:toWorld(vec(0,0,0)))
+        holoAng(I,E:toWorld(ang(0,0,OffsetAng+90)))
+        holoScale(I,vec(3.5,3.5,0))
+        holoModel(I,"models/sprops/misc/domes/size_4/dome_48x144.mdl")
+        holoMaterial(I,"models/shadertest/predator")
+        holoColor(I,vec(255))
+        holoParent(I,P)
+        holoDisableShading(I,1)
+        
+        local I = 62
+        local E = entity()
+        local P = entity()
+        holoCreate(I)
+        holoPos(I,E:toWorld(vec(0,75,0)))
+        holoAng(I,E:toWorld(ang(0,0,OffsetAng+90)))
+        holoScale(I,vec(1,1,1))
+        holoModel(I,"models/props_foliage/tree_poplar_01.mdl")
+        holoMaterial(I,"models/shadertest/shader3")
+        holoColor(I,vec(255))
+        holoParent(I,P)
+        holoDisableShading(I,1)
+        
+        holoClip(I,1,vec(0,0,100),E:up(),0)
+        holoClipEnabled(I,1,1)
+        
+        local I = 63
+        local E = entity()
+        local P = entity()
+        holoCreate(I)
+        holoPos(I,E:toWorld(vec(0,0,0)))
+        holoAng(I,E:toWorld(ang(0,0,OffsetAng+90)))
+        holoScale(I,vec(3.5,3.5,0))
+        holoModel(I,"models/sprops/misc/domes/size_4/dome_48x144.mdl")
+        holoMaterial(I,"models/spawn_effect")
+        holoColor(I,vec(255))
+        holoParent(I,P)
+        holoDisableShading(I,1)
+    }else{
+        holoAlpha(51,0)
+        holoAlpha(52,0)
+        holoAlpha(53,0)
+        holoAlpha(54,0)
+        holoAlpha(55,0)
+        holoAlpha(56,0)
+        holoAlpha(57,0)
+        holoAlpha(58,0)
+        holoAlpha(59,0)
+    }
+    
+}elseif(dupefinished()){
+    reset()
+}elseif(!Block){
+    if(Horizon){
+        findInSphere(entity():pos(),50)
+        Array = findToArray()
+        
+        foreach(I,E:entity=Array){
+            E:plySetPos(TargetEnt:toWorld(vec(0,-90,(E:pos()-TargetEnt:pos()):z())))
+            E:plySetAng(ang(TargetEnt:angles():pitch(),TargetEnt:angles():yaw()+270,0))
+        }
+    }
+    if(clk("entsend")){
+        dsSend(WritingData+"_entity_send","stargate-naki",entity())
+    }
+    if(clk("autoopen")){
+        Open = 1
+    }
+    if(changed(Horizon)){
+        if(AllChev&!Open){
+            timer("close",1000)
+        }
+    }
+    if(clk("close")){
+        dsSend(WritingData+"_close","stargate-naki",WritingData)
+        Open = 0
+        WritingData = ""
+    }
+    if(changed(Dial)){
+        if(!Dial){
+            Open = 0
+            dsSend(WritingData+"_close","stargate-naki",WritingData)
+        }else{
+            Open = 1
+        }
+    }
+    if(changed(DialButton)&DialButton){
+        Dial=!Dial
+    }
+    if(TextEntry:explode(""):count()==1){
+        if(changed(TextEntry)&TextEntry!=""){
+            WritingData = WritingData+TextEntry
+        }
+    }
+    if(Open&WritingData:explode(""):count() < 6){
+        WritingData = ""
+    }
+    if(Open*(WritingData==Address)){
+        WritingData = ""
+    }
+    
+    holoAlpha(51,255*Chev0)
+    holoAlpha(52,255*Chev1)
+    holoAlpha(53,255*Chev2)
+    holoAlpha(54,255*Chev3)
+    holoAlpha(55,255*Chev4)
+    holoAlpha(56,255*Chev5)
+    holoAlpha(57,255*Chev6)
+    holoAlpha(58,255*Chev7)
+    holoAlpha(59,255*Chev8)
+    
+    Chev0 = WritingData:explode(""):count()>6
+    Chev1 = WritingData:explode(""):count()>0
+    Chev2 = WritingData:explode(""):count()>1
+    Chev3 = WritingData:explode(""):count()>2
+    Chev6 = WritingData:explode(""):count()>3
+    Chev7 = WritingData:explode(""):count()>4
+    Chev8 = WritingData:explode(""):count()>5
+    
+    Chev4 = WritingData:explode(""):count()>7
+    Chev5 = WritingData:explode(""):count()>8
+    
+    AllChev=Chev0*Chev1*Chev2*Chev3*Chev6*Chev7*Chev8
+    
+    Horizon = 1 * AllChev & Open & !Close
+    
+    if(changed(Horizon)){
+        if(Horizon){
+            timer("autoclose",(1000*60)*38)
+            dsSend(WritingData+"_address_get","stargate-naki",WritingData+" "+Address)
+            timer("entsend",1000)
+        }
+    }
+    
+    if(Horizon){
+        if(Val<100){
+            if(!Switch){
+                Val+=100/15
+            }
+        }
+        if(Val>=100){
+            if(!Switch){
+                Val=100
+            }
+            Switch=1
+        }
+        if(Val>0){
+            if(Switch){
+                Val-=100/15
+            }
+        }
+        if(Val<0){
+            Val=0
+        }
+        holoScale(61,vec(3.5,3.5,0))
+        
+        if(Val>0){
+            holoScale(62,vec(0.9-(0.5*(Val/100)),0.9-(0.5*(Val/100)),0.5*(Val/100)))
+            holoScale(63,vec(3-(1.5*(Val/100)),3-(1.5*(Val/100)),2.5*(Val/100)))
+        }else{
+            holoScale(62,vec(0))
+            holoScale(63,vec(0))
+        }
+        if(clk("autoclose")){
+            Close = 1
+            Open = 0
+            dsSend(WritingData+"_close","stargate-naki",WritingData)
+        }
+    }else{
+        stoptimer("autoclose")
+        Switch = 0
+        Val = 0
+        Close = 0
+        Open = 0
+        holoScale(61,vec(0))
+        holoScale(62,vec(0))
+        holoScale(63,vec(0))
+    }
+    if(dsClk()){
+        if(dsClkName()==Address+"_address_get"){
+            if(dsGetString():explode(" ")[1,string]==Address){
+                WritingData = dsGetString():explode(" ")[2,string]
+                timer("autoopen",1000)
+            }
+        }
+        if(dsClkName()==Address+"_entity_send"){
+            TargetEnt = dsGetEntity()
+        }
+        if(dsClkName()==Address+"_close"){
+            if(dsGetString():explode(" ")[1,string]==Address){
+                Open = 0
+            }
+        }
+    }
+}elseif(last()){
+    dsLeaveGroup("stargate-naki")
+}
