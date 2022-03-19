@@ -26,7 +26,7 @@ if(first()){
     
     entity():setAlpha(0)
     
-    Address = "hesoyam2"
+    Address = "abcdefg"
     
     #Name of the gate
     Name = "Gate"
@@ -212,6 +212,7 @@ if(first()){
         holoModel(I,"models/sprops/cuboids/height06/size_1/cube_6x6x6.mdl")
         holoMaterial(I,Mat_Chevron)
         holoColor(I,Color_Chevron)
+        holoDisableShading(I,1)
         holoParent(I,P)
     }
     
@@ -289,7 +290,7 @@ if(first()){
         
         foreach(I,E:entity=Array){
             if(Val==0){
-                E:plySetPos(TargetEnt:toWorld(vec(0,-90,(E:pos()-TargetEnt:pos()):z())))
+                E:plySetPos(TargetEnt:toWorld(vec(0,-90,(E:pos()-entity():pos()):z())))
                 E:plySetAng(ang(TargetEnt:angles():pitch(),TargetEnt:angles():yaw()+270,0))
             }else{
                 E:plyIgnite()
