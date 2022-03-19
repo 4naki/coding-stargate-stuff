@@ -1,10 +1,12 @@
 @name Naki's Stargates - Tollan Gate V2.0
 @inputs TextEntry:string DialButton
 @persist Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial
-@outputs Address:string WritingData:string Horizon Open PowerUsage
+@outputs Address:string WritingData:string Horizon Open TargetEnt:entity
 
 @persist Chev0 Chev1 Chev2 Chev3 Chev6 Chev7 Chev8 AllChev Chev4 Chev5
 @outputs Chev0 Chev1 Chev2 Chev3 Chev6 Chev7 Chev8 AllChev Chev4 Chev5
+
+@persist [ChevronSound HorizonOpenSound HorizonCloseSound DialErrorSound HorizonIdleSound]:string
 
 @model models/sprops/geometry/fdisc_132.mdl
 
@@ -12,7 +14,7 @@
 #models/sprops/rectangles/size_8/rect_192x192x3.mdl
 #models/sprops/geometry/fdisc_132.mdl
 
-interval(100)
+interval(50)
 runOnLast(1)
 
 if(first()){
@@ -29,6 +31,13 @@ if(first()){
     #Name of the gate
     Name = "Gate"
     
+    ChevronSound = "buttons/button3.wav"
+    HorizonOpenSound = "ambient/water/water_splash3.wav"
+    HorizonIdleSound = "ambient/levels/citadel/field_loop3.wav"
+    HorizonCloseSound = "ambient/water/water_splash2.wav"
+    DialErrorSound = "buttons/button5.wav"
+    HorizonEnterSound = "player/footsteps/wade5.wav"
+    HorizonExitSound = "player/footsteps/wade2.wav"
     
     setName(Name+": "+Address:upper())
     
@@ -289,12 +298,17 @@ if(first()){
     reset()
 }elseif(!Block){
     if(Horizon){
-        findInSphere(entity():pos(),50)
+        findInSphere(entity():toWorld(vec(0,-180*(Val/100),0)),50+(25*(Val/100)))
         Array = findToArray()
         
         foreach(I,E:entity=Array){
-            E:plySetPos(TargetEnt:toWorld(vec(0,-90,(E:pos()-TargetEnt:pos()):z())))
-            E:plySetAng(ang(TargetEnt:angles():pitch(),TargetEnt:angles():yaw()+270,0))
+            if(Val==0){
+                E:plySetPos(TargetEnt:toWorld(vec(0,-90,(E:pos()-TargetEnt:pos()):z())))
+                E:plySetAng(ang(TargetEnt:angles():pitch(),TargetEnt:angles():yaw()+270,0))
+            }else{
+                E:plyIgnite()
+                E:plySetHealth(0)
+            }
         }
     }
     if(clk("entsend")){
@@ -312,13 +326,16 @@ if(first()){
         dsSend(WritingData+"_close","stargate-naki",WritingData)
         Open = 0
         WritingData = ""
+        TargetEnt=noentity()
     }
     if(changed(Dial)){
         if(!Dial){
             Open = 0
             dsSend(WritingData+"_close","stargate-naki",WritingData)
+            TargetEnt=noentity()
         }else{
             Open = 1
+            dsSend(WritingData+"_address_get","stargate-naki",WritingData+" "+Address)
         }
     }
     if(changed(DialButton)&DialButton){
@@ -327,13 +344,20 @@ if(first()){
     if(TextEntry:explode(""):count()==1){
         if(changed(TextEntry)&TextEntry!=""){
             WritingData = WritingData+TextEntry
+            entity():soundPlay("chevron",0,ChevronSound)
         }
     }
     if(Open&WritingData:explode(""):count() < 6){
         WritingData = ""
+        entity():soundPlay("dialerror",0,DialErrorSound)
+    }
+    if(Open&WritingData:explode(""):count() > 9){
+        WritingData = ""
+        entity():soundPlay("dialerror",0,DialErrorSound)
     }
     if(Open*(WritingData==Address)){
         WritingData = ""
+        entity():soundPlay("dialerror",0,DialErrorSound)
     }
     
     holoAlpha(51,255*Chev0)
@@ -363,9 +387,13 @@ if(first()){
     
     if(changed(Horizon)){
         if(Horizon){
+            entity():soundPlay("horizon",0,HorizonOpenSound)
+            entity():soundPlay("horizonIdle",0,HorizonIdleSound)
             timer("autoclose",(1000*60)*38)
-            dsSend(WritingData+"_address_get","stargate-naki",WritingData+" "+Address)
             timer("entsend",1000)
+        }else{
+            entity():soundPlay("horizonIdle",0,HorizonCloseSound)
+            TargetEnt=noentity()
         }
     }
     
@@ -417,7 +445,7 @@ if(first()){
         if(dsClkName()==Address+"_address_get"){
             if(dsGetString():explode(" ")[1,string]==Address){
                 WritingData = dsGetString():explode(" ")[2,string]
-                timer("autoopen",1000)
+                timer("autoopen",500)
             }
         }
         if(dsClkName()==Address+"_entity_send"){
@@ -426,6 +454,7 @@ if(first()){
         if(dsClkName()==Address+"_close"){
             if(dsGetString():explode(" ")[1,string]==Address){
                 Open = 0
+                TargetEnt=noentity()
             }
         }
     }
