@@ -1,10 +1,10 @@
 @name Naki's Stargates V2.0 - Tollan Gate
 @inputs TextEntry:string DialButton
-@persist Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial Locked ChevsActive
-@outputs Address:string WritingData:string Horizon Open TargetEnt:entity Locked ChevsActive
+@persist Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial Locked ChevsActive ErrorCode Closing
+@outputs Address:string WritingData:string Horizon Open TargetEnt:entity Locked ChevsActive ErrorCode Closing
 
-@persist Chev0 Chev1 Chev2 Chev3 Chev6 Chev7 Chev8 AllChev Chev4 Chev5
-@outputs Chev0 Chev1 Chev2 Chev3 Chev6 Chev7 Chev8 AllChev Chev4 Chev5
+@persist Chev1 Chev2 Chev3 Chev4 Chev5 Chev6 Chev7 Chev8 Chev9 AllChev
+@outputs Chev1 Chev2 Chev3 Chev4 Chev5 Chev6 Chev7 Chev8 Chev9 AllChev
 
 @persist [ChevronSound HorizonOpenSound HorizonCloseSound DialErrorSound]:string
 
@@ -38,7 +38,7 @@ if(first()){
     HorizonEnterSound = "player/footsteps/wade5.wav"
     HorizonExitSound = "player/footsteps/wade2.wav"
     
-    setName(Name+": "+Address:upper())
+    setName(Name+": "+Address)
     
     if(Address:explode(""):count()>9){
         Error=1
@@ -298,6 +298,15 @@ if(first()){
             }
         }
     }
+    if(changed(Horizon)&!Horizon){
+        Closing = 1
+        if(Closing){
+            timer("closingend",1050)
+        }
+    }
+    if(clk("closingend")){
+        Closing = 0
+    }
     if(clk("entsend")){
         dsSend(WritingData+"_entity_send","stargate-naki",entity())
     }
@@ -338,44 +347,54 @@ if(first()){
         WritingData = ""
         entity():soundPlay("dialerror",0,DialErrorSound)
         Dial = 0
+        ErrorCode = 1
+        timer("stoperror",2000)
     }
-    if(Open&WritingData:explode(""):count() > 9){
+    if(WritingData:explode(""):count() > 9){
         WritingData = ""
         entity():soundPlay("dialerror",0,DialErrorSound)
         Dial = 0
+        ErrorCode = 1
+        timer("stoperror",2000)
     }
     if(Open*(WritingData==Address)){
         WritingData = ""
         entity():soundPlay("dialerror",0,DialErrorSound)
         Dial = 0
+        ErrorCode = 1
+        timer("stoperror",2000)
     }
     
-    holoAlpha(51,255*Chev0)
-    holoAlpha(52,255*Chev1)
-    holoAlpha(53,255*Chev2)
-    holoAlpha(54,255*Chev3)
-    holoAlpha(55,255*Chev4)
-    holoAlpha(56,255*Chev5)
-    holoAlpha(57,255*Chev6)
-    holoAlpha(58,255*Chev7)
-    holoAlpha(59,255*Chev8)
+    if(clk("stoperror")){
+        ErrorCode = 0
+    }
+    
+    holoAlpha(51,255*Chev1)
+    holoAlpha(52,255*Chev2)
+    holoAlpha(53,255*Chev3)
+    holoAlpha(54,255*Chev4)
+    holoAlpha(55,255*Chev5)
+    holoAlpha(56,255*Chev6)
+    holoAlpha(57,255*Chev7)
+    holoAlpha(58,255*Chev8)
+    holoAlpha(59,255*Chev9)
     
     Locked = Open
     
-    Chev0 = Locked
     Chev1 = WritingData:explode(""):count()>0
     Chev2 = WritingData:explode(""):count()>1
     Chev3 = WritingData:explode(""):count()>2
-    Chev6 = WritingData:explode(""):count()>3
-    Chev7 = WritingData:explode(""):count()>4
-    Chev8 = WritingData:explode(""):count()>5
+    Chev4 = WritingData:explode(""):count()>3
+    Chev5 = WritingData:explode(""):count()>4
+    Chev6 = WritingData:explode(""):count()>5
+    Chev7 = WritingData:explode(""):count()>6
     
-    Chev4 = WritingData:explode(""):count()>7
-    Chev5 = WritingData:explode(""):count()>8
+    Chev8 = WritingData:explode(""):count()>7
+    Chev9 = WritingData:explode(""):count()>8
     
-    ChevsActive = Chev1+Chev2+Chev3+Chev4+Chev5+Chev6+Chev7+Chev8
+    ChevsActive = Chev2+Chev3+Chev4+Chev5+Chev6+Chev7+Chev8+Chev9
     
-    AllChev=Chev1*Chev2*Chev3*Chev6*Chev7*Chev8
+    AllChev=Chev2*Chev3*Chev4*Chev5*Chev6*Chev7
     
     Horizon = 1 * AllChev & Open & !Close
     
