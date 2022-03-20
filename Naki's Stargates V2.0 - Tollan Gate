@@ -337,14 +337,17 @@ if(first()){
     if(Open&WritingData:explode(""):count() < 6){
         WritingData = ""
         entity():soundPlay("dialerror",0,DialErrorSound)
+        Dial = 0
     }
     if(Open&WritingData:explode(""):count() > 9){
         WritingData = ""
         entity():soundPlay("dialerror",0,DialErrorSound)
+        Dial = 0
     }
     if(Open*(WritingData==Address)){
         WritingData = ""
         entity():soundPlay("dialerror",0,DialErrorSound)
+        Dial = 0
     }
     
     holoAlpha(51,255*Chev0)
@@ -414,6 +417,7 @@ if(first()){
         if(clk("autoclose")){
             Close = 1
             Open = 0
+            Dial = 0
             dsSend(WritingData+"_close","stargate-naki",WritingData)
         }
     }else{
@@ -431,6 +435,7 @@ if(first()){
             if(dsGetString():explode(" ")[1,string]==Address){
                 WritingData = dsGetString():explode(" ")[2,string]
                 timer("autoopen",500)
+                Dial = 1
             }
         }
         if(dsClkName()==Address+"_entity_send"){
@@ -440,6 +445,7 @@ if(first()){
             if(dsGetString():explode(" ")[1,string]==Address){
                 Open = 0
                 TargetEnt=noentity()
+                Dial = 0
             }
         }
     }
