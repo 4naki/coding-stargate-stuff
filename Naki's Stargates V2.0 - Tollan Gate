@@ -1,12 +1,14 @@
 @name Naki's Stargates V2.0 - Tollan Gate
 @inputs TextEntry:string DialButton
-@persist Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial Locked ChevsActive ErrorCode Closing
-@outputs Address:string WritingData:string Horizon Open TargetEnt:entity Locked ChevsActive ErrorCode Closing
+@persist Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial Locked ChevsActive ErrorCode Closing V OffsetAng
+@outputs Address:string WritingData:string Horizon Open TargetEnt:entity Locked ChevsActive ErrorCode Closing V
 
 @persist Chev1 Chev2 Chev3 Chev4 Chev5 Chev6 Chev7 Chev8 Chev9 AllChev
 @outputs Chev1 Chev2 Chev3 Chev4 Chev5 Chev6 Chev7 Chev8 Chev9 AllChev
 
 @persist [ChevronSound HorizonOpenSound HorizonCloseSound DialErrorSound]:string
+
+@persist Width_Chevron1 Width_Chevron2 Width_Base Width [Mat_Base Mat_Chevron]:string [Color_Base Color_Chevron]:vector
 
 @model models/sprops/geometry/fdisc_132.mdl
 
@@ -140,7 +142,7 @@ if(first()){
     
     function chevronHolo(Index,[Par2 Par1]:entity,Ang,Index_Chevron){
         
-        holoAng(4,entity():toWorld(ang(Ang*(OffsetAng<1),Ang*(OffsetAng>0),OffsetAng)))
+        holoAng(4,entity():toWorld(ang((360/9)+Ang,0,0)))
         
         local I = Index
         local E = Par2
@@ -217,15 +219,6 @@ if(first()){
     }
     
     #chevronHolo(Index,[Par2 Par1]:entity,Ang){
-    chevronHolo(5,holoEntity(4),entity(),(360/9)*0,51)
-    chevronHolo(10,holoEntity(4),entity(),(360/9)*1,52)
-    chevronHolo(15,holoEntity(4),entity(),(360/9)*2,53)
-    chevronHolo(20,holoEntity(4),entity(),(360/9)*3,54)
-    chevronHolo(25,holoEntity(4),entity(),(360/9)*4,55)
-    chevronHolo(30,holoEntity(4),entity(),(360/9)*5,56)
-    chevronHolo(35,holoEntity(4),entity(),(360/9)*6,57)
-    chevronHolo(40,holoEntity(4),entity(),(360/9)*7,58)
-    chevronHolo(45,holoEntity(4),entity(),(360/9)*8,59)
     
     if(!Block){
         local I = 61
@@ -280,9 +273,45 @@ if(first()){
         holoAlpha(58,0)
         holoAlpha(59,0)
     }
-    
+    timer("holocreate",1000)
 }elseif(dupefinished()){
     reset()
+}elseif(clk("holocreate")){
+    if(holoRemainingSpawns()>4){
+        V++
+        if(V==1){
+            chevronHolo(5,holoEntity(4),entity(),(360/9)*0,51) # chevron 1
+        }
+        if(V==2){
+            chevronHolo(10,holoEntity(4),entity(),(360/9)*1,52) # chevron 2
+        }
+        if(V==3){
+            chevronHolo(15,holoEntity(4),entity(),(360/9)*2,53) # chevron 3
+        }
+        if(V==4){
+            chevronHolo(20,holoEntity(4),entity(),(360/9)*3,56) # chevron 4
+        }
+        if(V==5){
+            chevronHolo(25,holoEntity(4),entity(),(360/9)*4,57) # chevron 5
+        }
+        if(V==6){
+            chevronHolo(30,holoEntity(4),entity(),(360/9)*5,58) # chevron 6
+        }
+        if(V==7){
+            chevronHolo(35,holoEntity(4),entity(),(360/9)*6,59) # chevron 7
+        }
+        if(V==8){
+            chevronHolo(40,holoEntity(4),entity(),(360/9)*7,54) # chevron 8
+        }
+        if(V==9){
+            chevronHolo(45,holoEntity(4),entity(),(360/9)*8,55) # chevron 9
+        }
+        if(V<9){
+            timer("holocreate",100)
+        }
+    }else{
+        timer("holocreate",1000)
+    }
 }elseif(!Block){
     if(Horizon){
         findInSphere(entity():toWorld(vec(0,-180*(Val/100),0)),50+(25*(Val/100)))
@@ -372,12 +401,12 @@ if(first()){
     holoAlpha(51,255*Chev1)
     holoAlpha(52,255*Chev2)
     holoAlpha(53,255*Chev3)
-    holoAlpha(54,255*Chev4)
-    holoAlpha(55,255*Chev5)
-    holoAlpha(56,255*Chev6)
-    holoAlpha(57,255*Chev7)
-    holoAlpha(58,255*Chev8)
-    holoAlpha(59,255*Chev9)
+    holoAlpha(54,255*Chev6)
+    holoAlpha(55,255*Chev7)
+    holoAlpha(56,255*Chev8)
+    holoAlpha(57,255*Chev9)
+    holoAlpha(58,255*Chev4)
+    holoAlpha(59,255*Chev5)
     
     Locked = Open
     
