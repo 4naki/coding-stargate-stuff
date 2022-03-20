@@ -1,7 +1,7 @@
 @name Naki's Stargates V2.0 - Tollan Gate
 @inputs TextEntry:string DialButton
-@persist Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial
-@outputs Address:string WritingData:string Horizon Open TargetEnt:entity
+@persist Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial Locked ChevsActive
+@outputs Address:string WritingData:string Horizon Open TargetEnt:entity Locked ChevsActive
 
 @persist Chev0 Chev1 Chev2 Chev3 Chev6 Chev7 Chev8 AllChev Chev4 Chev5
 @outputs Chev0 Chev1 Chev2 Chev3 Chev6 Chev7 Chev8 AllChev Chev4 Chev5
@@ -334,7 +334,7 @@ if(first()){
             entity():soundPlay("chevron",0,ChevronSound)
         }
     }
-    if(Open&WritingData:explode(""):count() < 6){
+    if(Open&WritingData:explode(""):count() < 7){
         WritingData = ""
         entity():soundPlay("dialerror",0,DialErrorSound)
         Dial = 0
@@ -360,7 +360,9 @@ if(first()){
     holoAlpha(58,255*Chev7)
     holoAlpha(59,255*Chev8)
     
-    Chev0 = WritingData:explode(""):count()>6
+    Locked = Open
+    
+    Chev0 = Locked
     Chev1 = WritingData:explode(""):count()>0
     Chev2 = WritingData:explode(""):count()>1
     Chev3 = WritingData:explode(""):count()>2
@@ -371,7 +373,9 @@ if(first()){
     Chev4 = WritingData:explode(""):count()>7
     Chev5 = WritingData:explode(""):count()>8
     
-    AllChev=Chev0*Chev1*Chev2*Chev3*Chev6*Chev7*Chev8
+    ChevsActive = Chev1+Chev2+Chev3+Chev4+Chev5+Chev6+Chev7+Chev8
+    
+    AllChev=Chev1*Chev2*Chev3*Chev6*Chev7*Chev8
     
     Horizon = 1 * AllChev & Open & !Close
     
