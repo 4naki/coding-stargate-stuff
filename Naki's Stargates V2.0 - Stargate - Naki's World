@@ -1,4 +1,4 @@
-@name Naki's Stargates V2.0 - Tollan Gate
+@name Naki's Stargates V2.0 - Stargate - Naki's World
 @inputs TextEntry:string DialButton
 @persist Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial Locked ChevsActive ErrorCode Closing V OffsetAng
 @outputs Address:string WritingData:string Horizon Open TargetEnt:entity Locked ChevsActive ErrorCode Closing V
