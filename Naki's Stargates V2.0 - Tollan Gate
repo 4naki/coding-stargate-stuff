@@ -28,10 +28,10 @@ if(first()){
     
     entity():setAlpha(0)
     
-    Address = "abcdefg"
+    Address = "1ze9k2a"
     
     #Name of the gate
-    Name = "Gate"
+    Name = "SGC"
     
     ChevronSound = "buttons/button3.wav"
     HorizonOpenSound = "ambient/water/water_splash3.wav"
@@ -366,10 +366,12 @@ if(first()){
     if(changed(DialButton)&DialButton){
         Dial=!Dial
     }
-    if(TextEntry:explode(""):count()==1){
-        if(changed(TextEntry)&TextEntry!=""){
-            WritingData = WritingData+TextEntry
-            entity():soundPlay("chevron",0,ChevronSound)
+    if(!Horizon&!Open){
+        if(TextEntry:explode(""):count()==1){
+            if(changed(TextEntry)&TextEntry!=""){
+                WritingData = WritingData+TextEntry
+                entity():soundPlay("chevron",0,ChevronSound)
+            }
         }
     }
     if(Open&WritingData:explode(""):count() < 7){
