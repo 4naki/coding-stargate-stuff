@@ -1,4 +1,4 @@
-@name Naki's Stargates V2.0 - DHD
+@name Naki's Stargates V2.0 - DHD - Naki's World
 @inputs [TextEntry Button]:entity On WritingData:string
 
 @model models/sprops/rectangles/size_3/rect_24x42x3.mdl
