@@ -505,111 +505,294 @@ if(first()){
 holoColor(10,((vec(35,45,55)*2)*!On)+(vec(25,175,200)*On))
 holoDisableShading(10,On)
 if(changed(WritingData)){
-    holoColor(14+0,(vec(255,255,0)*(0.9*((WritingData:find("a")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("a"))))))
-    holoDisableShading(14+0,WritingData:find("a"))
+    OnColor = vec(255,255,0)
+    OffColor = vec(175,125,0)
+    if(WritingData:find("a")){
+        holoColor(14+0,OnColor*0.9)
+        holoDisableShading(14+0,1)
+    }else{
+        holoColor(14+0,OffColor*0.6)
+        holoDisableShading(14+0,0)
+    }
     
-    holoColor(14+16,(vec(255,255,0)*(0.9*((WritingData:find("b")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("b"))))))
-    holoDisableShading(14+16,WritingData:find("b"))
+    if(WritingData:find("b")){
+        holoColor(14+16,OnColor*0.9)
+        holoDisableShading(14+16,1)
+    }else{
+        holoColor(14+16,OffColor*0.6)
+        holoDisableShading(14+16,0)
+    }
     
-    holoColor(14+18,(vec(255,255,0)*(0.9*((WritingData:find("c")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("c"))))))
-    holoDisableShading(14+18,WritingData:find("c"))
+    if(WritingData:find("c")){
+        holoColor(14+18,OnColor*0.9)
+        holoDisableShading(14+18,1)
+    }else{
+        holoColor(14+18,OffColor*0.6)
+        holoDisableShading(14+18,0)
+    }
     
-    holoColor(14+14,(vec(255,255,0)*(0.9*((WritingData:find("d")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("d"))))))
-    holoDisableShading(14+14,WritingData:find("d"))
+    if(WritingData:find("d")){
+        holoColor(14+14,OnColor*0.9)
+        holoDisableShading(14+14,1)
+    }else{
+        holoColor(14+14,OffColor*0.6)
+        holoDisableShading(14+14,0)
+    }
     
-    holoColor(14+7,(vec(255,255,0)*(0.9*((WritingData:find("e")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("e"))))))
-    holoDisableShading(14+7,WritingData:find("e"))
+    if(WritingData:find("e")){
+        holoColor(14+7,OnColor*0.9)
+        holoDisableShading(14+7,1)
+    }else{
+        holoColor(14+7,OffColor*0.6)
+        holoDisableShading(14+7,0)
+    }
     
-    holoColor(14+15,(vec(255,255,0)*(0.9*((WritingData:find("f")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("f"))))))
-    holoDisableShading(14+15,WritingData:find("f"))
+    if(WritingData:find("f")){
+        holoColor(14+15,OnColor*0.9)
+        holoDisableShading(14+15,1)
+    }else{
+        holoColor(14+15,OffColor*0.6)
+        holoDisableShading(14+15,0)
+    }
     
-    holoColor(14+19,(vec(255,255,0)*(0.9*((WritingData:find("g")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("g"))))))
-    holoDisableShading(14+19,WritingData:find("g"))
+    if(WritingData:find("g")){
+        holoColor(14+19,OnColor*0.9)
+        holoDisableShading(14+19,1)
+    }else{
+        holoColor(14+19,OffColor*0.6)
+        holoDisableShading(14+19,0)
+    }
     
-    holoColor(14+17,(vec(255,255,0)*(0.9*((WritingData:find("h")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("h"))))))
-    holoDisableShading(14+17,WritingData:find("h"))
+    if(WritingData:find("h")){
+        holoColor(14+17,OnColor*0.9)
+        holoDisableShading(14+17,1)
+    }else{
+        holoColor(14+17,OffColor*0.6)
+        holoDisableShading(14+17,0)
+    }
     
-    holoColor(14+30,(vec(255,255,0)*(0.9*((WritingData:find("i")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("i"))))))
-    holoDisableShading(14+30,WritingData:find("i"))
+    if(WritingData:find("i")){
+        holoColor(14+30,OnColor*0.9)
+        holoDisableShading(14+30,1)
+    }else{
+        holoColor(14+30,OffColor*0.6)
+        holoDisableShading(14+30,0)
+    }
     
-    holoColor(14+5,(vec(255,255,0)*(0.9*((WritingData:find("j")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("j"))))))
-    holoDisableShading(14+5,WritingData:find("j"))
+    if(WritingData:find("j")){
+        holoColor(14+5,OnColor*0.9)
+        holoDisableShading(14+5,1)
+    }else{
+        holoColor(14+5,OffColor*0.6)
+        holoDisableShading(14+5,0)
+    }
     
-    holoColor(14+1,(vec(255,255,0)*(0.9*((WritingData:find("k")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("k"))))))
-    holoDisableShading(14+1,WritingData:find("k"))
+    if(WritingData:find("k")){
+        holoColor(14+1,OnColor*0.9)
+        holoDisableShading(14+1,1)
+    }else{
+        holoColor(14+1,OffColor*0.6)
+        holoDisableShading(14+1,0)
+    }
     
-    holoColor(14+28,(vec(255,255,0)*(0.9*((WritingData:find("l")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("l"))))))
-    holoDisableShading(14+28,WritingData:find("l"))
+    if(WritingData:find("l")){
+        holoColor(14+28,OnColor*0.9)
+        holoDisableShading(14+28,1)
+    }else{
+        holoColor(14+28,OffColor*0.6)
+        holoDisableShading(14+28,0)
+    }
     
-    holoColor(14+20,(vec(255,255,0)*(0.9*((WritingData:find("m")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("m"))))))
-    holoDisableShading(14+20,WritingData:find("m"))
+    if(WritingData:find("m")){
+        holoColor(14+20,OnColor*0.9)
+        holoDisableShading(14+20,1)
+    }else{
+        holoColor(14+20,OffColor*0.6)
+        holoDisableShading(14+20,0)
+    }
     
-    holoColor(14+26,(vec(255,255,0)*(0.9*((WritingData:find("n")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("n"))))))
-    holoDisableShading(14+26,WritingData:find("n"))
+    if(WritingData:find("n")){
+        holoColor(14+26,OnColor*0.9)
+        holoDisableShading(14+26,1)
+    }else{
+        holoColor(14+26,OffColor*0.6)
+        holoDisableShading(14+26,0)
+    }
     
-    holoColor(14+8,(vec(255,255,0)*(0.9*((WritingData:find("o")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("o"))))))
-    holoDisableShading(14+8,WritingData:find("o"))
+    if(WritingData:find("o")){
+        holoColor(14+8,OnColor*0.9)
+        holoDisableShading(14+8,1)
+    }else{
+        holoColor(14+8,OffColor*0.6)
+        holoDisableShading(14+8,0)
+    }
     
-    holoColor(14+12,(vec(255,255,0)*(0.9*((WritingData:find("p")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("p"))))))
-    holoDisableShading(14+12,WritingData:find("p"))
+    if(WritingData:find("p")){
+        holoColor(14+12,OnColor*0.9)
+        holoDisableShading(14+12,1)
+    }else{
+        holoColor(14+12,OffColor*0.6)
+        holoDisableShading(14+12,0)
+    }
     
-    holoColor(14+31,(vec(255,255,0)*(0.9*((WritingData:find("q")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("q"))))))
-    holoDisableShading(14+31,WritingData:find("q"))
+    if(WritingData:find("q")){
+        holoColor(14+31,OnColor*0.9)
+        holoDisableShading(14+31,1)
+    }else{
+        holoColor(14+31,OffColor*0.6)
+        holoDisableShading(14+31,0)
+    }
     
-    holoColor(14+13,(vec(255,255,0)*(0.9*((WritingData:find("r")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("r"))))))
-    holoDisableShading(14+13,WritingData:find("r"))
+    if(WritingData:find("r")){
+        holoColor(14+13,OnColor*0.9)
+        holoDisableShading(14+13,1)
+    }else{
+        holoColor(14+13,OffColor*0.6)
+        holoDisableShading(14+13,0)
+    }
     
-    holoColor(14+10,(vec(255,255,0)*(0.9*((WritingData:find("s")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("s"))))))
-    holoDisableShading(14+10,WritingData:find("s"))
+    if(WritingData:find("s")){
+        holoColor(14+10,OnColor*0.9)
+        holoDisableShading(14+10,1)
+    }else{
+        holoColor(14+10,OffColor*0.6)
+        holoDisableShading(14+10,0)
+    }
     
-    holoColor(14+27,(vec(255,255,0)*(0.9*((WritingData:find("t")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("t"))))))
-    holoDisableShading(14+27,WritingData:find("t"))
+    if(WritingData:find("t")){
+        holoColor(14+27,OnColor*0.9)
+        holoDisableShading(14+27,1)
+    }else{
+        holoColor(14+27,OffColor*0.6)
+        holoDisableShading(14+27,0)
+    }
     
-    holoColor(14+21,(vec(255,255,0)*(0.9*((WritingData:find("u")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("u"))))))
-    holoDisableShading(14+21,WritingData:find("u"))
+    if(WritingData:find("u")){
+        holoColor(14+21,OnColor*0.9)
+        holoDisableShading(14+21,1)
+    }else{
+        holoColor(14+21,OffColor*0.6)
+        holoDisableShading(14+21,0)
+    }
     
-    holoColor(14+29,(vec(255,255,0)*(0.9*((WritingData:find("v")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("v"))))))
-    holoDisableShading(14+29,WritingData:find("v"))
+    if(WritingData:find("v")){
+        holoColor(14+29,OnColor*0.9)
+        holoDisableShading(14+29,1)
+    }else{
+        holoColor(14+29,OffColor*0.6)
+        holoDisableShading(14+29,0)
+    }
     
-    holoColor(14+3,(vec(255,255,0)*(0.9*((WritingData:find("w")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("w"))))))
-    holoDisableShading(14+3,WritingData:find("w"))
+    if(WritingData:find("w")){
+        holoColor(14+3,OnColor*0.9)
+        holoDisableShading(14+3,1)
+    }else{
+        holoColor(14+3,OffColor*0.6)
+        holoDisableShading(14+3,0)
+    }
     
-    holoColor(14+6,(vec(255,255,0)*(0.9*((WritingData:find("x")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("x"))))))
-    holoDisableShading(14+6,WritingData:find("x"))
+    if(WritingData:find("x")){
+        holoColor(14+6,OnColor*0.9)
+        holoDisableShading(14+6,1)
+    }else{
+        holoColor(14+6,OffColor*0.6)
+        holoDisableShading(14+6,0)
+    }
     
-    holoColor(14+34,(vec(255,255,0)*(0.9*((WritingData:find("y")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("y"))))))
-    holoDisableShading(14+34,WritingData:find("y"))
+    if(WritingData:find("y")){
+        holoColor(14+34,OnColor*0.9)
+        holoDisableShading(14+34,1)
+    }else{
+        holoColor(14+34,OffColor*0.6)
+        holoDisableShading(14+34,0)
+    }
     
-    holoColor(14+2,(vec(255,255,0)*(0.9*((WritingData:find("z")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("z"))))))
-    holoDisableShading(14+2,WritingData:find("z"))
+    if(WritingData:find("z")){
+        holoColor(14+2,OnColor*0.9)
+        holoDisableShading(14+2,1)
+    }else{
+        holoColor(14+2,OffColor*0.6)
+        holoDisableShading(14+2,0)
+    }
     
-    holoColor(14+22,(vec(255,255,0)*(0.9*((WritingData:find("0")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("0"))))))
-    holoDisableShading(14+22,WritingData:find("0"))
+    if(WritingData:find("0")){
+        holoColor(14+22,OnColor*0.9)
+        holoDisableShading(14+22,1)
+    }else{
+        holoColor(14+22,OffColor*0.6)
+        holoDisableShading(14+22,0)
+    }
     
-    holoColor(14+24,(vec(255,255,0)*(0.9*((WritingData:find("1")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("1"))))))
-    holoDisableShading(14+24,WritingData:find("1"))
+    if(WritingData:find("1")){
+        holoColor(14+24,OnColor*0.9)
+        holoDisableShading(14+24,1)
+    }else{
+        holoColor(14+24,OffColor*0.6)
+        holoDisableShading(14+24,0)
+    }
     
-    holoColor(14+9,(vec(255,255,0)*(0.9*((WritingData:find("2")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("2"))))))
-    holoDisableShading(14+9,WritingData:find("2"))
+    if(WritingData:find("2")){
+        holoColor(14+9,OnColor*0.9)
+        holoDisableShading(14+9,1)
+    }else{
+        holoColor(14+9,OffColor*0.6)
+        holoDisableShading(14+9,0)
+    }
     
-    holoColor(14+32,(vec(255,255,0)*(0.9*((WritingData:find("3")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("3"))))))
-    holoDisableShading(14+32,WritingData:find("3"))
+    if(WritingData:find("3")){
+        holoColor(14+32,OnColor*0.9)
+        holoDisableShading(14+32,1)
+    }else{
+        holoColor(14+32,OffColor*0.6)
+        holoDisableShading(14+32,0)
+    }
     
-    holoColor(14+33,(vec(255,255,0)*(0.9*((WritingData:find("4")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("4"))))))
-    holoDisableShading(14+33,WritingData:find("4"))
+    if(WritingData:find("4")){
+        holoColor(14+33,OnColor*0.9)
+        holoDisableShading(14+33,1)
+    }else{
+        holoColor(14+33,OffColor*0.6)
+        holoDisableShading(14+33,0)
+    }
     
-    holoColor(14+11,(vec(255,255,0)*(0.9*((WritingData:find("5")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("5"))))))
-    holoDisableShading(14+11,WritingData:find("5"))
+    if(WritingData:find("5")){
+        holoColor(14+11,OnColor*0.9)
+        holoDisableShading(14+11,1)
+    }else{
+        holoColor(14+11,OffColor*0.6)
+        holoDisableShading(14+11,0)
+    }
     
-    holoColor(14+25,(vec(255,255,0)*(0.9*((WritingData:find("6")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("6"))))))
-    holoDisableShading(14+25,WritingData:find("6"))
+    if(WritingData:find("6")){
+        holoColor(14+25,OnColor*0.9)
+        holoDisableShading(14+25,1)
+    }else{
+        holoColor(14+25,OffColor*0.6)
+        holoDisableShading(14+25,0)
+    }
     
-    holoColor(14+23,(vec(255,255,0)*(0.9*((WritingData:find("7")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("7"))))))
-    holoDisableShading(14+23,WritingData:find("7"))
+    if(WritingData:find("7")){
+        holoColor(14+23,OnColor*0.9)
+        holoDisableShading(14+23,1)
+    }else{
+        holoColor(14+23,OffColor*0.6)
+        holoDisableShading(14+23,0)
+    }
     
-    holoColor(14+4,(vec(255,255,0)*(0.9*((WritingData:find("8")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("8"))))))
-    holoDisableShading(14+4,WritingData:find("8"))
+    if(WritingData:find("8")){
+        holoColor(14+4,OnColor*0.9)
+        holoDisableShading(14+4,1)
+    }else{
+        holoColor(14+4,OffColor*0.6)
+        holoDisableShading(14+4,0)
+    }
     
-    holoColor(14+35,(vec(255,255,0)*(0.9*((WritingData:find("9")))))+(vec(175,125,0)*(0.6*(!(WritingData:find("9"))))))
-
+    if(WritingData:find("9")){
+        holoColor(14+35,OnColor*0.9)
+        holoDisableShading(14+35,1)
+    }else{
+        holoColor(14+35,OffColor*0.6)
+        holoDisableShading(14+35,0)
+    }
+    
 }
