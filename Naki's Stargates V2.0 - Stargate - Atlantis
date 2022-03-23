@@ -1,6 +1,6 @@
 @name Naki's Stargates V2.0 - Stargate - Atlantis
 @inputs TextEntry:string DialButton
-@persist Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial Locked ChevsActive ErrorCode Closing V V2
+@persist Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial Locked ChevsActive ErrorCode Closing V V2 Size [Chev OpenAudio CloseAudio Fail]:webaudio
 @outputs Address:string WritingData:string Horizon Open TargetEnt:entity Locked ChevsActive ErrorCode Closing V V2
 
 @persist Chev1 Chev2 Chev3 Chev4 Chev5 Chev6 Chev7 Chev8 Chev9 AllChev
@@ -9,6 +9,8 @@
 @persist [ChevronSound HorizonOpenSound HorizonCloseSound DialErrorSound]:string
 
 @persist Width_Chevron1 Width_Chevron2 Width_Base Width [Mat_Base Mat_Chevron]:string [Color_Base Chev_Color_On Chev_Color_Off]:vector
+
+@inputs [Glyph]:entity
 
 @model models/sprops/geometry/fdisc_132.mdl
 
@@ -20,6 +22,27 @@ interval(50)
 runOnLast(1)
 
 if(first()){
+    
+    #[
+    Test:destroy()
+    Test = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/close.mp3")
+    Test:setPos(entity():pos())
+    Test:setRadius(2000)
+    Test:parentTo(entity())
+    Test:play()
+    ]#
+    if(Chev:isValid()){
+        Chev:destroy()
+    }
+    if(OpenAudio:isValid()){
+        OpenAudio:destroy()
+    }
+    if(CloseAudio:isValid()){
+        CloseAudio:destroy()
+    }
+    if(Fail:isValid()){
+        Fail:destroy()
+    }
     #the e2 uses datasignal stuff to wirelessly link the gates, meaning 
     #all you need is the address and power to go between all gates that are in the same group
     #group name is here (below) don't recommend changing it, but you can if you really want to
@@ -98,13 +121,15 @@ if(first()){
     Width_Chevron2 = 1.4
     Width_Base = 1
     
+    Size = 1.15
+    
     local I = 1
     local E = entity()
     local P = entity()
     holoCreate(I)
     holoPos(I,E:toWorld(vec(0,0,0)))
     holoAng(I,E:toWorld(ang(0,0,0)))
-    holoScale(I,vec(7,2*Width_Base*Width,7))
+    holoScale(I,vec(7,2*Width_Base*Width,7)*Size)
     holoModel(I,"models/sprops/geometry/fring_30.mdl")
     holoMaterial(I,Mat_Base_Symbols)
     holoColor(I,Color_Base_Symbols)
@@ -116,7 +141,7 @@ if(first()){
     holoCreate(I)
     holoPos(I,E:toWorld(vec(0,0,0)))
     holoAng(I,E:toWorld(ang(0,0,0)))
-    holoScale(I,vec(2.95,3.8*Width_Base*Width,2.95))
+    holoScale(I,vec(2.95,3.8*Width_Base*Width,2.95)*Size)
     holoModel(I,"models/sprops/geometry/fring_72.mdl")
     holoMaterial(I,Mat_Base)
     holoColor(I,Color_Base*0.9)
@@ -128,7 +153,7 @@ if(first()){
     holoCreate(I)
     holoPos(I,E:toWorld(vec(0,0,0)))
     holoAng(I,E:toWorld(ang(0,0,0)))
-    holoScale(I,vec(1.3,2.6*Width_Base*Width,1.3))
+    holoScale(I,vec(1.3,2.6*Width_Base*Width,1.3)*Size)
     holoModel(I,"models/sprops/geometry/fring_132.mdl")
     holoMaterial(I,Mat_Base)
     holoColor(I,Color_Base*0.8)
@@ -151,9 +176,9 @@ if(first()){
         local E = Par2
         local P = Par1
         holoCreate(I)
-        holoPos(I,E:toWorld(vec(0,2,99)))
+        holoPos(I,E:toWorld(vec(0,2,99)*Size))
         holoAng(I,E:toWorld(ang(0,0,174)))
-        holoScale(I,vec(1*Width_Chevron2,4*Width_Chevron1*Width,2.8))
+        holoScale(I,vec(1*Width_Chevron2,4*Width_Chevron1*Width,2.8)*Size)
         holoModel(I,"models/sprops/geometry/hhex_12.mdl")
         holoMaterial(I,Mat_Base)
         holoColor(I,Color_Base)
@@ -163,9 +188,9 @@ if(first()){
         local E = Par2
         local P = Par1
         holoCreate(I)
-        holoPos(I,E:toWorld(vec(0,-2,99)))
+        holoPos(I,E:toWorld(vec(0,-2,99)*Size))
         holoAng(I,E:toWorld(ang(0,0,186)))
-        holoScale(I,vec(1*Width_Chevron2,4*Width_Chevron1*Width,2.8))
+        holoScale(I,vec(1*Width_Chevron2,4*Width_Chevron1*Width,2.8)*Size)
         holoModel(I,"models/sprops/geometry/hhex_12.mdl")
         holoMaterial(I,Mat_Base)
         holoColor(I,Color_Base)
@@ -175,35 +200,33 @@ if(first()){
         local E = Par2
         local P = Par1
         holoCreate(I)
-        holoPos(I,E:toWorld(vec(0,2,101)))
+        holoPos(I,E:toWorld(vec(0,2,101)*Size))
         holoAng(I,E:toWorld(ang(0,0,174)))
-        holoScale(I,vec(0.5*Width_Chevron2,4.4*Width_Chevron1*Width,2.2))
+        holoScale(I,vec(0.5*Width_Chevron2,4.4*Width_Chevron1*Width,2.2)*Size)
         holoModel(I,"models/sprops/geometry/hhex_12.mdl")
         holoMaterial(I,Mat_Chevron)
         holoColor(I,Chev_Color_Off)
-        holoDisableShading(I,1)
         holoParent(I,P)
         
         local I = Index_Chevron+1
         local E = Par2
         local P = Par1
         holoCreate(I)
-        holoPos(I,E:toWorld(vec(0,-2,101)))
+        holoPos(I,E:toWorld(vec(0,-2,101)*Size))
         holoAng(I,E:toWorld(ang(0,0,186)))
-        holoScale(I,vec(0.5*Width_Chevron2,4.4*Width_Chevron1*Width,2.2))
+        holoScale(I,vec(0.5*Width_Chevron2,4.4*Width_Chevron1*Width,2.2)*Size)
         holoModel(I,"models/sprops/geometry/hhex_12.mdl")
         holoMaterial(I,Mat_Chevron)
         holoColor(I,Chev_Color_Off)
-        holoDisableShading(I,1)
         holoParent(I,P)
         
         local I = Index+2
         local E = Par2
         local P = Par1
         holoCreate(I)
-        holoPos(I,E:toWorld(vec(0,0,105.1)))
+        holoPos(I,E:toWorld(vec(0,0,105.1)*Size))
         holoAng(I,E:toWorld(ang(0,0,0)))
-        holoScale(I,vec(2.7*Width_Chevron2,6*Width_Chevron1*Width,0.4))
+        holoScale(I,vec(2.7*Width_Chevron2,6*Width_Chevron1*Width,0.4)*Size)
         holoModel(I,"models/sprops/geometry/hhex_12.mdl")
         holoMaterial(I,Mat_Base)
         holoColor(I,Color_Base)
@@ -218,29 +241,49 @@ if(first()){
         local P = entity()
         holoCreate(I)
         holoPos(I,E:toWorld(vec(0,0,0)))
-        holoAng(I,E:toWorld(ang(0,0,-90)))
-        holoScale(I,vec(3.5,3.5,0))
-        holoModel(I,"models/sprops/misc/domes/size_4/dome_48x144.mdl")
-        holoMaterial(I,"models/shadertest/predator")
-        holoColor(I,vec(0,0,255))
+        holoAng(I,E:toWorld(ang(0,0,0)))
+        holoScale(I,vec(2.2,0.1,2.2)*Size)
+        holoModel(I,"models/sprops/geometry/fdisc_84.mdl")
+        holoMaterial(I,"models/debug/debugwhite")#models/shadertest/predator
+        holoColor(I,vec(0,125,255)*0.8)
         holoParent(I,P)
         holoDisableShading(I,1)
+        
+        holoEntity(I):setRenderMode(9)
+        
+        local I = 9999
+        local E = entity()
+        local P = entity()
+        holoCreate(I)
+        holoPos(I,E:toWorld(vec(0,0,0)))
+        holoAng(I,E:toWorld(ang(0,0,0)))
+        holoScale(I,vec(2.2,0.05,2.2)*Size)
+        holoModel(I,"models/sprops/geometry/fdisc_84.mdl")
+        holoMaterial(I,"sprops/trans/lights/light_plastic")#models/shadertest/predator
+        holoColor(I,(vec(0,0,255)*0.3)+vec(255)*0.7)
+        holoAlpha(I,50)
+        holoParent(I,P)
+        #holoDisableShading(I,1)
+        
+        holoEntity(I):setRenderMode(9)
         
         local I = 70
         local E = entity()
         local P = entity()
         holoCreate(I)
-        holoPos(I,E:toWorld(vec(0,75,0)))
+        holoPos(I,E:toWorld(vec(0,75,0)*Size))
         holoAng(I,E:toWorld(ang(0,0,90)))
-        holoScale(I,vec(1,1,1))
+        holoScale(I,vec(1,1,1)*Size)
         holoModel(I,"models/props_foliage/tree_poplar_01.mdl")
-        holoMaterial(I,"models/shadertest/shader3")
-        holoColor(I,vec(0,0,255))
+        holoMaterial(I,"models/debug/debugwhite")#models/shadertest/shader3
+        holoColor(I,vec(0,125,255)*0.8)
         holoParent(I,P)
         holoDisableShading(I,1)
         
         holoClip(I,1,vec(0,0,100),E:up(),0)
         holoClipEnabled(I,1,1)
+        
+        holoEntity(I):setRenderMode(9)
         
         local I = 71
         local E = entity()
@@ -248,13 +291,27 @@ if(first()){
         holoCreate(I)
         holoPos(I,E:toWorld(vec(0,0,0)))
         holoAng(I,E:toWorld(ang(0,0,90)))
-        holoScale(I,vec(3.5,3.5,0))
+        holoScale(I,vec(3.5,3.5,0)*Size)
         holoModel(I,"models/sprops/misc/domes/size_4/dome_48x144.mdl")
-        holoMaterial(I,"models/spawn_effect")
-        holoColor(I,vec(0,0,255))
+        holoMaterial(I,"models/debug/debugwhite")#models/spawn_effect
+        holoColor(I,vec(0,125,255)*0.8)
         holoParent(I,P)
         holoDisableShading(I,1)
+        
+        holoEntity(I):setRenderMode(9)
+        #(0 = Normal, 1 = TransColor, 2 = TransTexture, 3 = Glow, 4 = TransAlpha, 5 = TransAdd, 6 = Enviromental, 7 = TransAddFrameBlend, 8 = TransAlphaAdd, 9 = WorldGlow, 10 = None)
+        
     }
+    holoCreate(1000)
+    holoPos(1000,Glyph:toWorld(vec(0,0,0)))
+    holoAng(1000,Glyph:toWorld(ang(0,0,0)))
+    Glyph:parentTo(holoEntity(1000))
+    holoScale(1000,vec(0))
+    holoParent(1000,entity())
+    
+    Glyph:setColor(Chev_Color_Off)
+    Glyph:setMaterial(Mat_Chevron)
+    
     timer("holocreate2",100)
 }elseif(dupefinished()){
     reset()
@@ -264,9 +321,9 @@ if(first()){
         holoAng(71,entity():toWorld(ang((-(360/(36))/2)+(360/(36)*V2),0,0)))
         
         holoCreate(V2+72)
-        holoPos(V2+72,holoEntity(71):toWorld(vec(0,0,90)))
+        holoPos(V2+72,holoEntity(71):toWorld(vec(0,0,90)*Size))
         holoAng(V2+72,holoEntity(71):toWorld(ang(0,0,0)))
-        holoScale(V2+72,vec(0.4,2,5))
+        holoScale(V2+72,vec(0.4,2,5)*Size)
         holoModel(V2+72,"models/sprops/rectangles/size_1/rect_3x3x3.mdl")
         holoMaterial(V2+72,Mat_Base)
         holoColor(V2+72,Color_Base*0.75)
@@ -280,6 +337,8 @@ if(first()){
     if(V2>=36){
         timer("holocreate",100)
         holoAng(71,entity():toWorld(ang(0,0,90)))
+        holoPos(1000,entity():toWorld(vec(0,0,1.15)*Size))
+        holoAng(1000,entity():toWorld(ang(0,0,0)))
     }
 }elseif(clk("holocreate")){
     if(holoRemainingSpawns()>4){
@@ -347,11 +406,6 @@ if(first()){
     if(clk("autoopen")){
         Open = 1
     }
-    if(changed(Horizon)){
-        if(AllChev&!Open){
-            timer("close",1000)
-        }
-    }
     if(clk("close")){
         dsSend(WritingData+"_close","stargate-naki",WritingData)
         Open = 0
@@ -375,62 +429,95 @@ if(first()){
         if(TextEntry:explode(""):count()==1){
             if(changed(TextEntry)&TextEntry!=""){
                 WritingData = WritingData+TextEntry
-                entity():soundPlay("chevron",0,ChevronSound)
+                #entity():soundPlay("chevron",0,ChevronSound)
+                if(Chev:isValid()){
+                    Chev:destroy()
+                }
+                if(webAudiosLeft()>0&webAudioCanCreate()){
+                    Chev = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/atlantis/chevron.mp3")
+                    Chev:setPos(entity():pos())
+                    Chev:setRadius(2000)
+                    Chev:parentTo(entity())
+                    Chev:play()
+                }
             }
         }
     }
     if(Open&WritingData:explode(""):count() < 7){
-        WritingData = ""
-        entity():soundPlay("dialerror",0,DialErrorSound)
-        Dial = 0
         ErrorCode = 1
-        timer("stoperror",2000)
     }
     if(WritingData:explode(""):count() > 9){
-        WritingData = ""
-        entity():soundPlay("dialerror",0,DialErrorSound)
-        Dial = 0
         ErrorCode = 1
-        timer("stoperror",2000)
     }
     if(Open*(WritingData==Address)){
-        WritingData = ""
-        entity():soundPlay("dialerror",0,DialErrorSound)
-        Dial = 0
         ErrorCode = 1
-        timer("stoperror",2000)
     }
-    
+    if(changed(ErrorCode)&ErrorCode){
+        WritingData = ""
+        #entity():soundPlay("dialerror",0,DialErrorSound)
+        Dial = 0
+        timer("stoperror",2000)
+        timer("errorsound",100)
+    }
     if(clk("stoperror")){
         ErrorCode = 0
     }
-    
+    if(clk("errorsound")){
+        if(Fail:isValid()){
+            Fail:destroy()
+        }
+        if(webAudiosLeft()>0&webAudioCanCreate()){
+            Fail = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/atlantis/fail.mp3")
+            Fail:setPos(entity():pos())
+            Fail:setRadius(5000)
+            Fail:parentTo(entity())
+            Fail:play()
+        }
+    }
     holoColor(51,(Chev_Color_On*Chev1)+(Chev_Color_Off*!Chev1))
     holoColor(52,(Chev_Color_On*Chev1)+(Chev_Color_Off*!Chev1))
+    holoDisableShading(51,Chev1)
+    holoDisableShading(52,Chev1)
     
     holoColor(53,(Chev_Color_On*Chev2)+(Chev_Color_Off*!Chev2))
     holoColor(54,(Chev_Color_On*Chev2)+(Chev_Color_Off*!Chev2))
+    holoDisableShading(53,Chev2)
+    holoDisableShading(54,Chev2)
     
     holoColor(55,(Chev_Color_On*Chev3)+(Chev_Color_Off*!Chev3))
     holoColor(56,(Chev_Color_On*Chev3)+(Chev_Color_Off*!Chev3))
+    holoDisableShading(55,Chev3)
+    holoDisableShading(56,Chev3)
     
     holoColor(57,(Chev_Color_On*Chev8)+(Chev_Color_Off*!Chev8))
     holoColor(58,(Chev_Color_On*Chev8)+(Chev_Color_Off*!Chev8))
+    holoDisableShading(57,Chev8)
+    holoDisableShading(58,Chev8)
     
     holoColor(59,(Chev_Color_On*Chev9)+(Chev_Color_Off*!Chev9))
     holoColor(60,(Chev_Color_On*Chev9)+(Chev_Color_Off*!Chev9))
+    holoDisableShading(59,Chev9)
+    holoDisableShading(60,Chev9)
     
     holoColor(61,(Chev_Color_On*Chev4)+(Chev_Color_Off*!Chev4))
     holoColor(62,(Chev_Color_On*Chev4)+(Chev_Color_Off*!Chev4))
+    holoDisableShading(61,Chev4)
+    holoDisableShading(62,Chev4)
     
     holoColor(63,(Chev_Color_On*Chev5)+(Chev_Color_Off*!Chev5))
     holoColor(64,(Chev_Color_On*Chev5)+(Chev_Color_Off*!Chev5))
+    holoDisableShading(63,Chev5)
+    holoDisableShading(64,Chev5)
     
     holoColor(65,(Chev_Color_On*Chev6)+(Chev_Color_Off*!Chev6))
     holoColor(66,(Chev_Color_On*Chev6)+(Chev_Color_Off*!Chev6))
+    holoDisableShading(65,Chev6)
+    holoDisableShading(66,Chev6)
     
     holoColor(67,(Chev_Color_On*Chev7)+(Chev_Color_Off*!Chev7))
     holoColor(68,(Chev_Color_On*Chev7)+(Chev_Color_Off*!Chev7))
+    holoDisableShading(67,Chev7)
+    holoDisableShading(68,Chev7)
     
     
     Locked = Open
@@ -452,14 +539,90 @@ if(first()){
     
     Horizon = 1 * AllChev & Open & !Close
     
+    Glyph:setColor((Chev_Color_On*Horizon)+(Chev_Color_Off*!Horizon))
+    
+    if(Horizon){
+        Glyph:setMaterial("lights/white005")
+    }else{
+        Glyph:setMaterial("models/debug/debugwhite")
+    }
     if(changed(Horizon)){
+        timer("soundstop",3000)
         if(Horizon){
-            entity():soundPlay("horizon",0,HorizonOpenSound)
+            for(I = 1,WritingData:explode(""):count()){
+                if(WritingData:explode("")[I,string]==WritingData:explode("")[I+1,string]){
+                    ErrorCode=1
+                }elseif(WritingData:explode("")[I,string]==WritingData:explode("")[I+2,string]){
+                    ErrorCode=1
+                }elseif(WritingData:explode("")[I,string]==WritingData:explode("")[I+3,string]){
+                    ErrorCode=1
+                }elseif(WritingData:explode("")[I,string]==WritingData:explode("")[I+4,string]){
+                    ErrorCode=1
+                }elseif(WritingData:explode("")[I,string]==WritingData:explode("")[I+5,string]){
+                    ErrorCode=1
+                }elseif(WritingData:explode("")[I,string]==WritingData:explode("")[I+6,string]){
+                    ErrorCode=1
+                }elseif(WritingData:explode("")[I,string]==WritingData:explode("")[I+7,string]){
+                    ErrorCode=1
+                }elseif(WritingData:explode("")[I,string]==WritingData:explode("")[I+8,string]){
+                    ErrorCode=1
+                }
+            }
+            #entity():soundPlay("horizon",0,HorizonOpenSound)
             timer("autoclose",(1000*60)*38)
             timer("entsend",1000)
+            if(Chev:isValid()){
+                Chev:destroy()
+            }
+            if(OpenAudio:isValid()){
+                OpenAudio:destroy()
+            }
+            if(OpenAudio:isValid()){
+                CloseAudio:destroy()
+            }
+            if(webAudiosLeft()>0&webAudioCanCreate()){
+                OpenAudio = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/atlantis/open.mp3")
+                OpenAudio:setPos(entity():pos())
+                OpenAudio:setRadius(2000)
+                OpenAudio:parentTo(entity())
+                OpenAudio:play()
+            }
         }else{
-            entity():soundPlay("horizon",0,HorizonCloseSound)
+            #entity():soundPlay("horizon",0,HorizonCloseSound)
             TargetEnt=noentity()
+            if(Chev:isValid()){
+                Chev:destroy()
+            }
+            if(OpenAudio:isValid()){
+                OpenAudio:destroy()
+            }
+            if(OpenAudio:isValid()){
+                CloseAudio:destroy()
+            }
+            if(webAudiosLeft()>0&webAudioCanCreate()){
+                CloseAudio = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/close.mp3")
+                CloseAudio:setPos(entity():pos())
+                CloseAudio:setRadius(2000)
+                CloseAudio:parentTo(entity())
+                CloseAudio:play()
+            }
+        }
+        if(AllChev&!Open){
+            timer("close",1000)
+        }
+    }
+    if(clk("soundstop")){
+        if(Chev:isValid()){
+            Chev:destroy()
+        }
+        if(OpenAudio:isValid()){
+            OpenAudio:destroy()
+        }
+        if(CloseAudio:isValid()){
+            CloseAudio:destroy()
+        }
+        if(Fail:isValid()){
+            Fail:destroy()
         }
     }
     
@@ -483,10 +646,11 @@ if(first()){
         if(Val<0){
             Val=0
         }
-        holoScale(69,vec(3.5,3.5,0))
+        holoScale(69,vec(2.2,0.1,2.2)*Size)
+        holoScale(9999,vec(2.2,0.05,2.2)*Size)
         if(Val>0){
-            holoScale(70,vec(0.9-(0.5*(Val/100)),0.9-(0.5*(Val/100)),0.5*(Val/100)))
-            holoScale(71,vec(3-(1.5*(Val/100)),3-(1.5*(Val/100)),2.5*(Val/100)))
+            holoScale(70,vec(0.9-(0.5*(Val/100)),0.9-(0.5*(Val/100)),0.5*(Val/100))*Size)
+            holoScale(71,vec(3-(1.5*(Val/100)),3-(1.5*(Val/100)),2.5*(Val/100))*Size)
         }else{
             holoScale(70,vec(0))
             holoScale(71,vec(0))
@@ -504,6 +668,7 @@ if(first()){
         Close = 0
         Open = 0
         holoScale(69,vec(0))
+        holoScale(9999,vec(0))
         holoScale(70,vec(0))
         holoScale(71,vec(0))
     }
@@ -528,4 +693,17 @@ if(first()){
     }
 }elseif(last()){
     dsLeaveGroup("stargate-naki")
+    if(Chev:isValid()){
+        Chev:destroy()
+    }
+    if(OpenAudio:isValid()){
+        OpenAudio:destroy()
+    }
+    if(CloseAudio:isValid()){
+        CloseAudio:destroy()
+    }
+    if(Fail:isValid()){
+        Fail:destroy()
+    }
 }
+
