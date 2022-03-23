@@ -1,6 +1,6 @@
 @name Naki's Stargates V2.0 - DHD - Atlantis
 @inputs [TextEntry Button]:entity On WritingData:string
-
+@persist [OnColor OffColor]:vector
 @model models/sprops/rectangles/size_3/rect_24x42x3.mdl
 
 interval(100)
@@ -499,14 +499,14 @@ if(first()){
     holoColor(I,Color_Buttons)
     holoParent(I,E)
     
+    OnColor = vec(255,255,0)
+    OffColor = vec(175,125,0)
 }elseif(dupefinished()){
     reset()
 }
 holoColor(10,((vec(35,45,55)*2)*!On)+(vec(25,175,200)*On))
 holoDisableShading(10,On)
 if(changed(WritingData)){
-    OnColor = vec(255,255,0)
-    OffColor = vec(175,125,0)
     if(WritingData:find("a")){
         holoColor(14+0,OnColor*0.9)
         holoDisableShading(14+0,1)
@@ -794,5 +794,4 @@ if(changed(WritingData)){
         holoColor(14+35,OffColor*0.6)
         holoDisableShading(14+35,0)
     }
-    
 }
