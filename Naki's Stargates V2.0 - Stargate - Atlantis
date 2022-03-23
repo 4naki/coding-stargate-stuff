@@ -1,7 +1,7 @@
 @name Naki's Stargates V2.0 - Stargate - Atlantis
 @inputs TextEntry:string DialButton
-@persist Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial Locked ChevsActive ErrorCode Closing V V2 Size Glyphs [Chev OpenAudio CloseAudio Fail]:webaudio
-@outputs Address:string WritingData:string Horizon Open TargetEnt:entity Locked ChevsActive ErrorCode Closing V V2
+@persist Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial Chevron_Locked ChevsActive ErrorCode Closing V V2 Size Glyphs [Chev OpenAudio CloseAudio Fail]:webaudio
+@outputs Address:string WritingData:string Horizon Open Chevron_Locked ChevsActive ErrorCode Closing Glyphs
 
 @persist Chev1 Chev2 Chev3 Chev4 Chev5 Chev6 Chev7 Chev8 Chev9 AllChev
 @outputs Chev1 Chev2 Chev3 Chev4 Chev5 Chev6 Chev7 Chev8 Chev9 AllChev
@@ -51,10 +51,10 @@ if(first()){
     
     entity():setAlpha(0)
     
-    Address = "abcdefg"
+    Address = "kqmvias"
     
     #Name of the gate
-    Name = "Gate"
+    Name = "Atlantis"
     
     ChevronSound = "buttons/button3.wav"
     HorizonOpenSound = "ambient/water/water_splash3.wav"
@@ -522,7 +522,7 @@ if(first()){
     holoDisableShading(68,Chev7)
     
     
-    Locked = Open
+    Chevron_Locked = Open
     
     Chev1 = WritingData:explode(""):count()>0
     Chev2 = WritingData:explode(""):count()>1
