@@ -244,7 +244,7 @@ if(first()){
         holoAng(I,E:toWorld(ang(0,0,0)))
         holoScale(I,vec(2.2,0.1,2.2)*Size)
         holoModel(I,"models/sprops/geometry/fdisc_84.mdl")
-        holoMaterial(I,"models/debug/debugwhite")#models/shadertest/predator
+        holoMaterial(I,"models/shadertest/predator")#models/shadertest/predator
         holoColor(I,vec(0,125,255)*0.8)
         holoParent(I,P)
         holoDisableShading(I,1)
@@ -259,7 +259,7 @@ if(first()){
         holoAng(I,E:toWorld(ang(0,0,0)))
         holoScale(I,vec(2.2,0.05,2.2)*Size)
         holoModel(I,"models/sprops/geometry/fdisc_84.mdl")
-        holoMaterial(I,"sprops/trans/lights/light_plastic")#models/shadertest/predator
+        holoMaterial(I,"sprops/trans/lights/light_plastic")
         holoColor(I,(vec(0,0,255)*0.3)+vec(255)*0.7)
         holoAlpha(I,50)
         holoParent(I,P)
@@ -275,7 +275,7 @@ if(first()){
         holoAng(I,E:toWorld(ang(0,0,90)))
         holoScale(I,vec(1,1,1)*Size)
         holoModel(I,"models/props_foliage/tree_poplar_01.mdl")
-        holoMaterial(I,"models/debug/debugwhite")#models/shadertest/shader3
+        holoMaterial(I,"models/shadertest/shader3")#models/shadertest/shader3
         holoColor(I,vec(0,125,255)*0.8)
         holoParent(I,P)
         holoDisableShading(I,1)
@@ -293,7 +293,7 @@ if(first()){
         holoAng(I,E:toWorld(ang(0,0,90)))
         holoScale(I,vec(3.5,3.5,0)*Size)
         holoModel(I,"models/sprops/misc/domes/size_4/dome_48x144.mdl")
-        holoMaterial(I,"models/debug/debugwhite")#models/spawn_effect
+        holoMaterial(I,"models/spawn_effect")#models/spawn_effect
         holoColor(I,vec(0,125,255)*0.8)
         holoParent(I,P)
         holoDisableShading(I,1)
@@ -549,8 +549,9 @@ if(first()){
         Glyph:setMaterial("models/debug/debugwhite")
     }
     if(changed(Horizon)){
-        timer("soundstop",3000)
+        timer("soundstop",5000)
         if(Horizon){
+            Glyphs = 1
             for(I = 1,WritingData:explode(""):count()){
                 if(WritingData:explode("")[I,string]==WritingData:explode("")[I+1,string]){
                     ErrorCode=1
