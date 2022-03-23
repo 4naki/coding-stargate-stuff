@@ -51,10 +51,10 @@ if(first()){
     
     entity():setAlpha(0)
     
-    Address = "abcdefg"
+    Address = "kqmvias"
     
     #Name of the gate
-    Name = "Gate"
+    Name = "Atlantis"
     
     ChevronSound = "buttons/button3.wav"
     HorizonOpenSound = "ambient/water/water_splash3.wav"
@@ -248,13 +248,14 @@ if(first()){
         holoColor(I,vec(0,125,255)*0.8)
         holoParent(I,P)
         holoDisableShading(I,1)
+        holoAlpha(I,254)
         
         holoEntity(I):setRenderMode(9)
         
         local I = 9999
         local E = entity()
         local P = entity()
-        holoCreate(I)
+        #holoCreate(I)
         holoPos(I,E:toWorld(vec(0,0,0)))
         holoAng(I,E:toWorld(ang(0,0,0)))
         holoScale(I,vec(2.2,0.05,2.2)*Size)
@@ -264,6 +265,7 @@ if(first()){
         holoAlpha(I,50)
         holoParent(I,P)
         #holoDisableShading(I,1)
+        #holoAlpha(I,254)
         
         holoEntity(I):setRenderMode(9)
         
@@ -279,6 +281,7 @@ if(first()){
         holoColor(I,vec(0,125,255)*0.8)
         holoParent(I,P)
         holoDisableShading(I,1)
+        holoAlpha(I,254)
         
         holoClip(I,1,vec(0,0,100),E:up(),0)
         holoClipEnabled(I,1,1)
@@ -297,6 +300,7 @@ if(first()){
         holoColor(I,vec(0,125,255)*0.8)
         holoParent(I,P)
         holoDisableShading(I,1)
+        holoAlpha(I,254)
         
         holoEntity(I):setRenderMode(9)
         #(0 = Normal, 1 = TransColor, 2 = TransTexture, 3 = Glow, 4 = TransAlpha, 5 = TransAdd, 6 = Enviromental, 7 = TransAddFrameBlend, 8 = TransAlphaAdd, 9 = WorldGlow, 10 = None)
