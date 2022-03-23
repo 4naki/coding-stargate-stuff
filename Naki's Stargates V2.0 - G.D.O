@@ -1,0 +1,23 @@
+@name Naki's Stargates V2.0 - G.D.O
+runOnChat(1)
+
+if(first()){
+    dsJoinGroup("gdo-naki")
+    dsSetScope(2)
+}
+
+LS=owner():lastSaid():explode(" ")
+CMDCheck=LS[1,string]:explode("")[1,string]=="."
+
+if(CMDCheck&chatClk(owner())){
+    hideChat(1)
+    if(LS[1,string]==".gdo"){
+        if(LS[2,string]){
+            Code=LS[2,string]
+            hint("G.D.O Code: "+Code,7)
+            dsSend("gdo_data","gdo-naki",Code)
+        }else{
+            hint("Usage: .gdo [Code]",10)
+        }
+    }
+}
