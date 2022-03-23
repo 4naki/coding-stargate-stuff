@@ -1,6 +1,6 @@
 @name Naki's Stargates V2.0 - Stargate - Atlantis
 @inputs TextEntry:string DialButton
-@persist Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial Locked ChevsActive ErrorCode Closing V V2 Size [Chev OpenAudio CloseAudio Fail]:webaudio
+@persist Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial Locked ChevsActive ErrorCode Closing V V2 Size Glyphs [Chev OpenAudio CloseAudio Fail]:webaudio
 @outputs Address:string WritingData:string Horizon Open TargetEnt:entity Locked ChevsActive ErrorCode Closing V V2
 
 @persist Chev1 Chev2 Chev3 Chev4 Chev5 Chev6 Chev7 Chev8 Chev9 AllChev
@@ -410,6 +410,7 @@ if(first()){
         dsSend(WritingData+"_close","stargate-naki",WritingData)
         Open = 0
         WritingData = ""
+        Glyphs = 0
         TargetEnt=noentity()
     }
     if(changed(Dial)){
@@ -454,6 +455,7 @@ if(first()){
     }
     if(changed(ErrorCode)&ErrorCode){
         WritingData = ""
+        Glyphs = 0
         #entity():soundPlay("dialerror",0,DialErrorSound)
         Dial = 0
         timer("stoperror",2000)
@@ -541,7 +543,7 @@ if(first()){
     
     Glyph:setColor((Chev_Color_On*Horizon)+(Chev_Color_Off*!Horizon))
     
-    if(Horizon){
+    if(Glyphs){
         Glyph:setMaterial("lights/white005")
     }else{
         Glyph:setMaterial("models/debug/debugwhite")
