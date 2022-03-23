@@ -1,0 +1,60 @@
+@name Naki's Stargates V2.0 - Stargate Log Computer
+@inputs WritingData:string Open ErrorCode EGP:wirelink
+@persist Data:string I
+
+@persist [OpenTime CloseTime Address Failed DataWrite OpenLength]:string List:array H M S Ready
+@outputs Data:string [OpenTime CloseTime Address Failed DataWrite OpenLength]:string List:array I H M S Ready
+runOnLast(1)
+interval(100)
+if(first()){
+    EGP:egpClear()
+    timer("ready",1000)
+    
+    EGP:egpText(1,"Open Time"+" : "+"Close Time"+" : "+"Open Length"+" : "+"Address"+" : "+"Status",vec2(0,0))
+    Ready = 0
+}elseif(dupefinished()){
+    reset()
+}
+if(clk("ready")){
+    Ready = 1
+    I=0
+}
+if(changed(Open|(ErrorCode&!Open))){
+    if(Open|(ErrorCode&!Open)){
+        OpenTime = date()["hour",number]+":"+date()["min",number]+":"+date()["sec",number]
+        if(WritingData){
+            Address = WritingData
+        }else{
+            Address = "NONE"
+        }
+        H = date()["hour",number]
+        M = date()["min",number]
+        S = date()["sec",number]
+        if(ErrorCode){
+            Failed = "Failed"
+        }else{
+            Failed = "Success"
+        }
+    }else{
+        if(Failed == "Failed"){
+            OpenLength = "-:-:-"
+        }elseif(Failed == "Success"){
+            OpenLength = (date()["hour",number] - H):toString()+":"+(date()["min",number] - M):toString()+":"+(date()["sec",number] - S):toString()
+        }
+        CloseTime = date()["hour",number]+":"+date()["min",number]+":"+date()["sec",number]
+        timer("add",100)
+    }
+}
+if(clk("add")){
+    DataWrite = OpenTime+" | "+CloseTime+" | "+OpenLength+" | "+Address+" | "+Failed
+    List:pushString(DataWrite)
+    List = array()
+    I++
+}
+if(changed(I)&I){
+    if(I>0){
+        if(Ready){
+            EGP:egpText(I+100,DataWrite,vec2(0,15*I))
+        }
+    }
+}
