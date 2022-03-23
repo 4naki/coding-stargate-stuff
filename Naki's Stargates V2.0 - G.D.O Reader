@@ -1,0 +1,77 @@
+@name Naki's Stargates V2.0 - G.D.O Reader
+@inputs EGP:wirelink
+@persist [AddName AddCode Fill CodeTxt NameTxt DataTxt GetCode]:string I Ok List:array
+@outputs [DataTxt GetCode]:string Ok
+@trigger none
+interval(100)
+runOnChat(1)
+
+if(first()){
+    dsJoinGroup("gdo-naki")
+    dsSetScope(2)
+    
+    List = array()
+}
+
+LS=owner():lastSaid():explode(" ")
+CMDCheck=LS[1,string]:explode("")[1,string]=="."
+
+if(CMDCheck&chatClk(owner())){
+    hideChat(1)
+    if(LS[1,string]==".add"){
+        if(LS[2,string]){
+            if(LS[3,string]){
+                AddName=LS[2,string]
+                AddCode=LS[3,string]
+                Fill = AddName+" "+AddCode
+                hint("G.D.O Code Added: Name: "+AddName+" Code: "+AddCode,7)
+                List:pushString(Fill)
+            }else{
+                hint("Usage: .add [Name] [Code]",10)
+            }
+        }else{
+            hint("Usage: .add [Name] [Code]",10)
+        }
+    }
+}
+
+if(dsClk()){
+    if(dsClkName()=="gdo_data"){
+        GetCode=dsGetString()
+        Ok=3
+        timer("check",750)
+    }
+}
+
+if(clk("check")){
+    if(GetCode!=""){
+        if(GetCode==List[I,string]:explode(" ")[2,string]){
+            Ok=1
+            CodeTxt=List[I,string]:explode(" ")[2,string]
+            NameTxt=List[I,string]:explode(" ")[1,string]
+            DataTxt=CodeTxt+" : "+NameTxt
+            timer("autoreset",10000)
+        }else{
+            if(I>=List:count()){
+                Ok=-1
+                CodeTxt=""
+                NameTxt=""
+                DataTxt=""
+                timer("autoreset",10000)
+            }else{
+                Ok=2
+                I++
+                timer("check",500)
+            }
+        }
+    }else{
+        Ok=0
+    }
+}
+if(clk("autoreset")){
+    Ok=0
+    GetCode=""
+    CodeTxt=""
+    NameTxt=""
+    DataTxt=""
+}
