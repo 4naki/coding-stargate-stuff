@@ -1,7 +1,7 @@
 @name Naki's Stargates V2.0 - Stargate - Atlantis
-@inputs TextEntry:string DialButton
-@persist Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial Chevron_Locked ChevsActive ErrorCode Closing V V2 Size Glyphs [Chev OpenAudio CloseAudio Fail]:webaudio
-@outputs Address:string WritingData:string Horizon Open Chevron_Locked ChevsActive ErrorCode Closing Glyphs
+@inputs TextEntry:string DialButton Iris
+@persist IrisBlock Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial Chevron_Locked ChevsActive ErrorCode Closing V V2 Size Glyphs [Chev OpenAudio CloseAudio Fail]:webaudio
+@outputs Address:string WritingData:string Horizon Open Chevron_Locked ChevsActive ErrorCode Closing Glyphs R G B IrisBlock Iris
 
 @persist Chev1 Chev2 Chev3 Chev4 Chev5 Chev6 Chev7 Chev8 Chev9 AllChev
 @outputs Chev1 Chev2 Chev3 Chev4 Chev5 Chev6 Chev7 Chev8 Chev9 AllChev
@@ -381,17 +381,30 @@ if(first()){
         timer("holocreate",1000)
     }
 }elseif(!Block){
+    R = 0
+    G = 255*Horizon
+    B = 255*Horizon
     if(Horizon){
-        findInSphere(entity():toWorld(vec(0,-180*(Val/100),0)),50+(25*(Val/100)))
-        Array = findToArray()
-        
-        foreach(I,E:entity=Array){
-            if(Val==0){
-                E:plySetPos(TargetEnt:toWorld(vec(0,-90,(E:pos()-entity():pos()):z())))
-                E:plySetAng(ang(TargetEnt:angles():pitch(),TargetEnt:angles():yaw()+270,0))
-            }else{
-                E:plyIgnite()
-                E:plySetHealth(0)
+        if(changed(Iris)){
+            dsSend(WritingData+"_iris_get","stargate-naki",Iris:toString())
+        }
+        if(!Iris){
+            findInSphere(entity():toWorld(vec(0,-180*(Val/100),0)),50+(25*(Val/100)))
+            Array = findToArray()
+            
+            foreach(I,E:entity=Array){
+                if(!IrisBlock){
+                    if(Val==0){
+                        E:plySetPos(TargetEnt:toWorld(vec(0,-90,(E:pos()-entity():pos()):z())))
+                        E:plySetAng(ang(TargetEnt:angles():pitch(),TargetEnt:angles():yaw()+270,0))
+                    }else{
+                        E:plyIgnite()
+                        E:plySetHealth(0)
+                    }
+                }else{
+                    E:plyIgnite()
+                    E:plySetHealth(0)
+                }
             }
         }
     }
@@ -656,8 +669,8 @@ if(first()){
         holoScale(69,vec(2.2,0.1,2.2)*Size)
         holoScale(9999,vec(2.2,0.05,2.2)*Size)
         if(Val>0){
-            holoScale(70,vec(0.9-(0.5*(Val/100)),0.9-(0.5*(Val/100)),0.5*(Val/100))*Size)
-            holoScale(71,vec(3-(1.5*(Val/100)),3-(1.5*(Val/100)),2.5*(Val/100))*Size)
+            holoScale(70,vec(0.9-(0.5*(Val/100)),0.9-(0.5*(Val/100)),0.5*(Val/100)*!Iris)*Size)
+            holoScale(71,vec(3-(1.5*(Val/100)),3-(1.5*(Val/100)),2.5*(Val/100)*!Iris)*Size)
         }else{
             holoScale(70,vec(0))
             holoScale(71,vec(0))
@@ -680,6 +693,9 @@ if(first()){
         holoScale(71,vec(0))
     }
     if(dsClk()){
+        if(dsClkName()==Address+"_iris_get"){
+            IrisBlock=dsGetString():explode(" ")[1,string]:toNumber()
+        }
         if(dsClkName()==Address+"_address_get"){
             if(dsGetString():explode(" ")[1,string]==Address){
                 WritingData = dsGetString():explode(" ")[2,string]
