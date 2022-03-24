@@ -396,8 +396,8 @@ if(first()){
     }
 }elseif(!Block){
     R = 0
-    G = 255*!Horizon
-    B = 255*!Horizon
+    G = 255*Horizon
+    B = 255*Horizon
     if(Horizon){
         if(changed(Iris)){
             dsSend(WritingData+"_iris_get","stargate-naki",Iris:toString())
@@ -502,7 +502,7 @@ if(first()){
         if(webAudiosLeft()>0&webAudioCanCreate()){
             Fail = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/atlantis/fail.mp3")
             Fail:setPos(entity():pos())
-            Fail:setRadius(5000)
+            Fail:setRadius(2000)
             Fail:parentTo(entity())
             Fail:play()
         }
@@ -680,14 +680,15 @@ if(first()){
         if(Val<0){
             Val=0
         }
-        #holoScale(69,vec(2.2,0.1,2.2)*Size)
-        #holoScale(9999,vec(2.2,0.05,2.2)*Size)
+        holoScale(69,vec(2.2,0.1,2.2)*Size)
+        holoScale(9999,vec(2.2,0.05,2.2)*Size)
+        holoScale(5000,vec(2.2,0.0,2.2)*Size)
         if(Val>0){
             holoScale(70,vec(0.9-(0.5*(Val/100)),0.9-(0.5*(Val/100)),0.5*(Val/100)*!Iris)*Size)
             holoScale(71,vec(3-(1.5*(Val/100)),3-(1.5*(Val/100)),2.5*(Val/100)*!Iris)*Size)
         }else{
             holoScale(70,vec(0))
-            #holoScale(71,vec(0))
+            holoScale(71,vec(0))
         }
         if(clk("autoclose")){
             Close = 1
@@ -701,10 +702,11 @@ if(first()){
         Val = 0
         Close = 0
         Open = 0
-        #holoScale(69,vec(0))
-        #holoScale(9999,vec(0))
+        holoScale(69,vec(0))
+        holoScale(5000,vec(0))
+        holoScale(9999,vec(0))
         holoScale(70,vec(0))
-        #holoScale(71,vec(0))
+        holoScale(71,vec(0))
     }
     if(dsClk()){
         if(dsClkName()==Address+"_iris_get"){
