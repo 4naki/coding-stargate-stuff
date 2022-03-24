@@ -1,0 +1,59 @@
+@name Naki's Stargates V2.0 - Iris - Atlantis
+@inputs IrisToggle
+@outputs Iris
+@persist Gate:entity Iris
+
+interval(100)
+
+if(first()){
+    Gate=entity():isWeldedTo()
+    
+    local I = 1
+    local E = Gate
+    local P = Gate
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(0,0,0)))
+    holoAng(I,E:toWorld(ang(90,0,90)))
+    holoScale(I,vec(2.32,2.32,0.1))
+    holoModel(I,"models/hunter/misc/sphere175x175.mdl")
+    holoMaterial(I,"models/spawn_effect")
+    holoColor(I,vec(255))
+    holoParent(I,P)
+    holoDisableShading(I,1)
+    
+    local I = 2
+    local E = Gate
+    local P = Gate
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(0,0,0)))
+    holoAng(I,E:toWorld(ang(90,0,-90)))
+    holoScale(I,vec(2.3,2.3,0.15)*1.05)
+    holoModel(I,"models/hunter/misc/sphere175x175.mdl")
+    holoMaterial(I,"models/props/cs_office/clouds")
+    holoColor(I,vec(175,215,255))
+    holoParent(I,P)
+    holoDisableShading(I,1)
+    
+    local I = 3
+    local E = Gate
+    local P = Gate
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(0,0,0)))
+    holoAng(I,E:toWorld(ang(90,0,-90)))
+    holoScale(I,vec(2.3,2.3,0.15)*1.1)
+    holoModel(I,"models/hunter/misc/sphere175x175.mdl")
+    holoMaterial(I,"models/props_combine/pipes01")
+    holoColor(I,vec(175,215,255))
+    holoParent(I,P)
+    holoDisableShading(I,1)
+    
+}elseif(dupefinished()){
+    reset()
+}else{
+    if(changed(IrisToggle)&IrisToggle){
+        Iris=!Iris
+    }
+    holoAlpha(1,255*Iris)
+    holoAlpha(2,150*Iris)
+    holoAlpha(3,255*Iris)
+}
