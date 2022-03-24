@@ -291,7 +291,7 @@ if(first()){
         local I = 71
         local E = entity()
         local P = entity()
-        holoCreate(I)
+        #holoCreate(I)
         holoPos(I,E:toWorld(vec(0,0,0)))
         holoAng(I,E:toWorld(ang(0,0,90)))
         holoScale(I,vec(3.5,3.5,0)*Size)
@@ -303,6 +303,20 @@ if(first()){
         holoAlpha(I,254)
         
         holoEntity(I):setRenderMode(9)
+        
+        local I = 5000
+        local E = entity()
+        local P = entity()
+        holoCreate(I)
+        holoPos(I,E:toWorld(vec(0,0,0)))
+        holoAng(I,E:toWorld(ang(0,0,0)))
+        holoScale(I,vec(2.2,0.0,2.2)*Size)
+        holoModel(I,"models/sprops/geometry/fdisc_84.mdl")
+        holoMaterial(I,"models/props/de_tides/clouds")#models/spawn_effect
+        holoColor(I,((vec(175,200,255)*0.5)+(vec(255)*0.55))*1)
+        holoParent(I,P)
+        holoDisableShading(I,1)
+        holoAlpha(I,254)
         #(0 = Normal, 1 = TransColor, 2 = TransTexture, 3 = Glow, 4 = TransAlpha, 5 = TransAdd, 6 = Enviromental, 7 = TransAddFrameBlend, 8 = TransAlphaAdd, 9 = WorldGlow, 10 = None)
         
     }
@@ -382,8 +396,8 @@ if(first()){
     }
 }elseif(!Block){
     R = 0
-    G = 255*Horizon
-    B = 255*Horizon
+    G = 255*!Horizon
+    B = 255*!Horizon
     if(Horizon){
         if(changed(Iris)){
             dsSend(WritingData+"_iris_get","stargate-naki",Iris:toString())
@@ -666,14 +680,14 @@ if(first()){
         if(Val<0){
             Val=0
         }
-        holoScale(69,vec(2.2,0.1,2.2)*Size)
-        holoScale(9999,vec(2.2,0.05,2.2)*Size)
+        #holoScale(69,vec(2.2,0.1,2.2)*Size)
+        #holoScale(9999,vec(2.2,0.05,2.2)*Size)
         if(Val>0){
             holoScale(70,vec(0.9-(0.5*(Val/100)),0.9-(0.5*(Val/100)),0.5*(Val/100)*!Iris)*Size)
             holoScale(71,vec(3-(1.5*(Val/100)),3-(1.5*(Val/100)),2.5*(Val/100)*!Iris)*Size)
         }else{
             holoScale(70,vec(0))
-            holoScale(71,vec(0))
+            #holoScale(71,vec(0))
         }
         if(clk("autoclose")){
             Close = 1
@@ -687,10 +701,10 @@ if(first()){
         Val = 0
         Close = 0
         Open = 0
-        holoScale(69,vec(0))
-        holoScale(9999,vec(0))
+        #holoScale(69,vec(0))
+        #holoScale(9999,vec(0))
         holoScale(70,vec(0))
-        holoScale(71,vec(0))
+        #holoScale(71,vec(0))
     }
     if(dsClk()){
         if(dsClkName()==Address+"_iris_get"){
