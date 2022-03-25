@@ -721,7 +721,7 @@ if(first()){
     holoColor(I,Col_Base)
     holoParent(I,E)
     
-    PLY = findPlayerByName("naki")
+    PLY = findPlayerByName("bobert")
     
     Charge = 100
     Ready = 1
@@ -740,7 +740,7 @@ if(changed(Active)){
         if(!VR){
             Weapon = owner():weapon()
             Weapon:setAlpha(0)
-            owner():plySetAng(ang(0,0,0))
+            PLY:plySetAng(ang(0,0,0))
             holoPos(1,owner():attachmentPos("anim_attachment_RH")+vec(7.65,0.75,5.25))
             holoAng(1,owner():attachmentAng("anim_attachment_RH")+ang(3,90,82))
             holoParentAttachment(1,owner(),"anim_attachment_RH")
