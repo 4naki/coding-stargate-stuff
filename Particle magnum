@@ -1,13 +1,14 @@
 @name Particle magnum
-@model models/props_c17/TrapPropeller_Lever.mdl
+@model models/weapons/w_357.mdl
 @persist PLY:entity VR Ready Fire Charge
-@persist [Col_Indicator1 Col_Indicator2 Col_Indicator3 Col_Indicator4 Col_PowerCell_Tip]:vector [Mat_Indicator4 Mat_Indicators1 Mat_PowerCell_Tip]:string Weapon:entity Model
-@outputs PLY:entity VR Ready Fire Charge Button Open Mode Full ReloadButton
+@persist [Col_Indicator1 Col_Indicator2 Col_Indicator3 Col_Indicator4 Col_PowerCell_Tip]:vector [Mat_Indicator4 Mat_Indicators1 Mat_PowerCell_Tip]:string Weapon:entity Model Val
+@outputs PLY:entity VR Ready Fire Charge Button Open Mode Full ReloadButton RightGrabCheck DistanceCheck Active
 
-@persist Button Open Empty Mode Reloading Active
+@persist Button Open Empty Mode Reloading Active Array:array
+@trigger none
 
 interval(100)
-runOnKeys(owner(),1)
+runOnKeys(PLY,1)
 
 if(first()){
     
@@ -20,7 +21,7 @@ if(first()){
     
     ]#
     
-    Model = 2
+    Model = 1
     
     Button = 0
     
@@ -727,10 +728,13 @@ if(first()){
     Charge = 100
     Ready = 1
     Full = 1
+    
+    entity():propGravity(0)
 }elseif(dupefinished()){
     reset()
 }elseif(changed(vrPlayerInVR(PLY))){
     VR = vrPlayerInVR(PLY)
+    vrSetPlayer(PLY)
 }
 
 if(changed(Active)){
@@ -782,16 +786,22 @@ if(!VR){
         Active = 0
     }
 }else{
-    RightGrabCheck = vrPrimaryFire()
+    RightGrabCheck = vrRightGrab()
     DistanceCheck = ((PLY:pos()+vrRightHandPos()):distance(entity():pos())<20)
     Active = DistanceCheck & RightGrabCheck
-    FireButton = vrPrimaryFire()
-    ReloadButton = vrLeftGrab()
-    SwitchModeButton = vrSecondaryFire()
+    if(Active){
+        FireButton = vrPrimaryFire()
+        ReloadButton = vrLeftGrab()
+        SwitchModeButton = vrSecondaryFire()
+    }else{
+        FireButton = 0
+        ReloadButton = 0
+        SwitchModeButton = 0
+    }
 }
 if((changed(SwitchModeButton)&SwitchModeButton)){
     Mode=!Mode
-    holoEntity(1):soundPlay("modeswitch",0,"buttons/button15.wav")
+    PLY:soundPlay("modeswitch",0,"buttons/button15.wav")
 }
 if((changed(FireButton)&FireButton)&Ready){
     timer("fire",100)
@@ -799,10 +809,16 @@ if((changed(FireButton)&FireButton)&Ready){
 if(clk("ready")){
     Ready = 1
 }
-if(clk("fire")){
-    if(Charge>0){
-        timer("firingsound",100)
+if(changed(Mode)){
+    if(Mode==0){
+        hint("Mode changed to: Stun",3)
+    }elseif(Mode==1){
+        hint("Mode changed to: Kill",3)
+    }elseif(Mode==-1){
+        hint("Mode changed to: Disintegrate",3)
     }
+}
+if(clk("fire")){
     Ready = 0
     timer("ready",250)
     timer("powerdown",10)
@@ -821,9 +837,26 @@ if(clk("fire")){
     }elseif(Mode==-1){
         Ent:plySpawn()
     }
+    if(Charge>0){
+        timer("firingsound",100)
+        Prop = propSpawn("models/sprops/geometry/sphere_9.mdl",ang(),0)
+        Prop:setAng((entity():angles()*VR)+(PLY:eyeAngles()*!VR))
+        Prop:setPos(holoEntity(26):pos()+holoEntity(26):up()*5)
+        Prop:setMass(100*(0.1+(0.9*(Mode==1))))
+        Prop:setMaterial("models/debug/debugwhite")
+        Prop:setColor(vec(255,0,0))
+        Prop:propGravity(0)
+        Prop:propSetVelocity((((holoEntity(26):up()*VR)+(PLY:eye()*!VR)*30)*Prop:mass()*(1+(9*(Mode==0)))))
+        Array:pushEntity(Prop)
+    }
+}
+foreach(I,E:entity=Array){
+    if((curtime()-E:creationTime())>3){
+        E:propDelete()
+    }
 }
 if(clk("firingsound")){
-    holoEntity(1):soundPlay("fire",0,"weapons/physcannon/energy_disintegrate4.wav")
+    PLY:soundPlay("fire",0,"weapons/physcannon/energy_disintegrate4.wav")
 }
 if(clk("powerdown")){
     Charge-=100/8
@@ -851,12 +884,12 @@ if(Reloading==0){
 }
 if(clk("reloadbuttonreset")){
     Button = 0
-    holoEntity(1):soundPlay("reloadbutton",0,"buttons/button15.wav")
+    PLY:soundPlay("reloadbutton",0,"buttons/button15.wav")
 }
 if(clk("open")){
     timer("empty",250)
     Open = 1
-    holoEntity(1):soundPlay("reload",0,"npc/turret_floor/retract.wav")
+    PLY:soundPlay("reload",0,"npc/turret_floor/retract.wav")
 }
 if(clk("empty")){
     timer("full",1000)
@@ -886,6 +919,13 @@ if(Full){
 }else{
     holoMaterial(5,"models/debug/debugwhite")
 }
+
+if(!Active){
+    entity():applyForce(-entity():vel()*0.8)
+    entity():applyAngForce(-entity():angVel()*0.1)
+}
+
+holoAng(38,holoEntity(1):toWorld(ang(-10*!Mode,0,0)))
 
 holoColor(43,Col_Indicator2*(Charge>0))
 holoColor(44,Col_Indicator3*(Charge>0))
