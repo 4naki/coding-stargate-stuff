@@ -1,7 +1,7 @@
 @name Particle magnum
 @model models/weapons/w_357.mdl
 @persist PLY:entity VR Ready Fire Charge
-@persist [Col_Indicator1 Col_Indicator2 Col_Indicator3 Col_Indicator4 Col_PowerCell_Tip]:vector [Mat_Indicator4 Mat_Indicators1 Mat_PowerCell_Tip]:string Weapon:entity Model Val
+@persist [Col_Indicator1 Col_Indicator2 Col_Indicator3 Col_Indicator4 Col_PowerCell_Tip]:vector [Mat_Indicator4 Mat_Indicators1 Mat_PowerCell_Tip]:string Weapon:entity Model Val Full
 @persist Button Open Empty Mode Reloading Active Array:array
 @trigger none
 
