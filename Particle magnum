@@ -1,10 +1,10 @@
 @name Particle magnum
 @model models/props_c17/TrapPropeller_Lever.mdl
 @persist PLY:entity VR Ready Fire Charge
-@persist [Col_Indicator1 Col_Indicator2 Col_Indicator3 Col_Indicator4 Col_PowerCell_Tip]:vector [Mat_Indicator4 Mat_Indicators1 Mat_PowerCell_Tip]:string
+@persist [Col_Indicator1 Col_Indicator2 Col_Indicator3 Col_Indicator4 Col_PowerCell_Tip]:vector [Mat_Indicator4 Mat_Indicators1 Mat_PowerCell_Tip]:string Weapon:entity Model
 @outputs PLY:entity VR Ready Fire Charge Button Open Mode Full ReloadButton
 
-@persist Button Open Empty Mode Reloading
+@persist Button Open Empty Mode Reloading Active
 
 interval(100)
 runOnKeys(owner(),1)
@@ -727,96 +727,171 @@ if(first()){
     Charge = 100
     Ready = 1
     Full = 1
-    
 }elseif(dupefinished()){
     reset()
 }elseif(changed(vrPlayerInVR(PLY))){
     VR = vrPlayerInVR(PLY)
-}else{
-    if(VR){
-        FireButton = vrPrimaryFire()
-        ReloadButton = vrLeftGrab()
-    }else{
-        FireButton = PLY:keyAttack1()
-        ReloadButton = PLY:keyReload()
-    }
-    if((changed(FireButton)&FireButton)&Ready){
-        timer("fire",100)
-    }
-    if(clk("ready")){
-        Ready = 1
-    }
-    if(clk("fire")){
-        Ready = 0
-        timer("ready",250)
-        timer("powerdown",10)
-    }
-    if(clk("powerdown")){
-        Charge-=100/8
-    }
-    if(Charge<0){
-        Charge = 0
-    }
-    if(Reloading==0){
-        if(Charge<100){
-            if(Charge==0){
-                if(clk("fire")){
-                    timer("reloadbuttonreset",500)
-                    timer("open",100)
-                    Button = 1
-                    Reloading = 1
-                }
+}
+
+if(changed(Active)){
+    if(Active){
+        if(!VR){
+            Weapon = owner():weapon()
+            Weapon:setAlpha(0)
+            owner():plySetAng(ang(0,0,0))
+            holoPos(1,owner():attachmentPos("anim_attachment_RH")+vec(7.65,0.75,5.25))
+            holoAng(1,owner():attachmentAng("anim_attachment_RH")+ang(3,90,82))
+            holoParentAttachment(1,owner(),"anim_attachment_RH")
+        }else{
+            if(Model==1){
+                holoPos(1,entity():toWorld(vec(9,0.25,2.25)))
+                holoAng(1,entity():toWorld(ang(-0.5,90.1,84.8)))
+            }elseif(Model==2){
+                holoPos(1,entity():toWorld(vec(0,-2,0)))
+                holoAng(1,entity():toWorld(ang(0,0,90)))
+            }else{
+                holoPos(1,entity():toWorld(vec(0,0,0)))
+                holoAng(1,entity():toWorld(ang(0,0,0)))
             }
-            if(changed(ReloadButton)&ReloadButton){
-                timer("reloadbuttonreset",100)
+            holoParent(1,entity())
+        }
+    }else{
+        if(!VR){
+            Weapon:setAlpha(255)
+            if(Model==1){
+                holoPos(1,entity():toWorld(vec(9,0.25,2.25)))
+                holoAng(1,entity():toWorld(ang(-0.5,90.1,84.8)))
+            }elseif(Model==2){
+                holoPos(1,entity():toWorld(vec(0,-2,0)))
+                holoAng(1,entity():toWorld(ang(0,0,90)))
+            }else{
+                holoPos(1,entity():toWorld(vec(0,0,0)))
+                holoAng(1,entity():toWorld(ang(0,0,0)))
+            }
+            holoParent(1,entity())
+        }
+    }
+}
+if(!VR){
+    if(PLY:weapon():type()=="weapon_357"){
+        Active = 1
+        FireButton = PLY:keyAttack2()
+        ReloadButton = PLY:keyReload()
+        SwitchModeButton = PLY:keyPressed("f")
+    }else{
+        Active = 0
+    }
+}else{
+    RightGrabCheck = vrPrimaryFire()
+    DistanceCheck = ((PLY:pos()+vrRightHandPos()):distance(entity():pos())<20)
+    Active = DistanceCheck & RightGrabCheck
+    FireButton = vrPrimaryFire()
+    ReloadButton = vrLeftGrab()
+    SwitchModeButton = vrSecondaryFire()
+}
+if((changed(SwitchModeButton)&SwitchModeButton)){
+    Mode=!Mode
+    holoEntity(1):soundPlay("modeswitch",0,"buttons/button15.wav")
+}
+if((changed(FireButton)&FireButton)&Ready){
+    timer("fire",100)
+}
+if(clk("ready")){
+    Ready = 1
+}
+if(clk("fire")){
+    if(Charge>0){
+        timer("firingsound",100)
+    }
+    Ready = 0
+    timer("ready",250)
+    timer("powerdown",10)
+    if(VR){
+        rangerFilter(array(entity(),PLY))
+        Ranger = rangerOffset(9999,holoEntity(26):pos(),holoEntity(26):up())
+        Ent = Ranger:entity()
+    }else{
+        Ent = owner():aimEntity()
+    }
+    if(Mode==0){
+        Ent:plySetHealth(Ent:health()/2)
+    }elseif(Mode==1){
+        Ent:plyIgnite()
+        Ent:plySetHealth(0)
+    }elseif(Mode==-1){
+        Ent:plySpawn()
+    }
+}
+if(clk("firingsound")){
+    holoEntity(1):soundPlay("fire",0,"weapons/physcannon/energy_disintegrate4.wav")
+}
+if(clk("powerdown")){
+    Charge-=100/8
+}
+if(Charge<0){
+    Charge = 0
+}
+if(Reloading==0){
+    if(Charge<100){
+        if(Charge==0){
+            if(clk("fire")){
+                timer("reloadbuttonreset",500)
                 timer("open",100)
                 Button = 1
                 Reloading = 1
             }
         }
+        if(changed(ReloadButton)&ReloadButton){
+            timer("reloadbuttonreset",100)
+            timer("open",100)
+            Button = 1
+            Reloading = 1
+        }
     }
-    if(clk("reloadbuttonreset")){
-        Button = 0
-    }
-    if(clk("open")){
-        timer("empty",250)
-        Open = 1
-    }
-    if(clk("empty")){
-        timer("full",1000)
-        Empty = 1
-    }
-    if(clk("full")){
-        timer("close",250)
-        Empty = 0
-        Full = 1
-    }
-    if(clk("close")){
-        Charge = 100
-        Open = 0
-        Reloading = 0
-    }
-    holoPos(4,holoEntity(3):toWorld(vec(0,0,-0.1-5*Empty)))
-    holoAng(2,holoEntity(1):toWorld(ang(-21*Open,0,0)))
-    holoAng(50,holoEntity(1):toWorld(ang(0,-10*Button,90)))
-    
-    if(changed(Charge)&Charge==0){
-        Full = 0
-    }
-    
-    holoColor(5,Col_PowerCell_Tip*Full)
-    if(Full){
-        holoMaterial(5,Mat_PowerCell_Tip)
-    }else{
-        holoMaterial(5,"models/debug/debugwhite")
-    }
-    
-    holoColor(43,Col_Indicator2*(Charge>0))
-    holoColor(44,Col_Indicator3*(Charge>0))
-    holoColor(45,Col_Indicator1*(Charge>0))
-    
-    holoColor(46,Col_Indicator4*((0.5*(Charge>=((100/8)*1)))+(0.5*(Charge>=((100/8)*2)))))
-    holoColor(47,Col_Indicator4*((0.5*(Charge>=((100/8)*3)))+(0.5*(Charge>=((100/8)*4)))))
-    holoColor(48,Col_Indicator4*((0.5*(Charge>=((100/8)*5)))+(0.5*(Charge>=((100/8)*6)))))
-    holoColor(49,Col_Indicator4*((0.5*(Charge>=((100/8)*7)))+(0.5*(Charge>=((100/8)*8)))))
 }
+if(clk("reloadbuttonreset")){
+    Button = 0
+    holoEntity(1):soundPlay("reloadbutton",0,"buttons/button15.wav")
+}
+if(clk("open")){
+    timer("empty",250)
+    Open = 1
+    holoEntity(1):soundPlay("reload",0,"npc/turret_floor/retract.wav")
+}
+if(clk("empty")){
+    timer("full",1000)
+    Empty = 1
+}
+if(clk("full")){
+    timer("close",250)
+    Empty = 0
+    Full = 1
+}
+if(clk("close")){
+    Charge = 100
+    Open = 0
+    Reloading = 0
+}
+holoPos(4,holoEntity(3):toWorld(vec(0,0,-0.1-5*Empty)))
+holoAng(2,holoEntity(1):toWorld(ang(-21*Open,0,0)))
+holoAng(50,holoEntity(1):toWorld(ang(0,-10*Button,90)))
+
+if(changed(Charge)&Charge==0){
+    Full = 0
+}
+
+holoColor(5,(Col_PowerCell_Tip*Full)+(vec(220,227,215)*!Full))
+if(Full){
+    holoMaterial(5,Mat_PowerCell_Tip)
+}else{
+    holoMaterial(5,"models/debug/debugwhite")
+}
+
+holoColor(43,Col_Indicator2*(Charge>0))
+holoColor(44,Col_Indicator3*(Charge>0))
+holoColor(45,Col_Indicator1*(Charge>0))
+
+holoColor(46,Col_Indicator4*((0.5*(Charge>=((100/8)*1)))+(0.5*(Charge>=((100/8)*2)))))
+holoColor(47,Col_Indicator4*((0.5*(Charge>=((100/8)*3)))+(0.5*(Charge>=((100/8)*4)))))
+holoColor(48,Col_Indicator4*((0.5*(Charge>=((100/8)*5)))+(0.5*(Charge>=((100/8)*6)))))
+holoColor(49,Col_Indicator4*((0.5*(Charge>=((100/8)*7)))+(0.5*(Charge>=((100/8)*8)))))
