@@ -721,7 +721,7 @@ if(first()){
     holoColor(I,Col_Base)
     holoParent(I,E)
     
-    PLY = findPlayerByName("bobert")
+    PLY = findPlayerByName(owner():name())
     
     Charge = 100
     Ready = 1
@@ -738,12 +738,12 @@ if(first()){
 if(changed(Active)){
     if(Active){
         if(!VR){
-            Weapon = owner():weapon()
+            Weapon = PLY:weapon()
             Weapon:setAlpha(0)
             PLY:plySetAng(ang(0,0,0))
-            holoPos(1,owner():attachmentPos("anim_attachment_RH")+vec(7.65,0.75,5.25))
-            holoAng(1,owner():attachmentAng("anim_attachment_RH")+ang(3,90,82))
-            holoParentAttachment(1,owner(),"anim_attachment_RH")
+            holoPos(1,PLY:attachmentPos("anim_attachment_RH")+vec(7.65,0.75,5.25))
+            holoAng(1,PLY:attachmentAng("anim_attachment_RH")+ang(3,90,82))
+            holoParentAttachment(1,PLY,"anim_attachment_RH")
         }else{
             if(Model==1){
                 holoPos(1,entity():toWorld(vec(9,0.25,2.25)))
@@ -825,7 +825,7 @@ if(clk("fire")){
         Ranger = rangerOffset(9999,holoEntity(26):pos(),holoEntity(26):up())
         Ent = Ranger:entity()
     }else{
-        Ent = owner():aimEntity()
+        Ent = PLY:aimEntity()
     }
     if(Mode==0){
         Ent:plySetHealth(Ent:health()/2)
