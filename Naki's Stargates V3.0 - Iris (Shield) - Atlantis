@@ -1,4 +1,4 @@
-@name Naki's Stargates V2.0 - Iris - Atlantis
+@name Naki's Stargates V3.0 - Iris - Atlantis
 @inputs IrisToggle
 @outputs Iris
 @persist Gate:entity Iris
