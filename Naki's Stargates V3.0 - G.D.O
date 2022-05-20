@@ -1,4 +1,4 @@
-@name Naki's Stargates V2.0 - G.D.O
+@name Naki's Stargates V3.0 - G.D.O
 runOnChat(1)
 
 if(first()){
