@@ -1,7 +1,7 @@
-@name Naki's Stargates V2.0 - Stargate - Atlantis
-@inputs TextEntry:string DialButton Iris
-@persist IrisBlock Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial Chevron_Locked ChevsActive ErrorCode Closing V V2 Size Glyphs [Chev OpenAudio CloseAudio Fail]:webaudio
-@outputs Address:string WritingData:string Horizon Open Chevron_Locked ChevsActive ErrorCode Closing Glyphs R G B IrisBlock Iris
+@name Naki's Stargates V3.0 - Stargate - Atlantis
+@inputs TextEntry:string DialButton
+@persist CanOpen Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial Chevron_Locked ChevsActive ErrorCode Closing V V2 Size Glyphs [Chev OpenAudio CloseAudio Fail]:webaudio
+@outputs Address:string WritingData:string Horizon Open Chevron_Locked ChevsActive ErrorCode Closing Glyphs R G B
 
 @persist Chev1 Chev2 Chev3 Chev4 Chev5 Chev6 Chev7 Chev8 Chev9 AllChev
 @outputs Chev1 Chev2 Chev3 Chev4 Chev5 Chev6 Chev7 Chev8 Chev9 AllChev
@@ -291,7 +291,7 @@ if(first()){
         local I = 71
         local E = entity()
         local P = entity()
-        #holoCreate(I)
+        holoCreate(I)
         holoPos(I,E:toWorld(vec(0,0,0)))
         holoAng(I,E:toWorld(ang(0,0,90)))
         holoScale(I,vec(3.5,3.5,0)*Size)
@@ -303,20 +303,6 @@ if(first()){
         holoAlpha(I,254)
         
         holoEntity(I):setRenderMode(9)
-        
-        local I = 5000
-        local E = entity()
-        local P = entity()
-        holoCreate(I)
-        holoPos(I,E:toWorld(vec(0,0,0)))
-        holoAng(I,E:toWorld(ang(0,0,0)))
-        holoScale(I,vec(2.2,0.0,2.2)*Size)
-        holoModel(I,"models/sprops/geometry/fdisc_84.mdl")
-        holoMaterial(I,"models/props/de_tides/clouds")#models/spawn_effect
-        holoColor(I,((vec(175,200,255)*0.5)+(vec(255)*0.55))*1)
-        holoParent(I,P)
-        holoDisableShading(I,1)
-        holoAlpha(I,254)
         #(0 = Normal, 1 = TransColor, 2 = TransTexture, 3 = Glow, 4 = TransAlpha, 5 = TransAdd, 6 = Enviromental, 7 = TransAddFrameBlend, 8 = TransAlphaAdd, 9 = WorldGlow, 10 = None)
         
     }
@@ -399,26 +385,16 @@ if(first()){
     G = 255*Horizon
     B = 255*Horizon
     if(Horizon){
-        if(changed(Iris)){
-            dsSend(WritingData+"_iris_get","stargate-naki",Iris:toString())
-        }
-        if(!Iris){
-            findInSphere(entity():toWorld(vec(0,-180*(Val/100),0)),50+(25*(Val/100)))
-            Array = findToArray()
-            
-            foreach(I,E:entity=Array){
-                if(!IrisBlock){
-                    if(Val==0){
-                        E:plySetPos(TargetEnt:toWorld(vec(0,-90,(E:pos()-entity():pos()):z())))
-                        E:plySetAng(ang(TargetEnt:angles():pitch(),TargetEnt:angles():yaw()+270,0))
-                    }else{
-                        E:plyIgnite()
-                        E:plySetHealth(0)
-                    }
-                }else{
-                    E:plyIgnite()
-                    E:plySetHealth(0)
-                }
+        findInSphere(entity():toWorld(vec(0,-180*(Val/100),0)),50+(25*(Val/100)))
+        Array = findToArray()
+        
+        foreach(I,E:entity=Array){
+            if(Val==0){
+                E:plySetPos(TargetEnt:toWorld(vec(0,-90,(E:pos()-entity():pos()):z())))
+                E:plySetAng(ang(TargetEnt:angles():pitch(),TargetEnt:angles():yaw()+270,0))
+            }else{
+                E:plyIgnite()
+                E:plySetHealth(0)
             }
         }
     }
@@ -440,6 +416,7 @@ if(first()){
     if(clk("close")){
         dsSend(WritingData+"_close","stargate-naki",WritingData)
         Open = 0
+        CanOpen = 0
         WritingData = ""
         Glyphs = 0
         TargetEnt=noentity()
@@ -447,11 +424,13 @@ if(first()){
     if(changed(Dial)){
         if(!Dial){
             Open = 0
+            CanOpen = 0
             dsSend(WritingData+"_close","stargate-naki",WritingData)
             TargetEnt=noentity()
         }else{
-            Open = 1
-            dsSend(WritingData+"_address_get","stargate-naki",WritingData+" "+Address)
+            dsSend(WritingData+"_check","stargate-naki",Address)
+            timer("check_open",100)
+            #dsSend(WritingData+"_address_get","stargate-naki",WritingData+" "+Address)
         }
     }
     if(changed(DialButton)&DialButton){
@@ -484,6 +463,15 @@ if(first()){
     if(Open*(WritingData==Address)){
         ErrorCode = 1
     }
+    if(clk("check_open")){
+        if(CanOpen==0){
+            WritingData = ""
+            Glyphs = 0
+            Dial = 0
+            timer("stoperror",2000)
+            timer("errorsound",100)
+        }
+    }
     if(changed(ErrorCode)&ErrorCode){
         WritingData = ""
         Glyphs = 0
@@ -502,7 +490,7 @@ if(first()){
         if(webAudiosLeft()>0&webAudioCanCreate()){
             Fail = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/atlantis/fail.mp3")
             Fail:setPos(entity():pos())
-            Fail:setRadius(2000)
+            Fail:setRadius(5000)
             Fail:parentTo(entity())
             Fail:play()
         }
@@ -682,10 +670,9 @@ if(first()){
         }
         holoScale(69,vec(2.2,0.1,2.2)*Size)
         holoScale(9999,vec(2.2,0.05,2.2)*Size)
-        holoScale(5000,vec(2.2,0.0,2.2)*Size)
         if(Val>0){
-            holoScale(70,vec(0.9-(0.5*(Val/100)),0.9-(0.5*(Val/100)),0.5*(Val/100)*!Iris)*Size)
-            holoScale(71,vec(3-(1.5*(Val/100)),3-(1.5*(Val/100)),2.5*(Val/100)*!Iris)*Size)
+            holoScale(70,vec(0.9-(0.5*(Val/100)),0.9-(0.5*(Val/100)),0.5*(Val/100))*Size)
+            holoScale(71,vec(3-(1.5*(Val/100)),3-(1.5*(Val/100)),2.5*(Val/100))*Size)
         }else{
             holoScale(70,vec(0))
             holoScale(71,vec(0))
@@ -703,21 +690,20 @@ if(first()){
         Close = 0
         Open = 0
         holoScale(69,vec(0))
-        holoScale(5000,vec(0))
         holoScale(9999,vec(0))
         holoScale(70,vec(0))
         holoScale(71,vec(0))
     }
     if(dsClk()){
-        if(dsClkName()==Address+"_iris_get"){
-            IrisBlock=dsGetString():explode(" ")[1,string]:toNumber()
-        }
         if(dsClkName()==Address+"_address_get"){
             if(dsGetString():explode(" ")[1,string]==Address){
                 WritingData = dsGetString():explode(" ")[2,string]
                 timer("autoopen",500)
                 Dial = 1
             }
+        }
+        if(dsClkName()==Address+"_check"){
+            dsSend(dsGetString()+"_exists","stargate-naki",entity())
         }
         if(dsClkName()==Address+"_entity_send"){
             TargetEnt = dsGetEntity()
@@ -728,6 +714,10 @@ if(first()){
                 TargetEnt=noentity()
                 Dial = 0
             }
+        }
+        if(dsClkName()==Address+"_exists"){
+            CanOpen = 1
+            dsSend(WritingData+"_address_get","stargate-naki",WritingData+" "+Address)
         }
     }
 }elseif(last()){
