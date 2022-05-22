@@ -467,6 +467,8 @@ if(first()){
                     Chev:setRadius(2000)
                     Chev:parentTo(entity())
                     Chev:play()
+                }else{
+                    entity():soundPlay("fail",0,ChevronSound)
                 }
             }
         }
@@ -511,6 +513,8 @@ if(first()){
             Fail:setRadius(5000)
             Fail:parentTo(entity())
             Fail:play()
+        }else{
+            entity():soundPlay("fail",0,DialErrorSound)
         }
     }
     holoColor(51,(Chev_Color_On*Chev1)+(Chev_Color_Off*!Chev1))
@@ -619,6 +623,8 @@ if(first()){
                 OpenAudio:setRadius(2000)
                 OpenAudio:parentTo(entity())
                 OpenAudio:play()
+            }else{
+                entity():soundPlay("fail",0,HorizonOpenSound)
             }
         }else{
             #entity():soundPlay("horizon",0,HorizonCloseSound)
@@ -638,6 +644,8 @@ if(first()){
                 CloseAudio:setRadius(2000)
                 CloseAudio:parentTo(entity())
                 CloseAudio:play()
+            }else{
+                entity():soundPlay("fail",0,HorizonCloseSound)
             }
         }
         if(AllChev&!Open){
@@ -730,8 +738,8 @@ if(first()){
                 RollA:setRadius(2000)
                 RollA:parentTo(entity())
                 RollA:play()
-                soundVolume(1,1)
             }
+            soundVolume(1,1)
         }
     }
     if(clk("move7")){
