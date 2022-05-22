@@ -548,10 +548,10 @@ if(first()){
     holoDisableShading(65,Chev6)
     holoDisableShading(66,Chev6)
     
-    holoColor(67,(Chev_Color_On*Chev7)+(Chev_Color_Off*!Chev7))
-    holoColor(68,(Chev_Color_On*Chev7)+(Chev_Color_Off*!Chev7))
-    holoDisableShading(67,Chev7)
-    holoDisableShading(68,Chev7)
+    holoColor(67,(Chev_Color_On*(Chev7|Lock2))+(Chev_Color_Off*!(Chev7|Lock2)))
+    holoColor(68,(Chev_Color_On*(Chev7|Lock2))+(Chev_Color_Off*!(Chev7|Lock2)))
+    holoDisableShading(67,Chev7|Lock2)
+    holoDisableShading(68,Chev7|Lock2)
     
     
     Chevron_Locked = Open
@@ -562,7 +562,7 @@ if(first()){
     Chev4 = WritingData:explode(""):count()>3
     Chev5 = WritingData:explode(""):count()>4
     Chev6 = WritingData:explode(""):count()>5
-    Chev7 = (WritingData:explode(""):count()>6)|Lock2
+    Chev7 = (WritingData:explode(""):count()>6)
     
     Chev8 = WritingData:explode(""):count()>7
     Chev9 = WritingData:explode(""):count()>8
@@ -720,7 +720,7 @@ if(first()){
         Lock=0
         Move=1
         RollA:destroy()
-        if(Move&WritingData:explode(""):count()!=7&WritingData:explode(""):count()!=9){
+        if(Move&WritingData:explode(""):count()<7){
             if(webAudiosLeft()>0&webAudioCanCreate()&WebAudio){
                 RollA = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/gate_roll.mp3")
                 RollA:setPos(entity():pos())
@@ -734,7 +734,7 @@ if(first()){
     if(clk("move7")){
         Lock2=0
     }
-    if(Roll&!Lock&WritingData:explode(""):count()!=7){
+    if(Roll&!Lock&WritingData:explode(""):count()<7){
         A+=(1-(Turn*2))
         Ang=(360/(36*3))*A
         if(Ang>=360){
@@ -766,8 +766,9 @@ if(first()){
         
         holoPos(47,entity():toWorld(vec(0,0,105.1+(0.5*Lock2))*Size))
     }
-    if(Open|WritingData:explode(""):count()==7|WritingData:explode(""):count()==9|ErrorCode){
+    if(Open|WritingData:explode(""):count()>=7|ErrorCode){
         Move=0
+        Roll=0
         soundVolume(1,0)
     }
     if(dsClk()){
