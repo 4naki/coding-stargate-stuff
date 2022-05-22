@@ -2,8 +2,8 @@
 @inputs WritingData:string Open ErrorCode EGP:wirelink
 @persist Data:string I
 
-@persist [OpenTime CloseTime Address Failed DataWrite OpenLength]:string List:array H M S Ready
-@outputs Data:string [OpenTime CloseTime Address Failed DataWrite OpenLength]:string List:array I H M S Ready
+@persist [OpenTime CloseTime Address Failed DataWrite OpenLength]:string List:array H2 M2 S2 S3 M3 H3 Ready Count
+@outputs Data:string [OpenTime CloseTime Address Failed DataWrite OpenLength]:string List:array I H3 M3 S3 Ready
 runOnLast(1)
 interval(100)
 if(first()){
@@ -21,40 +21,69 @@ if(clk("ready")){
 }
 if(changed(Open|(ErrorCode&!Open))){
     if(Open|(ErrorCode&!Open)){
+        S3=0
+        M3=0
+        H3=0
+        Count=1
         OpenTime = date()["hour",number]+":"+date()["min",number]+":"+date()["sec",number]
         if(WritingData){
             Address = WritingData
         }else{
             Address = "NONE"
         }
-        H = date()["hour",number]
-        M = date()["min",number]
-        S = date()["sec",number]
-        if(ErrorCode){
+        if(ErrorCode==1){
             Failed = "Failed"
         }else{
             Failed = "Success"
         }
     }else{
+        Count=0
         if(Failed == "Failed"){
             OpenLength = "-:-:-"
         }elseif(Failed == "Success"){
-            OpenLength = (date()["hour",number] - H):toString()+":"+(date()["min",number] - M):toString()+":"+(date()["sec",number] - S):toString()
+            S2=S3
+            M2=M3
+            H2=H3
+            OpenLength = H2:toString()+":"+M2:toString()+":"+S2:toString()
         }
         CloseTime = date()["hour",number]+":"+date()["min",number]+":"+date()["sec",number]
-        timer("add",100)
+        if(OpenLength:length()>0){
+            timer("add",100)
+        }
     }
 }
 if(clk("add")){
-    DataWrite = OpenTime+" | "+CloseTime+" | "+OpenLength+" | "+Address+" | "+Failed
-    List:pushString(DataWrite)
-    List = array()
-    I++
+    if(OpenLength:length()>0){
+        DataWrite = OpenTime+" | "+CloseTime+" | "+OpenLength+" | "+Address+" | "+Failed
+        List:pushString(DataWrite)
+        List = array()
+        I++
+    }
 }
 if(changed(I)&I){
     if(I>0){
         if(Ready){
             EGP:egpText(I+100,DataWrite,vec2(0,15*I))
         }
+    }
+}
+if(Count){
+    timer("adds",1000)
+    timer("addm",1000*60)
+    timer("addh",(1000*60)*60)
+    if(clk("adds")){
+        S3++
+    }
+    if(clk("addm")){
+        M3++
+    }
+    if(clk("addh")){
+        H3++
+    }
+    if(S3>=60){
+        S3=0
+    }
+    if(M3>=60){
+        M3=0
     }
 }
