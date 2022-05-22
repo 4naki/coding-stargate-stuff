@@ -1,4 +1,4 @@
-@name Naki's Stargates V3.0 - Stargate Log Computer
+@name Naki's Stargates V4.0 - Stargate Log Computer
 @inputs WritingData:string Open ErrorCode EGP:wirelink
 @persist Data:string I
 
