@@ -51,10 +51,10 @@ if(first()){
     
     entity():setAlpha(0)
     
-    Address = "kqmvias"
+    Address = "topside"
     
     #Name of the gate
-    Name = "Atlantis"
+    Name = "Rooftop"
     
     ChevronSound = "buttons/button3.wav"
     HorizonOpenSound = "ambient/water/water_splash3.wav"
@@ -477,6 +477,7 @@ if(first()){
             WritingData = ""
             Glyphs = 0
             Dial = 0
+            ErrorCode = 1
             timer("stoperror",2000)
             timer("errorsound",100)
         }
