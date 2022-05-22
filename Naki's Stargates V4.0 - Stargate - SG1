@@ -1,6 +1,6 @@
 @name Naki's Stargates V3.0 - Stargate - SG1
 @inputs TextEntry:string DialButton Iris
-@persist Turn Lock A Roll IrisActiveSend:string IrisActive CanOpen Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial Chevron_Locked ChevsActive ErrorCode Closing V V2 Size Glyphs [RollA Chev OpenAudio CloseAudio Fail]:webaudio
+@persist Turn Lock2 Lock A Roll IrisActiveSend:string IrisActive CanOpen Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial Chevron_Locked ChevsActive ErrorCode Closing V V2 Size Glyphs [RollA Chev OpenAudio CloseAudio Fail]:webaudio
 @outputs Lock Address:string WritingData:string Horizon Open Chevron_Locked ChevsActive ErrorCode Closing Glyphs R G B
 
 @persist Chev1 Chev2 Chev3 Chev4 Chev5 Chev6 Chev7 Chev8 Chev9 AllChev
@@ -115,7 +115,7 @@ if(first()){
     
     Mat_Chevron = "models/debug/debugwhite"
     
-    Chev_Color_On = ((vec(255,180,0)*1)+(vec(255)*0.1))*1
+    Chev_Color_On = vec(255,125,0)
     Chev_Color_Off = ((vec(105,93,74)*0.7)+(vec(255)*0.35))*0.55
     
     Width = 0.8
@@ -564,7 +564,7 @@ if(first()){
     Chev4 = WritingData:explode(""):count()>3
     Chev5 = WritingData:explode(""):count()>4
     Chev6 = WritingData:explode(""):count()>5
-    Chev7 = WritingData:explode(""):count()>6
+    Chev7 = (WritingData:explode(""):count()>6)|Lock2
     
     Chev8 = WritingData:explode(""):count()>7
     Chev9 = WritingData:explode(""):count()>8
@@ -711,7 +711,9 @@ if(first()){
     if(changed(WritingData:length())&WritingData:length()){
         Lock=1
         Turn=!Turn
-        timer("unlock",2000)
+        Lock2=1
+        timer("unlock",1800)
+        timer("move7",1250)
     }
     if(clk("unlock")){
         Lock=0
@@ -723,6 +725,9 @@ if(first()){
             RollA:parentTo(entity())
             RollA:play()
         }
+    }
+    if(clk("move7")){
+        Lock2=0
     }
     if(Roll&!Lock&WritingData:explode(""):count()!=7){
         A+=(1-(Turn*2))
@@ -736,6 +741,15 @@ if(first()){
             A=0
         }
         holoAng(1,entity():toWorld(ang(Ang,0,0)))
+    }
+    if(changed(Lock2)){
+        holoPos(45,entity():toWorld(vec(0,2-(0.3*Lock2),99-(2*Lock2))*Size))
+        holoPos(46,entity():toWorld(vec(0,-2+(0.3*Lock2),99-(2*Lock2))*Size))
+        
+        holoPos(67,entity():toWorld(vec(0,2+(0.1*Lock2),101+(1*Lock2))*Size))
+        holoPos(68,entity():toWorld(vec(0,-2-(0.1*Lock2),101+(1*Lock2))*Size))
+        
+        holoPos(47,entity():toWorld(vec(0,0,105.1+(0.5*Lock2))*Size))
     }
     if(dsClk()){
         if(dsClkName()==Address+"_address_get"){
