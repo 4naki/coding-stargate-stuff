@@ -54,7 +54,7 @@ if(first()){
     HorizonEnterSound = "player/footsteps/wade5.wav"
     HorizonExitSound = "player/footsteps/wade2.wav"
     
-    WebAudio = 0
+    WebAudio = 1
     
     setName(Name+": "+Address)
     
