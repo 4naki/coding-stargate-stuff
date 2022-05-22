@@ -1,4 +1,4 @@
-@name Naki's Stargates V3.0 - Stargate - Atlantis
+@name Naki's Stargates V4.0 - Stargate - Atlantis
 @inputs TextEntry:string DialButton Iris
 @persist IrisActiveSend:string IrisActive CanOpen Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial Chevron_Locked ChevsActive ErrorCode Closing V V2 Size Glyphs [Chev OpenAudio CloseAudio Fail]:webaudio
 @outputs Address:string WritingData:string Horizon Open Chevron_Locked ChevsActive ErrorCode Closing Glyphs R G B
@@ -713,7 +713,9 @@ if(first()){
             }
         }
         if(dsClkName()==Address+"_check"){
-            dsSend(dsGetString()+"_exists","stargate-naki",entity())
+            if(!Open){
+                dsSend(dsGetString()+"_exists","stargate-naki",entity())
+            }
         }
         if(dsClkName()==Address+"_entity_send"){
             TargetEnt = dsGetEntity()
