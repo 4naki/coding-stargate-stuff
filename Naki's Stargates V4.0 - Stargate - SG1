@@ -1,4 +1,4 @@
-@name Naki's Stargates V3.0 - Stargate - SG1
+@name Naki's Stargates V4.0 - Stargate - SG1
 @inputs TextEntry:string DialButton Iris
 @persist Turn Lock2 Lock A Roll IrisActiveSend:string IrisActive CanOpen Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial Chevron_Locked ChevsActive ErrorCode Closing V V2 Size Glyphs [RollA Chev OpenAudio CloseAudio Fail]:webaudio
 @outputs Lock Address:string WritingData:string Horizon Open Chevron_Locked ChevsActive ErrorCode Closing Glyphs R G B
