@@ -575,13 +575,6 @@ if(first()){
     
     Horizon = 1 * AllChev & Open & !Close
     
-    Glyph:setColor((Chev_Color_On*Horizon)+(Chev_Color_Off*!Horizon))
-    
-    if(Glyphs){
-        Glyph:setMaterial("lights/white005")
-    }else{
-        Glyph:setMaterial("models/debug/debugwhite")
-    }
     if(changed(Horizon)){
         timer("soundstop",5000)
         if(Horizon){
