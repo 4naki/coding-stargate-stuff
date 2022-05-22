@@ -1,4 +1,4 @@
-@name Naki's Stargates V3.0 - G.D.O Reader
+@name Naki's Stargates V4.0 - G.D.O Reader
 @persist [AddName AddCode Fill CodeTxt NameTxt DataTxt GetCode]:string I Ok List:array
 @outputs [DataTxt GetCode]:string Ok List:array
 @trigger none
