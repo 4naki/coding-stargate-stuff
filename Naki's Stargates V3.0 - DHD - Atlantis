@@ -1,4 +1,4 @@
-@name Naki's Stargates V3.0 - DHD - Atlantis
+@name Naki's Stargates V4.0 - DHD - Atlantis
 @inputs [TextEntry Button]:entity On WritingData:string
 @persist [OnColor OffColor]:vector
 @model models/sprops/rectangles/size_3/rect_24x42x3.mdl
