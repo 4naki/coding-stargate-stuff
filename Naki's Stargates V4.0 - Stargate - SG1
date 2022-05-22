@@ -22,15 +22,6 @@ interval(50)
 runOnLast(1)
 
 if(first()){
-    
-    #[
-    Test:destroy()
-    Test = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/close.mp3")
-    Test:setPos(entity():pos())
-    Test:setRadius(2000)
-    Test:parentTo(entity())
-    Test:play()
-    ]#
     if(RollA:isValid()){
         RollA:destroy()
     }
@@ -66,7 +57,7 @@ if(first()){
     HorizonEnterSound = "player/footsteps/wade5.wav"
     HorizonExitSound = "player/footsteps/wade2.wav"
     
-    WebAudio = 1
+    WebAudio = 0
     
     setName(Name+": "+Address)
     
@@ -459,7 +450,6 @@ if(first()){
         if(TextEntry:explode(""):count()==1){
             if(changed(TextEntry)&TextEntry!=""){
                 WritingData = WritingData+TextEntry
-                #entity():soundPlay("chevron",0,ChevronSound)
                 if(Chev:isValid()){
                     Chev:destroy()
                 }
@@ -470,7 +460,7 @@ if(first()){
                     Chev:parentTo(entity())
                     Chev:play()
                 }else{
-                    entity():soundPlay("fail",0,ChevronSound)
+                    entity():soundPlay("chevron",0,ChevronSound)
                 }
             }
         }
@@ -497,7 +487,6 @@ if(first()){
     if(changed(ErrorCode)&ErrorCode){
         WritingData = ""
         Glyphs = 0
-        #entity():soundPlay("dialerror",0,DialErrorSound)
         Dial = 0
         timer("stoperror",2000)
         timer("errorsound",100)
@@ -607,7 +596,6 @@ if(first()){
                     ErrorCode=1
                 }
             }
-            #entity():soundPlay("horizon",0,HorizonOpenSound)
             timer("autoclose",(1000*60)*38)
             timer("entsend",1000)
             if(Chev:isValid()){
@@ -626,10 +614,9 @@ if(first()){
                 OpenAudio:parentTo(entity())
                 OpenAudio:play()
             }else{
-                entity():soundPlay("fail",0,HorizonOpenSound)
+                entity():soundPlay("horizon",0,HorizonOpenSound)
             }
         }else{
-            #entity():soundPlay("horizon",0,HorizonCloseSound)
             TargetEnt=noentity()
             if(Chev:isValid()){
                 Chev:destroy()
@@ -647,7 +634,7 @@ if(first()){
                 CloseAudio:parentTo(entity())
                 CloseAudio:play()
             }else{
-                entity():soundPlay("fail",0,HorizonCloseSound)
+                entity():soundPlay("horizon",0,HorizonCloseSound)
             }
         }
         if(AllChev&!Open){
