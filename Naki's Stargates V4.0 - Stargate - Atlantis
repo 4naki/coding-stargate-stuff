@@ -1,6 +1,9 @@
 @name Naki's Stargates V4.0 - Stargate - Atlantis
 @inputs TextEntry:string DialButton Iris
-@persist WebAudio IrisActiveSend:string IrisActive CanOpen Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial Chevron_Locked ChevsActive ErrorCode Closing V V2 Size Glyphs [Chev OpenAudio CloseAudio Fail]:webaudio
+@persist WebAudio IrisActiveSend:string IrisActive CanOpen Val Switch Horizon Address:string Close WritingData:string TextEntry:string Open TargetEnt:entity Block Dial Chevron_Locked ChevsActive ErrorCode Closing V V2 Size Glyphs
+#ifdef webAudio(string)
+@persist [RollA Chev OpenAudio CloseAudio Fail]:webaudio
+#endif
 @outputs Address:string WritingData:string Horizon Open Chevron_Locked ChevsActive ErrorCode Closing Glyphs R G B
 
 @persist Chev1 Chev2 Chev3 Chev4 Chev5 Chev6 Chev7 Chev8 Chev9 AllChev
@@ -22,18 +25,31 @@ interval(50)
 runOnLast(1)
 
 if(first()){
-    if(Chev:isValid()){
-        Chev:destroy()
-    }
-    if(OpenAudio:isValid()){
-        OpenAudio:destroy()
-    }
-    if(CloseAudio:isValid()){
-        CloseAudio:destroy()
-    }
-    if(Fail:isValid()){
-        Fail:destroy()
-    }
+    
+    UseWebAudio = 1
+    
+    #ifdef webAudio(string)
+        if(RollA:isValid()){
+            RollA:destroy()
+        }
+        if(Chev:isValid()){
+            Chev:destroy()
+        }
+        if(OpenAudio:isValid()){
+            OpenAudio:destroy()
+        }
+        if(CloseAudio:isValid()){
+            CloseAudio:destroy()
+        }
+        if(Fail:isValid()){
+            Fail:destroy()
+        }
+        
+        WebAudio = UseWebAudio
+        
+    #else
+        WebAudio = 0
+    #endif
     #the e2 uses datasignal stuff to wirelessly link the gates, meaning 
     #all you need is the address and power to go between all gates that are in the same group
     #group name is here (below) don't recommend changing it, but you can if you really want to
@@ -442,11 +458,12 @@ if(first()){
         if(TextEntry:explode(""):count()==1){
             if(changed(TextEntry)&TextEntry!=""){
                 WritingData = WritingData+TextEntry
+                #ifdef webAudio(string)
                 if(Chev:isValid()){
                     Chev:destroy()
                 }
                 if(webAudiosLeft()>0&webAudioCanCreate()&WebAudio){
-                    Chev = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/atlantis/chevron.mp3")
+                    Chev = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/sgc_chevron.mp3")
                     Chev:setPos(entity():pos())
                     Chev:setRadius(2000)
                     Chev:parentTo(entity())
@@ -454,6 +471,9 @@ if(first()){
                 }else{
                     entity():soundPlay("chevron",0,ChevronSound)
                 }
+                #else
+                    entity():soundPlay("chevron",0,ChevronSound)
+                #endif
             }
         }
     }
@@ -487,11 +507,12 @@ if(first()){
         ErrorCode = 0
     }
     if(clk("errorsound")){
+        #ifdef webAudio(string)
         if(Fail:isValid()){
             Fail:destroy()
         }
         if(webAudiosLeft()>0&webAudioCanCreate()&WebAudio){
-            Fail = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/atlantis/fail.mp3")
+            Fail = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/sg1/fail.mp3")
             Fail:setPos(entity():pos())
             Fail:setRadius(5000)
             Fail:parentTo(entity())
@@ -499,6 +520,9 @@ if(first()){
         }else{
             entity():soundPlay("fail",0,DialErrorSound)
         }
+        #else
+            entity():soundPlay("fail",0,DialErrorSound)
+        #endif
     }
     holoColor(51,(Chev_Color_On*Chev1)+(Chev_Color_Off*!Chev1))
     holoColor(52,(Chev_Color_On*Chev1)+(Chev_Color_Off*!Chev1))
@@ -597,17 +621,18 @@ if(first()){
             }
             timer("autoclose",(1000*60)*38)
             timer("entsend",1000)
+            #ifdef webAudio(string)
             if(Chev:isValid()){
                 Chev:destroy()
             }
             if(OpenAudio:isValid()){
                 OpenAudio:destroy()
             }
-            if(OpenAudio:isValid()){
+            if(CloseAudio:isValid()){
                 CloseAudio:destroy()
             }
             if(webAudiosLeft()>0&webAudioCanCreate()&WebAudio){
-                OpenAudio = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/atlantis/open.mp3")
+                OpenAudio = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/sg1/open.mp3")
                 OpenAudio:setPos(entity():pos())
                 OpenAudio:setRadius(2000)
                 OpenAudio:parentTo(entity())
@@ -615,15 +640,19 @@ if(first()){
             }else{
                 entity():soundPlay("horizon",0,HorizonOpenSound)
             }
+            #else
+                entity():soundPlay("horizon",0,HorizonOpenSound)
+            #endif
         }else{
             TargetEnt=noentity()
+            #ifdef webAudio(string)
             if(Chev:isValid()){
                 Chev:destroy()
             }
             if(OpenAudio:isValid()){
                 OpenAudio:destroy()
             }
-            if(OpenAudio:isValid()){
+            if(CloseAudio:isValid()){
                 CloseAudio:destroy()
             }
             if(webAudiosLeft()>0&webAudioCanCreate()&WebAudio){
@@ -635,12 +664,16 @@ if(first()){
             }else{
                 entity():soundPlay("horizon",0,HorizonCloseSound)
             }
+            #else
+                entity():soundPlay("horizon",0,HorizonCloseSound)
+            #endif
         }
         if(AllChev&!Open){
             timer("close",1000)
         }
     }
     if(clk("soundstop")){
+        #ifdef webAudio(string)
         if(Chev:isValid()){
             Chev:destroy()
         }
@@ -653,6 +686,7 @@ if(first()){
         if(Fail:isValid()){
             Fail:destroy()
         }
+        #endif
     }
     
     if(Horizon){
@@ -739,6 +773,7 @@ if(first()){
     }
 }elseif(last()){
     dsLeaveGroup("stargate-naki")
+    #ifdef webAudio(string)
     if(Chev:isValid()){
         Chev:destroy()
     }
@@ -751,4 +786,8 @@ if(first()){
     if(Fail:isValid()){
         Fail:destroy()
     }
+    if(RollA:isValid()){
+        RollA:destroy()
+    }
+    #endif
 }
