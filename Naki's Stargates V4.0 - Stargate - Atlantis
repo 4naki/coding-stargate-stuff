@@ -463,7 +463,7 @@ if(first()){
                     Chev:destroy()
                 }
                 if(webAudiosLeft()>0&webAudioCanCreate()&WebAudio){
-                    Chev = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/sgc_chevron.mp3")
+                    Chev = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/chevron_atlantis.mp3")
                     Chev:setPos(entity():pos())
                     Chev:setRadius(2000)
                     Chev:parentTo(entity())
@@ -512,7 +512,7 @@ if(first()){
             Fail:destroy()
         }
         if(webAudiosLeft()>0&webAudioCanCreate()&WebAudio){
-            Fail = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/sg1/fail.mp3")
+            Fail = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/dial_fail_atlantis.mp3")
             Fail:setPos(entity():pos())
             Fail:setRadius(5000)
             Fail:parentTo(entity())
@@ -632,7 +632,7 @@ if(first()){
                 CloseAudio:destroy()
             }
             if(webAudiosLeft()>0&webAudioCanCreate()&WebAudio){
-                OpenAudio = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/sg1/open.mp3")
+                OpenAudio = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/gate_open_atlantis.mp3")
                 OpenAudio:setPos(entity():pos())
                 OpenAudio:setRadius(2000)
                 OpenAudio:parentTo(entity())
