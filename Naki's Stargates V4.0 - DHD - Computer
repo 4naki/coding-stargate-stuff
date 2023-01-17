@@ -1,0 +1,141 @@
+@name Naki's Stargates V4.0 - DHD - Computer
+@inputs On [TextEntry]:string Memory EGP:wirelink
+@persist LS1:array [Version Underscore WritingData2 WritingData4 WritingData3 Address WritingData]:string Check Underscore2 I Dial Clear
+@outputs LS1:array [WritingData Address WritingData2 WritingData4 WritingData3]:string I Dial Clear
+@trigger none
+interval(100)
+if(dupefinished()){reset()}
+if(first()){
+    EGP:egpClear()
+    
+    #include "glyph_repository"
+    #include "Naki's_Stargates_V4.0_-_Address_List"
+    
+    
+    Version = "1.1.0_Alpha"
+    
+    Reso=vec2(512)/2
+    
+    EGP:egpText(1,"Dialing Computer by Naki | Running version "+Version,vec2(-245,-250)+Reso)
+    EGP:egpLine(2,vec2(504/2,-230)+Reso,vec2(-504/2,-230)+Reso)
+    EGP:egpBoxOutline(3,Reso,vec2(506,506))
+    EGP:egpText(4,"typing test"+Underscore,vec2(-245,-230)+Reso)
+    
+    timer("underscore",100)
+    
+    WritingData2="Hello World!"
+    I=0
+    Dial=0
+}
+if(clk("underscore")){
+    Underscore2=!Underscore2
+    if(Underscore2){
+        Underscore=""
+    }else{
+        Underscore="_"
+    }
+    timer("underscore",700)
+}
+WritingData2=TextEntry
+if(!Check){
+    WritingData3=WritingData2
+}
+EGP:egpSetText(4,WritingData3+Underscore)
+
+if(changed(Memory)&Memory==13|changed(WritingData4)){
+    WritingData4=""
+    foreach(I,S:string=WritingData2:explode("")){
+        if(I<WritingData2:explode(""):count()){
+            WritingData4+=S
+        }
+    }
+    LS1=WritingData4:explode(" ")
+    if(LS1[1,string]=="dial"){
+        if(LS1[2,string]){
+            if(LS1[2,string]=="name"){
+                if(checkAddressFromList(LS1[3,string])!="UNKNOWN"){
+                    Address=checkAddressFromList(LS1[3,string])
+                    Fast=0
+                    I=0
+                    timer("dial",100)
+                    #print("dialing "+Address)
+                }else{
+                    I=0
+                    Dial=1
+                    timer("reset2",100)
+                }
+            }elseif(LS1[2,string]=="address"){
+                Address=LS1[3,string]
+                Fast=0
+                I=0
+                timer("dial",100)
+                #print("dialing "+Address)
+            }
+        }else{
+            I=0
+            Dial=1
+            timer("reset2",100)
+        }
+    }elseif(LS1[1,string]=="fastdial"){
+        if(LS1[2,string]){
+            Address=LS1[2,string]
+            Fast=1
+            I=0
+            timer("dial",100)
+            #print("fast dialing "+Address)
+        }
+    }elseif(LS1[1,string]=="stopdial"){
+        stoptimer("dial")
+        Address=""
+        Dial=1
+        timer("reset2",100)
+    }elseif(LS1[1,string]=="close"){
+        stoptimer("dial")
+        Address=""
+        Dial=1
+        timer("reset2",100)
+    }elseif(LS1[1,string]=="check"){
+        if(LS1[2,string]=="address"){
+            WritingData3="Address of the Name: "+LS1[3,string]+" is "+checkAddressFromList(LS1[3,string])
+        }elseif(LS1[2,string]=="name"){
+            WritingData3="Name of the Address: "+LS1[3,string]+" is "+checkNameFromList(LS1[3,string])
+        }
+        Check=1
+        Clear=1
+        timer("clear",5000)
+    }elseif(LS1[1,string]=="clear"){
+        timer("clear",250)
+    }
+    if(LS1[1,string]!="check"){
+        timer("clear",250)
+        Clear=1
+    }
+}
+
+if(clk("dial")){
+    if(I<Address:explode(""):count()){
+        I++
+        timer("dial",4500/(1+(Fast*2)))
+    }
+    WritingData=Address:explode("")[I,string]
+    timer("reset",(4500/(1+(Fast)))/2)
+}
+if(changed(I)&I==Address:explode(""):count()&Address!=""){
+    timer("dialGate",2000)
+}
+if(clk("dialGate")){
+    Dial=1
+    timer("reset2",100)
+}
+if(clk("reset")){
+    WritingData=""
+}
+if(clk("reset2")){
+    Dial=0
+    Address=""
+    I=0
+}
+if(clk("clear")){
+    Clear=0
+    Check=0
+}
