@@ -1,3 +1,13 @@
+https://steamcommunity.com/sharedfiles/filedetails/?id=2919235024
+
+required for the screen to show up correctly,
+
+includes all of the glyphs in white as well, for coloring ofc
+
+
+--- Code starts below
+
+
 @name SDC Screen Test
 @inputs Screen:wirelink DialAddress:string
 @inputs Horizon Chevron_Locked ErrorCode Closing
