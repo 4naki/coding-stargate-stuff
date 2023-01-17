@@ -1,0 +1,361 @@
+@name SDC Screen Test
+@inputs Screen:wirelink DialAddress:string
+@inputs Horizon Chevron_Locked ErrorCode Closing
+@inputs Chev1 Chev2 Chev3 Chev4 Chev5 Chev6 Chev7 Chev8 Chev9
+@persist ActiveChange OpenChange ChevronChange [OnColor OffColor]:vector Time1
+@outputs A
+@persist A Val Move MovePos:vector2 ID
+@trigger none
+if(dupefinished()){reset()}
+if(first()){
+    Screen:egpClear()
+    
+    #include "glyph_repository"
+    #include "Naki's_Stargates_V4.0_-_Address_List"
+    
+    Reso=vec2(512)
+    Screen:egpBox(1,Reso/2,Reso*(vec2(16,9)/((16+9)/2)))
+    Screen:egpMaterial(1,"models/naki/stargate/background-new")
+    
+    Screen:egpBox(2,Reso/2,Reso*(vec2(16,9)/((16+9)/2)))
+    Screen:egpMaterial(2,"models/naki/stargate/Chev 7 Blue-new")
+    
+    Screen:egpBox(3,Reso/2,Reso*(vec2(16,9)/((16+9)/2)))
+    Screen:egpMaterial(3,"models/naki/stargate/Chev 6 Blue-new")
+    
+    Screen:egpBox(4,Reso/2,Reso*(vec2(16,9)/((16+9)/2)))
+    Screen:egpMaterial(4,"models/naki/stargate/Chev 5 Blue-new")
+    
+    Screen:egpBox(5,Reso/2,Reso*(vec2(16,9)/((16+9)/2)))
+    Screen:egpMaterial(5,"models/naki/stargate/Chev 4 Blue-new")
+    
+    Screen:egpBox(6,Reso/2,Reso*(vec2(16,9)/((16+9)/2)))
+    Screen:egpMaterial(6,"models/naki/stargate/Chev 3 Blue-new")
+    
+    Screen:egpBox(7,Reso/2,Reso*(vec2(16,9)/((16+9)/2)))
+    Screen:egpMaterial(7,"models/naki/stargate/Chev 2 Blue-new")
+    
+    Screen:egpBox(8,Reso/2,Reso*(vec2(16,9)/((16+9)/2)))
+    Screen:egpMaterial(8,"models/naki/stargate/Chev 1 Blue-new")
+    
+    
+    
+    Screen:egpBox(9,Reso/2,Reso*(vec2(16,9)/((16+9)/2)))
+    Screen:egpMaterial(9,"models/naki/stargate/Red 7-new")
+    
+    Screen:egpBox(10,Reso/2,Reso*(vec2(16,9)/((16+9)/2)))
+    Screen:egpMaterial(10,"models/naki/stargate/Red 6-new")
+    
+    Screen:egpBox(11,Reso/2,Reso*(vec2(16,9)/((16+9)/2)))
+    Screen:egpMaterial(11,"models/naki/stargate/Red 5-new")
+    
+    Screen:egpBox(12,Reso/2,Reso*(vec2(16,9)/((16+9)/2)))
+    Screen:egpMaterial(12,"models/naki/stargate/Red 4-new")
+    
+    Screen:egpBox(13,Reso/2,Reso*(vec2(16,9)/((16+9)/2)))
+    Screen:egpMaterial(13,"models/naki/stargate/Red 3-new")
+    
+    Screen:egpBox(14,Reso/2,Reso*(vec2(16,9)/((16+9)/2)))
+    Screen:egpMaterial(14,"models/naki/stargate/Red 2-new")
+    
+    Screen:egpBox(15,Reso/2,Reso*(vec2(16,9)/((16+9)/2)))
+    Screen:egpMaterial(15,"models/naki/stargate/Red 1-new")
+    
+    
+    local GlyphPos=vec2(187+(Reso:x()/2),145)
+    local Size = 32
+    local Dist = 40
+    
+    Screen:egpBox(16,vec2(0,Dist*0)+GlyphPos,vec2(Size))
+    Screen:egpMaterial(16,glyph_return("a"))
+    
+    Screen:egpBox(17,vec2(0,Dist*1)+GlyphPos,vec2(Size))
+    Screen:egpMaterial(17,glyph_return("b"))
+    
+    Screen:egpBox(18,vec2(0,Dist*2)+GlyphPos,vec2(Size))
+    Screen:egpMaterial(18,glyph_return("c"))
+    
+    Screen:egpBox(19,vec2(0,Dist*3)+GlyphPos,vec2(Size))
+    Screen:egpMaterial(19,glyph_return("d"))
+    
+    Screen:egpBox(20,vec2(0,Dist*4)+GlyphPos,vec2(Size))
+    Screen:egpMaterial(20,glyph_return("e"))
+    
+    Screen:egpBox(21,vec2(0,Dist*5)+GlyphPos,vec2(Size))
+    Screen:egpMaterial(21,glyph_return("f"))
+    
+    Screen:egpBox(22,vec2(0,Dist*6)+GlyphPos,vec2(Size))
+    Screen:egpMaterial(22,glyph_return("g"))
+    
+    Screen:egpBox(23,vec2(254,247),vec2(200))
+    Screen:egpMaterial(23,glyph_return("a"))
+    
+    
+    Screen:egpText(24,"",vec2(405,90))
+    Screen:egpColor(24,vec(255))
+    Screen:egpSize(24,15)
+    Screen:egpAlign(24,1,1)
+}
+
+if(changed(DialAddress)){
+    if(DialAddress){
+        Destination=checkNameFromList(DialAddress)
+        Screen:egpSetText(24,Destination)
+        Screen:egpAlpha(24,255)
+    }
+}
+
+A=Chev1+Chev2+Chev3+Chev4+Chev5+Chev6+Chev7+Chev8+Chev9
+if(changed(A)){
+    if(A>0){
+        Screen:egpMaterial(23,glyph_return(DialAddress:explode("")[A,string]))
+        Screen:egpAlpha(23,255)
+        Move=1
+        Val=-60
+    }
+    
+    if(A==7){
+        Screen:egpMaterial(2,"models/naki/stargate/Chev 7 Red-new")
+        Screen:egpMaterial(9,"models/naki/stargate/OK 7-new")
+        Screen:egpMaterial(3,"models/naki/stargate/Chev 6 Red-new")
+        Screen:egpMaterial(10,"models/naki/stargate/OK 6-new")
+        Screen:egpMaterial(4,"models/naki/stargate/Chev 5 Red-new")
+        Screen:egpMaterial(11,"models/naki/stargate/OK 5-new")
+        Screen:egpMaterial(5,"models/naki/stargate/Chev 4 Red-new")
+        Screen:egpMaterial(12,"models/naki/stargate/OK 4-new")
+        Screen:egpMaterial(6,"models/naki/stargate/Chev 3 Red-new")
+        Screen:egpMaterial(13,"models/naki/stargate/OK 3-new")
+        Screen:egpMaterial(7,"models/naki/stargate/Chev 2 Red-new")
+        Screen:egpMaterial(14,"models/naki/stargate/OK 2-new")
+        Screen:egpMaterial(8,"models/naki/stargate/Chev 1 Red-new")
+        Screen:egpMaterial(15,"models/naki/stargate/OK 1-new")
+        
+        
+        Screen:egpMaterial(16,glyph_return(DialAddress:explode("")[1,string]))
+        Screen:egpAlpha(16,255)
+        Screen:egpMaterial(17,glyph_return(DialAddress:explode("")[2,string]))
+        Screen:egpAlpha(17,255)
+        Screen:egpMaterial(18,glyph_return(DialAddress:explode("")[3,string]))
+        Screen:egpAlpha(18,255)
+        Screen:egpMaterial(19,glyph_return(DialAddress:explode("")[4,string]))
+        Screen:egpAlpha(19,255)
+        Screen:egpMaterial(20,glyph_return(DialAddress:explode("")[5,string]))
+        Screen:egpAlpha(20,255)
+        Screen:egpMaterial(21,glyph_return(DialAddress:explode("")[6,string]))
+        Screen:egpAlpha(21,255)
+        Screen:egpMaterial(22,glyph_return(DialAddress:explode("")[7,string]))
+        Screen:egpAlpha(22,0)
+        
+        MovePos=vec2(187+(512/2),145+(40*6))
+        ID=22
+    }elseif(A==6){
+        Screen:egpMaterial(3,"models/naki/stargate/Chev 6 Red-new")
+        Screen:egpMaterial(10,"models/naki/stargate/OK 6-new")
+        Screen:egpMaterial(4,"models/naki/stargate/Chev 5 Red-new")
+        Screen:egpMaterial(11,"models/naki/stargate/OK 5-new")
+        Screen:egpMaterial(5,"models/naki/stargate/Chev 4 Red-new")
+        Screen:egpMaterial(12,"models/naki/stargate/OK 4-new")
+        Screen:egpMaterial(6,"models/naki/stargate/Chev 3 Red-new")
+        Screen:egpMaterial(13,"models/naki/stargate/OK 3-new")
+        Screen:egpMaterial(7,"models/naki/stargate/Chev 2 Red-new")
+        Screen:egpMaterial(14,"models/naki/stargate/OK 2-new")
+        Screen:egpMaterial(8,"models/naki/stargate/Chev 1 Red-new")
+        Screen:egpMaterial(15,"models/naki/stargate/OK 1-new")
+        
+        
+        Screen:egpMaterial(16,glyph_return(DialAddress:explode("")[1,string]))
+        Screen:egpAlpha(16,255)
+        Screen:egpMaterial(17,glyph_return(DialAddress:explode("")[2,string]))
+        Screen:egpAlpha(17,255)
+        Screen:egpMaterial(18,glyph_return(DialAddress:explode("")[3,string]))
+        Screen:egpAlpha(18,255)
+        Screen:egpMaterial(19,glyph_return(DialAddress:explode("")[4,string]))
+        Screen:egpAlpha(19,255)
+        Screen:egpMaterial(20,glyph_return(DialAddress:explode("")[5,string]))
+        Screen:egpAlpha(20,255)
+        Screen:egpMaterial(21,glyph_return(DialAddress:explode("")[6,string]))
+        Screen:egpAlpha(21,0)
+        
+        MovePos=vec2(187+(512/2),145+(40*5))
+        ID=21
+    }elseif(A==5){
+        Screen:egpMaterial(4,"models/naki/stargate/Chev 5 Red-new")
+        Screen:egpMaterial(11,"models/naki/stargate/OK 5-new")
+        Screen:egpMaterial(5,"models/naki/stargate/Chev 4 Red-new")
+        Screen:egpMaterial(12,"models/naki/stargate/OK 4-new")
+        Screen:egpMaterial(6,"models/naki/stargate/Chev 3 Red-new")
+        Screen:egpMaterial(13,"models/naki/stargate/OK 3-new")
+        Screen:egpMaterial(7,"models/naki/stargate/Chev 2 Red-new")
+        Screen:egpMaterial(14,"models/naki/stargate/OK 2-new")
+        Screen:egpMaterial(8,"models/naki/stargate/Chev 1 Red-new")
+        Screen:egpMaterial(15,"models/naki/stargate/OK 1-new")
+        
+        
+        Screen:egpMaterial(16,glyph_return(DialAddress:explode("")[1,string]))
+        Screen:egpAlpha(16,255)
+        Screen:egpMaterial(17,glyph_return(DialAddress:explode("")[2,string]))
+        Screen:egpAlpha(17,255)
+        Screen:egpMaterial(18,glyph_return(DialAddress:explode("")[3,string]))
+        Screen:egpAlpha(18,255)
+        Screen:egpMaterial(19,glyph_return(DialAddress:explode("")[4,string]))
+        Screen:egpAlpha(19,255)
+        Screen:egpMaterial(20,glyph_return(DialAddress:explode("")[5,string]))
+        Screen:egpAlpha(20,0)
+        
+        MovePos=vec2(187+(512/2),145+(40*4))
+        ID=20
+    }elseif(A==4){
+        Screen:egpMaterial(5,"models/naki/stargate/Chev 4 Red-new")
+        Screen:egpMaterial(12,"models/naki/stargate/OK 4-new")
+        Screen:egpMaterial(6,"models/naki/stargate/Chev 3 Red-new")
+        Screen:egpMaterial(13,"models/naki/stargate/OK 3-new")
+        Screen:egpMaterial(7,"models/naki/stargate/Chev 2 Red-new")
+        Screen:egpMaterial(14,"models/naki/stargate/OK 2-new")
+        Screen:egpMaterial(8,"models/naki/stargate/Chev 1 Red-new")
+        Screen:egpMaterial(15,"models/naki/stargate/OK 1-new")
+        
+        
+        Screen:egpMaterial(16,glyph_return(DialAddress:explode("")[1,string]))
+        Screen:egpAlpha(16,255)
+        Screen:egpMaterial(17,glyph_return(DialAddress:explode("")[2,string]))
+        Screen:egpAlpha(17,255)
+        Screen:egpMaterial(18,glyph_return(DialAddress:explode("")[3,string]))
+        Screen:egpAlpha(18,255)
+        Screen:egpMaterial(19,glyph_return(DialAddress:explode("")[4,string]))
+        Screen:egpAlpha(19,0)
+        
+        MovePos=vec2(187+(512/2),145+(40*3))
+        ID=19
+    }elseif(A==3){
+        Screen:egpMaterial(6,"models/naki/stargate/Chev 3 Red-new")
+        Screen:egpMaterial(13,"models/naki/stargate/OK 3-new")
+        Screen:egpMaterial(7,"models/naki/stargate/Chev 2 Red-new")
+        Screen:egpMaterial(14,"models/naki/stargate/OK 2-new")
+        Screen:egpMaterial(8,"models/naki/stargate/Chev 1 Red-new")
+        Screen:egpMaterial(15,"models/naki/stargate/OK 1-new")
+        
+        
+        Screen:egpMaterial(16,glyph_return(DialAddress:explode("")[1,string]))
+        Screen:egpAlpha(16,255)
+        Screen:egpMaterial(17,glyph_return(DialAddress:explode("")[2,string]))
+        Screen:egpAlpha(17,255)
+        Screen:egpMaterial(18,glyph_return(DialAddress:explode("")[3,string]))
+        Screen:egpAlpha(18,0)
+        
+        MovePos=vec2(187+(512/2),145+(40*2))
+        ID=18
+    }elseif(A==2){
+        Screen:egpMaterial(7,"models/naki/stargate/Chev 2 Red-new")
+        Screen:egpMaterial(14,"models/naki/stargate/OK 2-new")
+        Screen:egpMaterial(8,"models/naki/stargate/Chev 1 Red-new")
+        Screen:egpMaterial(15,"models/naki/stargate/OK 1-new")
+        
+        Screen:egpMaterial(16,glyph_return(DialAddress:explode("")[1,string]))
+        Screen:egpAlpha(16,255)
+        Screen:egpMaterial(17,glyph_return(DialAddress:explode("")[2,string]))
+        Screen:egpAlpha(17,0)
+        
+        MovePos=vec2(187+(512/2),145+(40*1))
+        ID=17
+    }elseif(A==1){
+        Screen:egpMaterial(8,"models/naki/stargate/Chev 1 Red-new")
+        Screen:egpMaterial(15,"models/naki/stargate/OK 1-new")
+        
+        Screen:egpMaterial(16,glyph_return(DialAddress:explode("")[1,string]))
+        Screen:egpAlpha(16,0)
+        
+        MovePos=vec2(187+(512/2),145+(40*0))
+        ID=16
+    }else{
+        Screen:egpMaterial(2,"models/naki/stargate/Chev 7 Blue-new")
+        Screen:egpMaterial(9,"models/naki/stargate/Red 7-new")
+        Screen:egpMaterial(3,"models/naki/stargate/Chev 6 Blue-new")
+        Screen:egpMaterial(10,"models/naki/stargate/Red 6-new")
+        Screen:egpMaterial(4,"models/naki/stargate/Chev 5 Blue-new")
+        Screen:egpMaterial(11,"models/naki/stargate/Red 5-new")
+        Screen:egpMaterial(5,"models/naki/stargate/Chev 4 Blue-new")
+        Screen:egpMaterial(12,"models/naki/stargate/Red 4-new")
+        Screen:egpMaterial(6,"models/naki/stargate/Chev 3 Blue-new")
+        Screen:egpMaterial(13,"models/naki/stargate/Red 3-new")
+        Screen:egpMaterial(7,"models/naki/stargate/Chev 2 Blue-new")
+        Screen:egpMaterial(14,"models/naki/stargate/Red 2-new")
+        Screen:egpMaterial(8,"models/naki/stargate/Chev 1 Blue-new")
+        Screen:egpMaterial(15,"models/naki/stargate/Red 1-new")
+        
+        Screen:egpAlpha(16,0)
+        Screen:egpAlpha(17,0)
+        Screen:egpAlpha(18,0)
+        Screen:egpAlpha(19,0)
+        Screen:egpAlpha(20,0)
+        Screen:egpAlpha(21,0)
+        Screen:egpAlpha(22,0)
+        Screen:egpAlpha(23,0)
+        Screen:egpAlpha(24,0)
+    }
+}
+if(clk("remove")){
+    Screen:egpAlpha(23,0)
+    Move=0
+}
+interval(250)
+if(Move){
+    if(Val<100){
+        Val+=100/4
+    }
+    Pos=mix(MovePos,vec2(254,247),clamp(Val/100,0,1))
+    Screen:egpPos(23,Pos)
+    Screen:egpSize(23,(vec2(200)*(1-clamp(Val/100,0,1)))+(32*clamp(Val/100,0,1)))
+}
+if(Val==100){
+    Move=0
+    Val=-60
+    Screen:egpAlpha(ID,255)
+    timer("remove",100)
+}
+Val=clamp(Val,-60,100)
+if(!ErrorCode){
+    if(Closing == 0){
+        if(Chev1 == 0){
+            Screen:egpText(81,"IDLE",vec2(220,375))
+            Screen:egpColor(81,vec(255))
+            Screen:egpSize(81,35)
+            
+            if (Time1 <= 2) {
+                Screen:egpCircle(134,vec2(254,247),vec2(15,15))
+                Screen:egpColor(134,vec(255,0,0))
+            
+                Time1 = Time1 + 1
+            }
+            elseif (Time1 <= 5) {
+                Screen:egpRemove(134)
+                Time1 = Time1 + 1
+            }
+            else {
+                Time1 = 0
+            }
+        }else{
+            Screen:egpRemove(134)
+        }
+        if(Horizon == 1){
+            Screen:egpText(81,"OPEN",vec2(214,375))
+            Screen:egpColor(81,vec(255))
+            Screen:egpSize(81,35)
+        }else{
+            if(Chev1 == 1){
+                Screen:egpText(81,"DIALING",vec2(190,375))
+                Screen:egpColor(81,vec(255))
+                Screen:egpSize(81,35)
+            }
+        }
+    }else{
+        #Closing
+        Screen:egpText(81,"CLOSING",vec2(190,375))
+        Screen:egpColor(81,vec(255))
+        Screen:egpSize(81,35)
+    }
+}else{
+    #Error
+    Screen:egpText(81,"ERROR",vec2(206,375))
+    Screen:egpColor(81,vec(255,0,0))
+    Screen:egpSize(81,35)
+}
