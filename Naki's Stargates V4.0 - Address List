@@ -1,60 +1,29 @@
 @name Naki's Stargates V4.0 - Address List
+@persist List:array Return:string
 
-#[
-
-Glyph List:
-
-1 = a
-2 = b
-3 = c
-4 = d
-5 = e
-6 = f
-7 = g
-8 = h
-9 = i
-10 = j
-11 = k
-12 = l
-13 = m
-14 = n
-15 = o
-16 = p
-17 = q
-18 = r
-19 = s
-20 = t
-21 = u
-22 = v
-23 = w
-24 = x
-25 = y
-26 = z
-27 = 0
-28 = 1
-29 = 2
-30 = 3
-31 = 4
-32 = 5
-33 = 6
-34 = 7
-35 = 8
-36 = 9
-37 = a
-38 = b
-39 = c
-
-Address List:
-
-Atlantis (From earth)
-zopl34cs
-
-Atlantis (From pegasus galaxy)
-kqmvias
-
-SGC:
-1ze9k2a
-
-Tollan Gate:
-f60ckrb
-
+if(first()){
+    List=array("ATLANTIS:kqmvias", "SGC:1ze9k2a", "TOLLAN:f60ckrb", "TEST_GATE:shitfuk")
+    
+    function string checkNameFromList(DialAddress:string){
+        Return = "UNKNOWN"
+        foreach(I,S:string=List){
+            Test_Name = S:explode(":")[1,string]
+            Test_Address = S:explode(":")[2,string]
+            if(Test_Address==DialAddress){
+                Return = Test_Name
+            }
+        }
+        return Return
+    }
+    function string checkAddressFromList(AddressName:string){
+        Return = "UNKNOWN"
+        foreach(I,S:string=List){
+            Test_Name = S:explode(":")[1,string]
+            Test_Address = S:explode(":")[2,string]
+            if(Test_Name==AddressName:lower()){
+                Return = Test_Address
+            }
+        }
+        return Return
+    }
+}
