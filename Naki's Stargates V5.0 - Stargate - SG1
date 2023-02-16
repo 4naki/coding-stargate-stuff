@@ -27,7 +27,9 @@ interval(50)
 runOnLast(1)
 
 if(first()){
-    #This version is still wip, you cannot dial it without datasignals, later on i will create a wireless dhd for this, with it you can use it, or if you know how to code, you can create your own dialing computer just like they did in the series
+    #This version is still wip, you cannot dial it without datasignals, later on i will create a wireless dhd for this, with it you can use it
+    #or if you know how to code, you can create your own dialing computer just like they did in the series
+    
     UseWebAudio = 1
     
     #ifdef webAudio(string)
