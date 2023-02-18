@@ -1,5 +1,5 @@
 @name Naki's Stargates V5.0 - Transportation Rings
-@persist TextEntry:string WebAudio CanOpen Rise Val Val2 Val3 Val4 Val5 Val6 Val7 Val8 TeleportEffect Address:string WritingData:string Open TargetEnt:entity Block Dial ErrorCode 
+@persist Array:array TextEntry:string WebAudio CanOpen Rise Val Val2 Val3 Val4 Val5 Val6 Val7 Val8 TeleportEffect Address:string WritingData:string Open TargetEnt:entity Block Dial ErrorCode 
 #ifdef webAudio(string)
 @persist [TransportSoundWA]:webaudio
 #endif
@@ -49,7 +49,7 @@ if(first()){
     
     Address = "1234"
     
-    #do not change, used to detect the e2 with the dialer e2
+    #Name of the gate
     Name = "Naki's Ring Transporter"
     
     ButtonSound="buttons/button3.wav"
@@ -237,17 +237,19 @@ if(first()){
 }elseif(dupefinished()){
     reset()
 }elseif(!Block){
-    if(clk("teleport")&Open){
+    if(clk("getents")){
         findExcludeEntities(entity():children())
         findExcludeClass(holoEntity(1):type())
         findInSphere(entity():toWorld(vec(0,0,25)),60)
         Array = findToArray()
-        
+    }
+    if(clk("teleport")&Open){
         foreach(I,E:entity=Array){
             E:plySetPos(TargetEnt:toWorld(entity():toLocal(E:pos())))
-            #E:setPos(TargetEnt:toWorld(entity():toLocal(E:pos())))
+            E:setPos(TargetEnt:toWorld(entity():toLocal(E:pos())))
         }
     }
+    
     if(clk("entsend")){
         dsSend(WritingData+"_entity_send","transportation-rings-naki",entity())
     }
@@ -263,6 +265,7 @@ if(first()){
     }
     if(changed(Dial)){
         if(Dial){
+            timer("autoopen",100)
             #print("dialing "+WritingData)
             dsSend(WritingData+"_check","transportation-rings-naki",Address)
             timer("check_open",500)
@@ -392,7 +395,9 @@ if(first()){
     if(changed(Open)){
         if(Open){
             timer("soundstop",8000)
+            timer("getents",3000)
             timer("teleport",3800)
+            
             LowerFloor=1
             timer("risefloor",4800)
             timer("rise",1500)
@@ -436,7 +441,6 @@ if(first()){
     if(dsClk()){
         if(dsClkName()==Address+"_address_get"){
             WritingData = dsGetString()
-            timer("autoopen",100)
             Dial = 1
         }
         if(dsClkName()==Address+"_check"){
