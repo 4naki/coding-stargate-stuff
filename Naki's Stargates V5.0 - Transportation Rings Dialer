@@ -215,6 +215,78 @@ if(first()){
     holoColor(I,Color_Base)
     holoScale(I,vec(0.73,1.5,0.75))
     
+    local I = 15
+    local E = holoEntity(1)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(-1.5,0,0)))
+    holoAng(I,E:toWorld(ang(0,90,0)))
+    holoParent(I,E)
+    
+    holoModel(I,"models/sprops/misc/alphanum/alphanum_1.mdl")
+    holoMaterial(I,"models/debug/debugwhite")
+    holoDisableShading(I,1)
+    holoScale(I,vec(0.08))
+    
+    local I = 16
+    local E = holoEntity(2)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(-1.5,0,0)))
+    holoAng(I,E:toWorld(ang(0,90,0)))
+    holoParent(I,E)
+    
+    holoModel(I,"models/sprops/misc/alphanum/alphanum_2.mdl")
+    holoMaterial(I,"models/debug/debugwhite")
+    holoDisableShading(I,1)
+    holoScale(I,vec(0.08))
+    
+    local I = 17
+    local E = holoEntity(3)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(-1.5,0,0)))
+    holoAng(I,E:toWorld(ang(0,90,0)))
+    holoParent(I,E)
+    
+    holoModel(I,"models/sprops/misc/alphanum/alphanum_3.mdl")
+    holoMaterial(I,"models/debug/debugwhite")
+    holoDisableShading(I,1)
+    holoScale(I,vec(0.08))
+    
+    local I = 18
+    local E = holoEntity(4)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(-1.5,0,0)))
+    holoAng(I,E:toWorld(ang(0,90,0)))
+    holoParent(I,E)
+    
+    holoModel(I,"models/sprops/misc/alphanum/alphanum_4.mdl")
+    holoMaterial(I,"models/debug/debugwhite")
+    holoDisableShading(I,1)
+    holoScale(I,vec(0.08))
+    
+    local I = 19
+    local E = holoEntity(5)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(-1.5,0,0)))
+    holoAng(I,E:toWorld(ang(0,90,0)))
+    holoParent(I,E)
+    
+    holoModel(I,"models/sprops/misc/alphanum/alphanum_5.mdl")
+    holoMaterial(I,"models/debug/debugwhite")
+    holoDisableShading(I,1)
+    holoScale(I,vec(0.08))
+    
+    local I = 20
+    local E = holoEntity(6)
+    holoCreate(I)
+    holoPos(I,E:toWorld(vec(-1.5,0,0)))
+    holoAng(I,E:toWorld(ang(0,90,0)))
+    holoParent(I,E)
+    
+    holoModel(I,"models/sprops/misc/alphanum/alphanum_6.mdl")
+    holoMaterial(I,"models/debug/debugwhite")
+    holoDisableShading(I,1)
+    holoScale(I,vec(0.08))
+    
     Parent=entity()
     timer("find",100)
 }
