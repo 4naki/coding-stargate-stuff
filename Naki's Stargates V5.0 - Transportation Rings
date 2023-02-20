@@ -435,7 +435,9 @@ if(first()){
     }
     if(clk("soundstop")){
         timer("close",100)
-        #TransportSoundWA:destroy()
+        #ifdef webAudio(string)
+        TransportSoundWA:destroy()
+        #endif
     }
     if(dsClk()){
         if(dsClkName()==Address+"_address_get"){
